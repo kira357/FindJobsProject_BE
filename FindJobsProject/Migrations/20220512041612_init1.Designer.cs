@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FindJobsProject.Migrations
 {
     [DbContext(typeof(FindJobsContext))]
-    [Migration("20220509162926_init1")]
+    [Migration("20220512041612_init1")]
     partial class init1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,7 +28,6 @@ namespace FindJobsProject.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -36,27 +35,20 @@ namespace FindJobsProject.Migrations
                         .HasMaxLength(256);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("AppRoles");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "d2a0f4df-9ae9-4cd5-9dc2-8a6cec8f6043",
+                            ConcurrencyStamp = "15904564-ae5f-4703-906e-c2b387a07397",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
@@ -64,7 +56,7 @@ namespace FindJobsProject.Migrations
                         new
                         {
                             Id = new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0"),
-                            ConcurrencyStamp = "5b6152a0-dfa9-4013-87c8-9a512bb5a42a",
+                            ConcurrencyStamp = "cc945dfa-7651-4517-95a9-9e9b2d9ec31f",
                             Description = "Recruitment role",
                             Name = "Recruitment",
                             NormalizedName = "RECRUITMENT"
@@ -185,15 +177,13 @@ namespace FindJobsProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("DateOfBirth")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -205,11 +195,8 @@ namespace FindJobsProject.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Gender")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("IdEmployee")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("IdQrCode")
                         .HasColumnType("varbinary(max)");
@@ -224,13 +211,14 @@ namespace FindJobsProject.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("Major")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -251,37 +239,27 @@ namespace FindJobsProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("AppUsers");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d3c6408b-b39c-43c6-8ef0-ec8dba7573b8",
+                            ConcurrencyStamp = "b1975d72-fa56-4f45-99b8-455036bec99f",
                             Email = "quochieu@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Hiếu",
                             FullName = "Hồ Quốc Hiếu",
-                            IdEmployee = new Guid("00000000-0000-0000-0000-000000000000"),
                             LastName = "Hồ Quốc",
                             LockoutEnabled = false,
                             NormalizedEmail = "QUOCHIEU@GMAIL.COM",
                             NormalizedUserName = "QUOCHIEU@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJJYqSaCoz21QU7FKOK+g3Xnj1K8t/BTFhceiOgNACQXmFPKPurdHpC207XbuO/T/w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMvutHM2k7WgcN6CLyvtai76htCa9nVYlQZptDmZIL9tRigWENuXAeYo9C2ZiRmM8A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -292,17 +270,16 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("157b9908-7d9c-4d3c-ad32-a15db858ac34"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "af5fb32d-6d79-4dc2-a582-f49acb60be06",
+                            ConcurrencyStamp = "76a363e8-8ae0-4f12-9fc5-52baf3dbfe3e",
                             Email = "lehieu@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Hiếu",
                             FullName = "Nguyễn Phước Lê",
-                            IdEmployee = new Guid("00000000-0000-0000-0000-000000000000"),
                             LastName = "Nguyễn Phước Lê",
                             LockoutEnabled = false,
                             NormalizedEmail = "LEHIEU@GMAIL.COM",
                             NormalizedUserName = "LEHIEU@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFhI9TKxbirAMTITWy2KwsKImGT7A60PWsxy04KBOD3SopyQiG8xvOz7tFuPgjkgkA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIvBkQ+85nsQL5AEYhEr5xa/xoxhl6g65u0wi5V9wQfmIJ4xoZGywfqlqNjf9Qe3Zw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -313,17 +290,16 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("be6c06a9-e0c7-4d63-bd24-5f3ece98ebc0"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "767ea431-4aec-43ba-b532-317418b1681e",
+                            ConcurrencyStamp = "7b320121-c9cd-4c71-94f8-e08c2e83d0aa",
                             Email = "locpv@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Lộc",
                             FullName = "Phan Văn Lộc",
-                            IdEmployee = new Guid("00000000-0000-0000-0000-000000000000"),
                             LastName = "Phan Văn",
                             LockoutEnabled = false,
                             NormalizedEmail = "LOCPV@GMAIL.COM",
                             NormalizedUserName = "LOCPV@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF3YfR8Kvg4jrqVKdgturg7qIlPDfT6JaiiMLf7w3UVvFWCjoRZkj6SG3PDlmAtX7g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDfyWWfL4tinl+7IK1V0fGkCcgMXL3W0uDlW1SAChRWKwy5Bzq3ZSOOKw+4j8pbPEg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -334,17 +310,16 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("041684eb-cf97-40c6-881c-b766ae9c416a"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f9b8c262-aa16-4cdc-86d6-c554ff005334",
+                            ConcurrencyStamp = "56167ff9-fa9e-40b7-81d4-d7b18b73bea5",
                             Email = "giahuy@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Huy",
                             FullName = "Huỳnh Gia Huy",
-                            IdEmployee = new Guid("00000000-0000-0000-0000-000000000000"),
                             LastName = "Huỳnh Gia",
                             LockoutEnabled = false,
                             NormalizedEmail = "GIAHUY@GMAIL.COM",
                             NormalizedUserName = "GIAHUY@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMJTm1K/8BkR6/y5CQSGCHVBseNXllPR5tn+sh32UFA8oRVKy+uVbGLlje3eyF/7DA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDdQpru/A7cURNaORchdQYVIZwHZeiWwaIrwsaTi8UOmS6jl8LsSLsf1RGMb7kx30Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -355,17 +330,16 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "69d06257-451e-4d72-b563-98e7064cfa33",
+                            ConcurrencyStamp = "0b29dbfe-30d4-438e-a53d-3b4126777956",
                             Email = "vanlong@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Long",
                             FullName = "Sằn Văn Long",
-                            IdEmployee = new Guid("00000000-0000-0000-0000-000000000000"),
                             LastName = "Sằn Văn",
                             LockoutEnabled = false,
                             NormalizedEmail = "VANLONG@GMAIL.COM",
                             NormalizedUserName = "VANLONG@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF2lL57HAb7BWbH6+jIxGPOypvpJ0wuygEsTTiwACnbIbJxrovtiLJLO/4Pplsw4JQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAiXY10zL+AYBLpAqJ2CwmsambXCLAQ2ZFqmMbRrsdUzsB5IaTX7f+XUrYV6PYivrA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -376,17 +350,16 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("9bc1bf33-d875-42b2-a39e-b0cfc3fb6f2c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "eb888e2d-38d3-4ca9-98ce-ea88cf8eaa31",
+                            ConcurrencyStamp = "82fcb3b2-7297-44b7-90f6-97709e811317",
                             Email = "ankhang@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Khang",
                             FullName = "Đỗ Phúc An Khang",
-                            IdEmployee = new Guid("00000000-0000-0000-0000-000000000000"),
                             LastName = "Đỗ Phúc An Khang",
                             LockoutEnabled = false,
                             NormalizedEmail = "ANKHANG@GMAIL.COM",
                             NormalizedUserName = "ANKHANG@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIQy6gDFgUdv0uDbbRNWxMRiCqpLwHdVZlWJlubaLgoysWwiyvrvz/sZIIXK4+10tg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIIMWunlb/DtpEJf+2onBVqVtLF3V+eMSVVjSrjw8CMlodATO8kEhOpNhc5b5bvhZg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -419,179 +392,6 @@ namespace FindJobsProject.Migrations
                     b.ToTable("RecruitmentJob");
                 });
 
-            modelBuilder.Entity("FindJobsProject.Models.Company", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("active")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("dateWork")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("descriptions")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("idUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("logo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("idUser")
-                        .IsUnique();
-
-                    b.ToTable("companies");
-                });
-
-            modelBuilder.Entity("FindJobsProject.Models.CompanyJobs", b =>
-                {
-                    b.Property<Guid>("companyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("jobsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("companyId", "jobsId");
-
-                    b.HasIndex("jobsId");
-
-                    b.ToTable("companyJobs");
-                });
-
-            modelBuilder.Entity("FindJobsProject.Models.Employees", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("NameEmployee")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostionEmployee")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("employees");
-                });
-
-            modelBuilder.Entity("FindJobsProject.Models.Jobs", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Tag")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("active")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("dateExpire")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("daysLeft")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("descriptions")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("jobs");
-                });
-
-            modelBuilder.Entity("FindJobsProject.Models.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Approve")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("IdEmployee")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Position")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdEmployee")
-                        .IsUnique();
-
-                    b.ToTable("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
@@ -610,9 +410,7 @@ namespace FindJobsProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("AppRoleClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -633,30 +431,27 @@ namespace FindJobsProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("AppUserClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("LoginProvider", "ProviderKey");
+                    b.HasKey("UserId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("AppUserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -669,9 +464,7 @@ namespace FindJobsProject.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("AppUserRoles");
 
                     b.HasData(
                         new
@@ -709,20 +502,21 @@ namespace FindJobsProject.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                    b.HasKey("UserId");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("AppUserTokens");
                 });
 
             modelBuilder.Entity("FindJobsProject.Data.Entities.CandidateJob", b =>
@@ -751,90 +545,6 @@ namespace FindJobsProject.Migrations
                     b.HasOne("FindJobsProject.Database.Entities.AppUser", "Recruitments")
                         .WithMany("RecruitmentJob")
                         .HasForeignKey("RecruitmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FindJobsProject.Models.Company", b =>
-                {
-                    b.HasOne("FindJobsProject.Models.User", "user")
-                        .WithOne("company")
-                        .HasForeignKey("FindJobsProject.Models.Company", "idUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FindJobsProject.Models.CompanyJobs", b =>
-                {
-                    b.HasOne("FindJobsProject.Models.Company", "company")
-                        .WithMany("companyJobs")
-                        .HasForeignKey("companyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FindJobsProject.Models.Jobs", "jobs")
-                        .WithMany("companyJobs")
-                        .HasForeignKey("jobsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FindJobsProject.Models.User", b =>
-                {
-                    b.HasOne("FindJobsProject.Models.Employees", "employees")
-                        .WithOne("user")
-                        .HasForeignKey("FindJobsProject.Models.User", "IdEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
-                {
-                    b.HasOne("FindJobsProject.Data.Entities.AppRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
-                {
-                    b.HasOne("FindJobsProject.Database.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
-                {
-                    b.HasOne("FindJobsProject.Database.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
-                {
-                    b.HasOne("FindJobsProject.Data.Entities.AppRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FindJobsProject.Database.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
-                {
-                    b.HasOne("FindJobsProject.Database.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

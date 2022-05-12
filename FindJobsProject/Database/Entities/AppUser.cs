@@ -14,12 +14,13 @@ namespace FindJobsProject.Database.Entities
             public string LastName { get; set; }
             public string FullName { get; set; }
             public DateTimeOffset? DateOfBirth { get; set; }
-            public bool? Gender { get; set; }
+            public string Gender { get; set; }
             public string Comment { get; set; }
             public string Address { get; set; }
+            public string Major { get; set; }
             public string UrlAvatar { get; set; }
 
-            public Guid IdEmployee { get; set; }
+            public string Description { get; set; }
 
             public IList<RecruitmentJob> RecruitmentJob { get; set; }
             public IList<CandidateJob> CandidateJob { get; set; }

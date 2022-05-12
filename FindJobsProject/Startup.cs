@@ -1,5 +1,6 @@
 using AutoMapper;
 using FindJobsProject.Extends;
+using FindJobsProject.Mapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,7 @@ namespace FindJobsProject
             services.AddConfigSwagger();
             services.AddConfigCors();
             services.AddConfigIdentity();
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddConfigScope();
 
             services.AddControllersWithViews().AddNewtonsoftJson();

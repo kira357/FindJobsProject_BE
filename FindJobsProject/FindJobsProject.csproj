@@ -7,6 +7,10 @@
   <ItemGroup>
     <Compile Remove="Migrations\20220509162315_init1.cs" />
     <Compile Remove="Migrations\20220509162315_init1.Designer.cs" />
+    <Compile Remove="Migrations\20220509162926_init1.cs" />
+    <Compile Remove="Migrations\20220509162926_init1.Designer.cs" />
+    <Compile Remove="Migrations\20220512031625_init1.cs" />
+    <Compile Remove="Migrations\20220512031625_init1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +30,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DI\Candidate\" />
+    <Folder Include="DI\Recruiment\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 

@@ -1,4 +1,6 @@
-﻿using FindJobsProject.Database;
+﻿using FindJobsProject.Data.Entities;
+using FindJobsProject.Database;
+using FindJobsProject.Database.Entities;
 using FindJobsProject.DI;
 using FindJobsProject.Models;
 using Microsoft.AspNetCore.Identity;
@@ -50,12 +52,13 @@ namespace FindJobsProject.Extends
         } 
         public static IServiceCollection AddConfigIdentity(this IServiceCollection services)
         {
-            services.AddIdentity<User, Role>(options =>
+            services.AddIdentity<AppUser, AppRole>(options =>
             {
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1d);
+                options.SignIn.RequireConfirmedAccount = false;
                 options.Lockout.MaxFailedAccessAttempts = 5;
             })
                 .AddEntityFrameworkStores<FindJobsContext>()
@@ -65,8 +68,10 @@ namespace FindJobsProject.Extends
 
         public static IServiceCollection AddConfigScope(this IServiceCollection services)
         {
-            services.AddScoped<IReposityAutho, ReposityAutho>();
-            services.AddScoped<IReposityEmployee, ReposityEmployee>();
+            //services.AddScoped<IReposityAutho, ReposityAutho>();
+            //services.AddScoped<IReposityEmployee, ReposityEmployee>();
+            services.AddScoped<IReposityUser, ReposityUser>();
+
 
             return services;
         }
