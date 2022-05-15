@@ -33,6 +33,9 @@ namespace FindJobsProject.Database
 
         public DbSet<Job> Jobs { get; set; }
         public DbSet<CandidateJob> JobCandidates { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Major> Majors { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,6 +46,7 @@ namespace FindJobsProject.Database
             builder.ApplyConfiguration(new JobsConfiguration());
             builder.ApplyConfiguration(new Candidate_JobConfiguration());
             builder.ApplyConfiguration(new Recruitment_JobConfiguration());
+            builder.ApplyConfiguration(new BlogConfiguration());
 
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             builder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });

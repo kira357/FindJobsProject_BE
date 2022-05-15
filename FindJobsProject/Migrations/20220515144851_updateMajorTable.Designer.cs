@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FindJobsProject.Migrations
 {
     [DbContext(typeof(FindJobsContext))]
-    [Migration("20220512041612_init1")]
-    partial class init1
+    [Migration("20220515144851_updateMajorTable")]
+    partial class updateMajorTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,7 +48,7 @@ namespace FindJobsProject.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "15904564-ae5f-4703-906e-c2b387a07397",
+                            ConcurrencyStamp = "0996ae87-4649-4011-8177-6bada5295859",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
@@ -56,7 +56,7 @@ namespace FindJobsProject.Migrations
                         new
                         {
                             Id = new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0"),
-                            ConcurrencyStamp = "cc945dfa-7651-4517-95a9-9e9b2d9ec31f",
+                            ConcurrencyStamp = "5dbe8c2c-897f-460e-bdec-2505e58d41ce",
                             Description = "Recruitment role",
                             Name = "Recruitment",
                             NormalizedName = "RECRUITMENT"
@@ -77,8 +77,8 @@ namespace FindJobsProject.Migrations
                     b.Property<string>("Introduction")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<Guid>("RecruitmentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Resume")
                         .HasColumnType("nvarchar(max)");
@@ -106,10 +106,8 @@ namespace FindJobsProject.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<string>("ApplicationEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                    b.Property<string>("CompanyOfJobs")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("CreatedOn")
                         .HasColumnType("datetimeoffset");
@@ -133,9 +131,7 @@ namespace FindJobsProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Position")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("SalaryMax")
                         .HasColumnType("decimal(18,2)");
@@ -145,9 +141,6 @@ namespace FindJobsProject.Migrations
 
                     b.Property<string>("SalaryUnit")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Slug")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("UpdatedOn")
@@ -182,6 +175,9 @@ namespace FindJobsProject.Migrations
                     b.Property<DateTimeOffset?>("DateOfBirth")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -198,8 +194,8 @@ namespace FindJobsProject.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("IdQrCode")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<long?>("IdMajor")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(50)")
@@ -210,9 +206,6 @@ namespace FindJobsProject.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Major")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(max)");
@@ -243,6 +236,8 @@ namespace FindJobsProject.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdMajor");
+
                     b.ToTable("AppUsers");
 
                     b.HasData(
@@ -250,122 +245,114 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b1975d72-fa56-4f45-99b8-455036bec99f",
-                            Email = "quochieu@gmail.com",
+                            ConcurrencyStamp = "2f247932-c00a-43e5-ad35-871dd82d053e",
+                            Email = "5951071014@st.utc2.edu.vn",
                             EmailConfirmed = true,
-                            FirstName = "Hiếu",
-                            FullName = "Hồ Quốc Hiếu",
-                            LastName = "Hồ Quốc",
+                            FirstName = "Đạt",
+                            FullName = "Trần Tiến Đạt",
+                            LastName = "Trần Tiến",
                             LockoutEnabled = false,
-                            NormalizedEmail = "QUOCHIEU@GMAIL.COM",
-                            NormalizedUserName = "QUOCHIEU@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMvutHM2k7WgcN6CLyvtai76htCa9nVYlQZptDmZIL9tRigWENuXAeYo9C2ZiRmM8A==",
+                            NormalizedEmail = "5951071014@st.utc2.edu.vn",
+                            NormalizedUserName = "5951071014@st.utc2.edu.vn",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMgYx142l6/ityR66EEm7eESYT3T7OKWK7ZqMUk+O+u/A9XjsejIM3qduUi4lmEadg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UrlAvatar = "Images/avt1.png",
-                            UserName = "quochieu@gmail.com"
-                        },
-                        new
-                        {
-                            Id = new Guid("157b9908-7d9c-4d3c-ad32-a15db858ac34"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "76a363e8-8ae0-4f12-9fc5-52baf3dbfe3e",
-                            Email = "lehieu@gmail.com",
-                            EmailConfirmed = true,
-                            FirstName = "Hiếu",
-                            FullName = "Nguyễn Phước Lê",
-                            LastName = "Nguyễn Phước Lê",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "LEHIEU@GMAIL.COM",
-                            NormalizedUserName = "LEHIEU@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIvBkQ+85nsQL5AEYhEr5xa/xoxhl6g65u0wi5V9wQfmIJ4xoZGywfqlqNjf9Qe3Zw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
-                            TwoFactorEnabled = false,
-                            UrlAvatar = "Images/avt2.png",
-                            UserName = "lehieu@gmail.com"
-                        },
-                        new
-                        {
-                            Id = new Guid("be6c06a9-e0c7-4d63-bd24-5f3ece98ebc0"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "7b320121-c9cd-4c71-94f8-e08c2e83d0aa",
-                            Email = "locpv@gmail.com",
-                            EmailConfirmed = true,
-                            FirstName = "Lộc",
-                            FullName = "Phan Văn Lộc",
-                            LastName = "Phan Văn",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "LOCPV@GMAIL.COM",
-                            NormalizedUserName = "LOCPV@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDfyWWfL4tinl+7IK1V0fGkCcgMXL3W0uDlW1SAChRWKwy5Bzq3ZSOOKw+4j8pbPEg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
-                            TwoFactorEnabled = false,
-                            UrlAvatar = "Images/avt3.png",
-                            UserName = "locpv@gmail.com"
-                        },
-                        new
-                        {
-                            Id = new Guid("041684eb-cf97-40c6-881c-b766ae9c416a"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "56167ff9-fa9e-40b7-81d4-d7b18b73bea5",
-                            Email = "giahuy@gmail.com",
-                            EmailConfirmed = true,
-                            FirstName = "Huy",
-                            FullName = "Huỳnh Gia Huy",
-                            LastName = "Huỳnh Gia",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "GIAHUY@GMAIL.COM",
-                            NormalizedUserName = "GIAHUY@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDdQpru/A7cURNaORchdQYVIZwHZeiWwaIrwsaTi8UOmS6jl8LsSLsf1RGMb7kx30Q==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
-                            TwoFactorEnabled = false,
-                            UrlAvatar = "Images/avt4.png",
-                            UserName = "giahuy@gmail.com"
+                            UserName = "5951071014@st.utc2.edu.vn"
                         },
                         new
                         {
                             Id = new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0b29dbfe-30d4-438e-a53d-3b4126777956",
-                            Email = "vanlong@gmail.com",
+                            ConcurrencyStamp = "f9a7725c-239e-4bf4-b127-c68911dc33b5",
+                            Email = "5951071017@st.utc2.edu.vn",
                             EmailConfirmed = true,
-                            FirstName = "Long",
-                            FullName = "Sằn Văn Long",
-                            LastName = "Sằn Văn",
+                            FirstName = "Đông",
+                            FullName = "Hoàng Đình Thiên Đông",
+                            LastName = "Hoàng Đinh Thiên",
                             LockoutEnabled = false,
-                            NormalizedEmail = "VANLONG@GMAIL.COM",
-                            NormalizedUserName = "VANLONG@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAiXY10zL+AYBLpAqJ2CwmsambXCLAQ2ZFqmMbRrsdUzsB5IaTX7f+XUrYV6PYivrA==",
+                            NormalizedEmail = "5951071017@st.utc2.edu.vn",
+                            NormalizedUserName = "5951071017@st.utc2.edu.vn",
+                            PasswordHash = "AQAAAAEAACcQAAAAECES8x+8pq7DjPOKuHeRVhw7DoyBtfogkI+WrCbdwdVOV3DQJ8UwpkVDlUpwlFCgog==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UrlAvatar = "Images/avt5.png",
-                            UserName = "vanlong@gmail.com"
+                            UserName = "5951071017@st.utc2.edu.vn"
                         },
                         new
                         {
                             Id = new Guid("9bc1bf33-d875-42b2-a39e-b0cfc3fb6f2c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "82fcb3b2-7297-44b7-90f6-97709e811317",
-                            Email = "ankhang@gmail.com",
+                            ConcurrencyStamp = "a3c6f61b-17b7-49a9-80a1-f5d6aff52bb2",
+                            Email = "5951071021@st.utc2.edu.vn",
                             EmailConfirmed = true,
-                            FirstName = "Khang",
-                            FullName = "Đỗ Phúc An Khang",
-                            LastName = "Đỗ Phúc An Khang",
+                            FirstName = "Hảo",
+                            FullName = "Trần Minh Hảo",
+                            LastName = "Trần Minh",
                             LockoutEnabled = false,
-                            NormalizedEmail = "ANKHANG@GMAIL.COM",
-                            NormalizedUserName = "ANKHANG@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIIMWunlb/DtpEJf+2onBVqVtLF3V+eMSVVjSrjw8CMlodATO8kEhOpNhc5b5bvhZg==",
+                            NormalizedEmail = "5951071021@st.utc2.edu.vn",
+                            NormalizedUserName = "5951071021@st.utc2.edu.vn",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDjze0pvn9hpac2TqoTBQlrRMtInSc8ONE/jwd1ygvRNaoBixxvKMF/HDOz/cYfr1g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UrlAvatar = "Images/avt6.png",
-                            UserName = "ankhang@gmail.com"
+                            UserName = "5951071021@st.utc2.edu.vn"
                         });
+                });
+
+            modelBuilder.Entity("FindJobsProject.Database.Entities.Blog", b =>
+                {
+                    b.Property<Guid>("IdBlog")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("IdMajor")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TItle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("IdBlog");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Blog");
+                });
+
+            modelBuilder.Entity("FindJobsProject.Database.Entities.Major", b =>
+                {
+                    b.Property<long>("IdMajor")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdMajor");
+
+                    b.ToTable("Majors");
                 });
 
             modelBuilder.Entity("FindJobsProject.Database.Entities.RecruitmentJob", b =>
@@ -381,6 +368,9 @@ namespace FindJobsProject.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("UpdatedOn")
                         .HasColumnType("datetimeoffset");
@@ -474,21 +464,6 @@ namespace FindJobsProject.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("157b9908-7d9c-4d3c-ad32-a15db858ac34"),
-                            RoleId = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc")
-                        },
-                        new
-                        {
-                            UserId = new Guid("be6c06a9-e0c7-4d63-bd24-5f3ece98ebc0"),
-                            RoleId = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc")
-                        },
-                        new
-                        {
-                            UserId = new Guid("041684eb-cf97-40c6-881c-b766ae9c416a"),
-                            RoleId = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc")
-                        },
-                        new
-                        {
                             UserId = new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"),
                             RoleId = new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0")
                         },
@@ -530,6 +505,22 @@ namespace FindJobsProject.Migrations
                     b.HasOne("FindJobsProject.Data.Entities.Job", "Job")
                         .WithMany("CandidateJob")
                         .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FindJobsProject.Database.Entities.AppUser", b =>
+                {
+                    b.HasOne("FindJobsProject.Database.Entities.Major", "UserMajor")
+                        .WithMany("UserMajor")
+                        .HasForeignKey("IdMajor");
+                });
+
+            modelBuilder.Entity("FindJobsProject.Database.Entities.Blog", b =>
+                {
+                    b.HasOne("FindJobsProject.Database.Entities.AppUser", "UserBlog")
+                        .WithMany("UserBlog")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

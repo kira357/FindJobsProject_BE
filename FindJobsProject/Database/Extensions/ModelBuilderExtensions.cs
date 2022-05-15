@@ -42,16 +42,16 @@ namespace FindJobsProject.Data.Extensions
             modelBuilder.Entity<AppUser>().HasData(new AppUser
             {
                 Id = adminId,
-                UserName = "quochieu@gmail.com",
-                NormalizedUserName = "QUOCHIEU@GMAIL.COM",
-                Email = "quochieu@gmail.com",
-                NormalizedEmail = "QUOCHIEU@GMAIL.COM",
+                UserName = "5951071014@st.utc2.edu.vn",
+                NormalizedUserName = "5951071014@st.utc2.edu.vn",
+                Email = "5951071014@st.utc2.edu.vn",
+                NormalizedEmail = "5951071014@st.utc2.edu.vn",
                 EmailConfirmed = true,
                 PasswordHash = hasher.HashPassword(null, "abc123"),
                 SecurityStamp = string.Empty,
-                LastName = "Hồ Quốc",
-                FirstName = "Hiếu",
-                FullName= "Hồ Quốc Hiếu",
+                LastName = "Trần Tiến",
+                FirstName = "Đạt",
+                FullName= "Trần Tiến Đạt",
                 UrlAvatar = "Images/avt1.png"
             });
 
@@ -61,85 +61,20 @@ namespace FindJobsProject.Data.Extensions
                 UserId = adminId
             });
 
-            modelBuilder.Entity<AppUser>().HasData(new AppUser
-            {
-                Id = admin2Id,
-                UserName = "lehieu@gmail.com",
-                NormalizedUserName = "LEHIEU@GMAIL.COM",
-                Email = "lehieu@gmail.com",
-                NormalizedEmail = "LEHIEU@GMAIL.COM",
-                EmailConfirmed = true,
-                PasswordHash = hasher.HashPassword(null, "abc123"),
-                SecurityStamp = string.Empty,
-                LastName = "Nguyễn Phước Lê",
-                FirstName = "Hiếu",
-                FullName = "Nguyễn Phước Lê",
-                UrlAvatar = "Images/avt2.png"
-            });
-
-            modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
-            {
-                RoleId = roleId,
-                UserId = admin2Id
-            });
-
-            modelBuilder.Entity<AppUser>().HasData(new AppUser
-            {
-                Id = admin3Id,
-                UserName = "locpv@gmail.com",
-                NormalizedUserName = "LOCPV@GMAIL.COM",
-                Email = "locpv@gmail.com",
-                NormalizedEmail = "LOCPV@GMAIL.COM",
-                EmailConfirmed = true,
-                PasswordHash = hasher.HashPassword(null, "abc123"),
-                SecurityStamp = string.Empty,
-                LastName = "Phan Văn",
-                FirstName = "Lộc",
-                FullName = "Phan Văn Lộc",
-                UrlAvatar = "Images/avt3.png"
-            });
-
-            modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
-            {
-                RoleId = roleId,
-                UserId = admin3Id
-            });
-
-            modelBuilder.Entity<AppUser>().HasData(new AppUser
-            {
-                Id = admin4Id,
-                UserName = "giahuy@gmail.com",
-                NormalizedUserName = "GIAHUY@GMAIL.COM",
-                Email = "giahuy@gmail.com",
-                NormalizedEmail = "GIAHUY@GMAIL.COM",
-                EmailConfirmed = true,
-                PasswordHash = hasher.HashPassword(null, "abc123"),
-                SecurityStamp = string.Empty,
-                LastName = "Huỳnh Gia",
-                FirstName = "Huy",
-                FullName = "Huỳnh Gia Huy",
-                UrlAvatar = "Images/avt4.png"
-            });
-
-            modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
-            {
-                RoleId = roleId,
-                UserId = admin4Id
-            });
-
+  
             modelBuilder.Entity<AppUser>().HasData(new AppUser
             {
                 Id = rec1Id,
-                UserName = "vanlong@gmail.com",
-                NormalizedUserName = "VANLONG@GMAIL.COM",
-                Email = "vanlong@gmail.com",
-                NormalizedEmail = "VANLONG@GMAIL.COM",
+                UserName = "5951071017@st.utc2.edu.vn",
+                NormalizedUserName = "5951071017@st.utc2.edu.vn",
+                Email = "5951071017@st.utc2.edu.vn",
+                NormalizedEmail = "5951071017@st.utc2.edu.vn",
                 EmailConfirmed = true,
                 PasswordHash = hasher.HashPassword(null, "abc123"),
                 SecurityStamp = string.Empty,
-                LastName = "Sằn Văn",
-                FirstName = "Long",
-                FullName = "Sằn Văn Long",
+                LastName = "Hoàng Đinh Thiên",
+                FirstName = "Đông",
+                FullName = "Hoàng Đình Thiên Đông",
                 UrlAvatar = "Images/avt5.png"
             });
 
@@ -152,16 +87,16 @@ namespace FindJobsProject.Data.Extensions
             modelBuilder.Entity<AppUser>().HasData(new AppUser
             {
                 Id = rec2Id,
-                UserName = "ankhang@gmail.com",
-                NormalizedUserName = "ANKHANG@GMAIL.COM",
-                Email = "ankhang@gmail.com",
-                NormalizedEmail = "ANKHANG@GMAIL.COM",
+                UserName = "5951071021@st.utc2.edu.vn",
+                NormalizedUserName = "5951071021@st.utc2.edu.vn",
+                Email = "5951071021@st.utc2.edu.vn",
+                NormalizedEmail = "5951071021@st.utc2.edu.vn",
                 EmailConfirmed = true,
                 PasswordHash = hasher.HashPassword(null, "abc123"),
                 SecurityStamp = string.Empty,
-                LastName = "Đỗ Phúc An Khang",
-                FirstName = "Khang",
-                FullName = "Đỗ Phúc An Khang",
+                LastName = "Trần Minh",
+                FirstName = "Hảo",
+                FullName = "Trần Minh Hảo",
                 UrlAvatar = "Images/avt6.png"
             });
 

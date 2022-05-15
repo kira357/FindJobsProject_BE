@@ -10,34 +10,30 @@ namespace FindJobsProject.Data.Entities
     public class Job
     {
         public Guid Id { get; set; }
+        
+        public string? CompanyOfJobs { get; set; }
 
-        [Required(ErrorMessage = "Hãy nhập một vị trí ứng tuyển")]
-        public string Position { get; set; }
-        public string Slug { get; set; }
-        [Required(ErrorMessage = "Hãy nhập địa chỉ email")]
-        [DataType(DataType.EmailAddress)]
-        [MaxLength(50)]
-        [RegularExpression(@"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}", ErrorMessage = "please enter correct address")]
-        public string ApplicationEmail { get; set; }
-        [Required(ErrorMessage = "Hãy chọn ảnh cho vị trí ứng tuyển")]
+        public string? Position { get; set; }
+
+        [Required]
         public string JobImage { get; set; }
-        [Required(ErrorMessage = "Hãy nhập mô tả vị trí ứng tuyển")]
+        [Required]
         public string JobDetail { get; set; }
-        [Required(ErrorMessage = "Hãy nhập số lượng ứng tuyển")]
-        public int Amount { get; set; }    // Số lượng tuyển dụng
-        [Required(ErrorMessage = "Hãy nhập yêu cầu kinh nghiệm")]
-        public String Experience { get; set; }    // Kinh nghiệm
-        [Required(ErrorMessage = "Hãy nhập mức lương tối thiểu")]
-        public decimal SalaryMin { get; set; }    // Lương tối thiểu
-        [Required(ErrorMessage = "Hãy nhập mức lương tối đa")]
-        public decimal SalaryMax { get; set; }    //  Lương tối đa
-        [Required(ErrorMessage = "Hãy chọn đơn vị lương")]
-        public string SalaryUnit { get; set; }     //Đơn vị tiền lương
-        [Required(ErrorMessage = "Hãy nhập thời gian làm việc")]
+        [Required]
+        public int Amount { get; set; }    
+        [Required]
+        public String Experience { get; set; }   
+        [Required]
+        public decimal SalaryMin { get; set; }   
+        [Required]
+        public decimal SalaryMax { get; set; }  
+        [Required]
+        public string SalaryUnit { get; set; } 
+        [Required]
         public int WorkTime { get; set; }
-        [Required(ErrorMessage = "Hãy nhập địa chỉ làm việc")]
+        [Required]
         public string Address { get; set; }
-        [Required(ErrorMessage = "Hãy chọn thời hạn nộp hồ sơ")]
+        [Required]
         public DateTimeOffset DealineForSubmission { get; set; }     // Hạn cuối nộp đơn
 
         public DateTimeOffset CreatedOn { get; set; }

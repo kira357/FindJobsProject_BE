@@ -16,8 +16,9 @@ namespace FindJobsProject.Data.Entities
         public AppUser Candicate { get; set; }
         public Guid JobId { get; set; }
         public Job Job { get; set; }
+
+        public Guid RecruitmentId { get; set; }
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset? UpdatedOn { get; set; }
-        public bool IsActive { get; set; }
     }
 }

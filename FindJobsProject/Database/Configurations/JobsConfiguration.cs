@@ -13,7 +13,6 @@ namespace FindJobsProject.Data.Configurations
         {
             builder.ToTable("Job");
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.Position).HasMaxLength(255).IsRequired();      
             builder.Property(x => x.CreatedOn).IsRequired();
         }
     }

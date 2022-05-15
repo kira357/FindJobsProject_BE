@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FindJobsProject.Migrations
 {
-    public partial class init1 : Migration
+    public partial class initDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -97,7 +97,6 @@ namespace FindJobsProject.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    IdQrCode = table.Column<byte[]>(nullable: true),
                     FirstName = table.Column<string>(maxLength: 50, nullable: true),
                     LastName = table.Column<string>(maxLength: 50, nullable: true),
                     FullName = table.Column<string>(nullable: true),
@@ -106,7 +105,8 @@ namespace FindJobsProject.Migrations
                     Comment = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
                     Major = table.Column<string>(nullable: true),
-                    UrlAvatar = table.Column<string>(nullable: true)
+                    UrlAvatar = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -132,9 +132,8 @@ namespace FindJobsProject.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Position = table.Column<string>(maxLength: 255, nullable: false),
-                    Slug = table.Column<string>(nullable: true),
-                    ApplicationEmail = table.Column<string>(maxLength: 50, nullable: false),
+                    CompanyOfJobs = table.Column<string>(nullable: true),
+                    Position = table.Column<string>(nullable: true),
                     JobImage = table.Column<string>(nullable: false),
                     JobDetail = table.Column<string>(nullable: false),
                     Amount = table.Column<int>(nullable: false),
@@ -155,6 +154,29 @@ namespace FindJobsProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Blog",
+                columns: table => new
+                {
+                    IdBlog = table.Column<Guid>(nullable: false),
+                    TItle = table.Column<string>(nullable: true),
+                    IdMajor = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    CreatedOn = table.Column<DateTimeOffset>(nullable: false),
+                    UpdatedOn = table.Column<DateTimeOffset>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blog", x => x.IdBlog);
+                    table.ForeignKey(
+                        name: "FK_Blog_AppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CandidateJob",
                 columns: table => new
                 {
@@ -162,9 +184,9 @@ namespace FindJobsProject.Migrations
                     JobId = table.Column<Guid>(nullable: false),
                     Introduction = table.Column<string>(nullable: true),
                     Resume = table.Column<string>(nullable: true),
+                    RecruitmentId = table.Column<Guid>(nullable: false),
                     CreatedOn = table.Column<DateTimeOffset>(nullable: false),
-                    UpdatedOn = table.Column<DateTimeOffset>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false)
+                    UpdatedOn = table.Column<DateTimeOffset>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -190,6 +212,7 @@ namespace FindJobsProject.Migrations
                     RecruitmentId = table.Column<Guid>(nullable: false),
                     JobsId = table.Column<Guid>(nullable: false),
                     Description = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
                     CreatedOn = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedOn = table.Column<DateTimeOffset>(nullable: true)
                 },
@@ -215,8 +238,8 @@ namespace FindJobsProject.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "15904564-ae5f-4703-906e-c2b387a07397", "Administrator role", "Admin", "ADMIN" },
-                    { new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0"), "cc945dfa-7651-4517-95a9-9e9b2d9ec31f", "Recruitment role", "Recruitment", "RECRUITMENT" }
+                    { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "0e5662e7-3d50-4ceb-9be2-38812bbb1d66", "Administrator role", "Admin", "ADMIN" },
+                    { new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0"), "9c0683db-6653-450c-bc20-8dc219d68a0e", "Recruitment role", "Recruitment", "RECRUITMENT" }
                 });
 
             migrationBuilder.InsertData(
@@ -225,25 +248,24 @@ namespace FindJobsProject.Migrations
                 values: new object[,]
                 {
                     { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), new Guid("8d04dce2-969a-435d-bba4-df3f325983dc") },
-                    { new Guid("157b9908-7d9c-4d3c-ad32-a15db858ac34"), new Guid("8d04dce2-969a-435d-bba4-df3f325983dc") },
-                    { new Guid("be6c06a9-e0c7-4d63-bd24-5f3ece98ebc0"), new Guid("8d04dce2-969a-435d-bba4-df3f325983dc") },
-                    { new Guid("041684eb-cf97-40c6-881c-b766ae9c416a"), new Guid("8d04dce2-969a-435d-bba4-df3f325983dc") },
                     { new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"), new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0") },
                     { new Guid("9bc1bf33-d875-42b2-a39e-b0cfc3fb6f2c"), new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0") }
                 });
 
             migrationBuilder.InsertData(
                 table: "AppUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Address", "Comment", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "FullName", "Gender", "IdQrCode", "LastName", "LockoutEnabled", "LockoutEnd", "Major", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UrlAvatar", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Address", "Comment", "ConcurrencyStamp", "DateOfBirth", "Description", "Email", "EmailConfirmed", "FirstName", "FullName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "Major", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UrlAvatar", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, null, null, "b1975d72-fa56-4f45-99b8-455036bec99f", null, "quochieu@gmail.com", true, "Hiếu", "Hồ Quốc Hiếu", null, null, "Hồ Quốc", false, null, null, "QUOCHIEU@GMAIL.COM", "QUOCHIEU@GMAIL.COM", "AQAAAAEAACcQAAAAEMvutHM2k7WgcN6CLyvtai76htCa9nVYlQZptDmZIL9tRigWENuXAeYo9C2ZiRmM8A==", null, false, "", false, "Images/avt1.png", "quochieu@gmail.com" },
-                    { new Guid("157b9908-7d9c-4d3c-ad32-a15db858ac34"), 0, null, null, "76a363e8-8ae0-4f12-9fc5-52baf3dbfe3e", null, "lehieu@gmail.com", true, "Hiếu", "Nguyễn Phước Lê", null, null, "Nguyễn Phước Lê", false, null, null, "LEHIEU@GMAIL.COM", "LEHIEU@GMAIL.COM", "AQAAAAEAACcQAAAAEIvBkQ+85nsQL5AEYhEr5xa/xoxhl6g65u0wi5V9wQfmIJ4xoZGywfqlqNjf9Qe3Zw==", null, false, "", false, "Images/avt2.png", "lehieu@gmail.com" },
-                    { new Guid("be6c06a9-e0c7-4d63-bd24-5f3ece98ebc0"), 0, null, null, "7b320121-c9cd-4c71-94f8-e08c2e83d0aa", null, "locpv@gmail.com", true, "Lộc", "Phan Văn Lộc", null, null, "Phan Văn", false, null, null, "LOCPV@GMAIL.COM", "LOCPV@GMAIL.COM", "AQAAAAEAACcQAAAAEDfyWWfL4tinl+7IK1V0fGkCcgMXL3W0uDlW1SAChRWKwy5Bzq3ZSOOKw+4j8pbPEg==", null, false, "", false, "Images/avt3.png", "locpv@gmail.com" },
-                    { new Guid("041684eb-cf97-40c6-881c-b766ae9c416a"), 0, null, null, "56167ff9-fa9e-40b7-81d4-d7b18b73bea5", null, "giahuy@gmail.com", true, "Huy", "Huỳnh Gia Huy", null, null, "Huỳnh Gia", false, null, null, "GIAHUY@GMAIL.COM", "GIAHUY@GMAIL.COM", "AQAAAAEAACcQAAAAEDdQpru/A7cURNaORchdQYVIZwHZeiWwaIrwsaTi8UOmS6jl8LsSLsf1RGMb7kx30Q==", null, false, "", false, "Images/avt4.png", "giahuy@gmail.com" },
-                    { new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"), 0, null, null, "0b29dbfe-30d4-438e-a53d-3b4126777956", null, "vanlong@gmail.com", true, "Long", "Sằn Văn Long", null, null, "Sằn Văn", false, null, null, "VANLONG@GMAIL.COM", "VANLONG@GMAIL.COM", "AQAAAAEAACcQAAAAEAiXY10zL+AYBLpAqJ2CwmsambXCLAQ2ZFqmMbRrsdUzsB5IaTX7f+XUrYV6PYivrA==", null, false, "", false, "Images/avt5.png", "vanlong@gmail.com" },
-                    { new Guid("9bc1bf33-d875-42b2-a39e-b0cfc3fb6f2c"), 0, null, null, "82fcb3b2-7297-44b7-90f6-97709e811317", null, "ankhang@gmail.com", true, "Khang", "Đỗ Phúc An Khang", null, null, "Đỗ Phúc An Khang", false, null, null, "ANKHANG@GMAIL.COM", "ANKHANG@GMAIL.COM", "AQAAAAEAACcQAAAAEIIMWunlb/DtpEJf+2onBVqVtLF3V+eMSVVjSrjw8CMlodATO8kEhOpNhc5b5bvhZg==", null, false, "", false, "Images/avt6.png", "ankhang@gmail.com" }
+                    { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, null, null, "28b10448-92fa-4b08-ab06-0b7ce69c3edd", null, null, "5951071014@st.utc2.edu.vn", true, "Đạt", "Trần Tiến Đạt", null, "Trần Tiến", false, null, null, "5951071014@st.utc2.edu.vn", "5951071014@st.utc2.edu.vn", "AQAAAAEAACcQAAAAECLpA5/XcoXw4/HZIu4ITIoMAGyKaVD62FUYtyg84NgwQ4uZC4XVFKev900tNaih3Q==", null, false, "", false, "Images/avt1.png", "5951071014@st.utc2.edu.vn" },
+                    { new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"), 0, null, null, "1ee2f5a0-5bc7-43ea-ba96-2ed62af4e174", null, null, "5951071017@st.utc2.edu.vn", true, "Đông", "Hoàng Đình Thiên Đông", null, "Hoàng Đinh Thiên", false, null, null, "5951071017@st.utc2.edu.vn", "5951071017@st.utc2.edu.vn", "AQAAAAEAACcQAAAAED4X38QnsXMxDrFOP2sQ2DCQAKjdmH/cwfn1veTh4qJcMUYOQKQleiWAcDWSlyWPCw==", null, false, "", false, "Images/avt5.png", "5951071017@st.utc2.edu.vn" },
+                    { new Guid("9bc1bf33-d875-42b2-a39e-b0cfc3fb6f2c"), 0, null, null, "446f526d-0d0d-4e20-a262-be4ccd3687eb", null, null, "5951071021@st.utc2.edu.vn", true, "Hảo", "Trần Minh Hảo", null, "Trần Minh", false, null, null, "5951071021@st.utc2.edu.vn", "5951071021@st.utc2.edu.vn", "AQAAAAEAACcQAAAAECcp5Xf7OonwWR0zZpXgjPHSiY9ys5iTnPhaoOwo/gj+t8RQWNvv4xO0WQXYkBA0vg==", null, false, "", false, "Images/avt6.png", "5951071021@st.utc2.edu.vn" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Blog_UserId",
+                table: "Blog",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CandidateJob_JobId",
@@ -275,6 +297,9 @@ namespace FindJobsProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "AppUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Blog");
 
             migrationBuilder.DropTable(
                 name: "CandidateJob");

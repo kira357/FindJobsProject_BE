@@ -9,7 +9,6 @@ namespace FindJobsProject.Database.Entities
 {
         public class AppUser : IdentityUser<Guid>
         {
-            public byte[] IdQrCode { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public string FullName { get; set; }
@@ -17,14 +16,18 @@ namespace FindJobsProject.Database.Entities
             public string Gender { get; set; }
             public string Comment { get; set; }
             public string Address { get; set; }
-            public string Major { get; set; }
-            public string UrlAvatar { get; set; }
+
+            public long? IdMajor { get; set; }
+            public Major UserMajor { get; set; }
+
+        public string UrlAvatar { get; set; }
 
             public string Description { get; set; }
 
             public IList<RecruitmentJob> RecruitmentJob { get; set; }
             public IList<CandidateJob> CandidateJob { get; set; }
+            public ICollection<Blog> UserBlog { get; set; }
 
-        }
+    }
     
 }

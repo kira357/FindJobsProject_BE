@@ -14,6 +14,7 @@ namespace FindJobsProject.Database.Entities
         public Job Jobs { get; set; }
 
         public string Description { get; set; }
+        public bool IsActive { get; set; }
 
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset? UpdatedOn { get; set; }
