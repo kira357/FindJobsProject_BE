@@ -15,21 +15,21 @@ namespace FindJobsProject.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class MajorController : ControllerBase
+    public class RoleController : ControllerBase
     {
-        private readonly IReposityMajor _repo;
+        private readonly IReposityRole _repo;
 
-        public MajorController(IReposityMajor repo)
+        public RoleController(IReposityRole repo)
         {
             _repo = repo;
         }
 
-        [HttpPost("create-major")]
-        public async Task<IActionResult> CreateMajor(VMMajor vMMajor)
+        [HttpPost("create-Role")]
+        public async Task<IActionResult> CreateRole(VMRole vMRole)
         {
             try
             {
-                var create = await _repo.CreateMajor(vMMajor);
+                var create = await _repo.CreateRole(vMRole);
                 return Ok(create);
             }
             catch (Exception ex)
@@ -39,12 +39,12 @@ namespace FindJobsProject.Controllers
             }
 
         }
-        [HttpGet("getlist-major")]
-        public async Task<IActionResult> GetListMajor(int IndexPage, int PageSize)
+        [HttpGet("getlist-Role")]
+        public async Task<IActionResult> GetListRole(int IndexPage, int PageSize)
         {
             try
             {
-                var create = await _repo.GetListMajor(IndexPage ,PageSize);
+                var create = await _repo.GetListRole(IndexPage ,PageSize);
                 return Ok(create);
             }
             catch (Exception ex)
@@ -54,12 +54,12 @@ namespace FindJobsProject.Controllers
             }
 
         }
-        [HttpPut("update-major")]
-        public async Task<IActionResult> UpdateMajor(VMUpdateMajor vMUpdateMajor)
+        [HttpPut("update-Role")]
+        public async Task<IActionResult> UpdateRole(VMUpdateRole vMUpdateRole)
         {
             try
             {
-                var create = await _repo.UpdateMajor(vMUpdateMajor);
+                var create = await _repo.UpdateRole(vMUpdateRole);
                 return Ok(create);
             }
             catch (Exception ex)
@@ -69,12 +69,12 @@ namespace FindJobsProject.Controllers
             }
 
         } 
-        [HttpDelete("detele-major")]
-        public async Task<IActionResult> DeleteMajor(VMDeleteMajor vMMajor)
+        [HttpDelete("detele-Role")]
+        public async Task<IActionResult> DeleteRole(VMDeleteRole vMRole)
         {
             try
             {
-                var create = await _repo.DeteleMajor(vMMajor);
+                var create = await _repo.DeteleRole(vMRole);
                 return Ok(create);
             }
             catch (Exception ex)

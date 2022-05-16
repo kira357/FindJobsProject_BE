@@ -5,7 +5,6 @@ using FindJobsProject.Database.Entities;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
-using FindJobsProject.ViewModels.VMMajor;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,14 +15,14 @@ using System.Threading.Tasks;
 
 namespace FindJobsProject.DI
 {
-    public class ReposityMajor : IReposityMajor
+    public class ReposityRole : IReposityRole
     {
         private readonly IMapper _mapper;
         private readonly FindJobsContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
-        public ReposityMajor(IMapper mapper,
+        public ReposityRole(IMapper mapper,
                             UserManager<AppUser> userManager,
                             RoleManager<AppRole> roleManager,
                             SignInManager<AppUser> signInManager,
@@ -36,12 +35,12 @@ namespace FindJobsProject.DI
             _context = context;
         }
 
-        public async Task<Respone> CreateMajor(VMMajor vMMajor)
+        public async Task<Respone> CreateRole(VMRole vMRole)
         {
             try
             {
-                var user = _mapper.Map<Major>(vMMajor);
-                var createMajor = await _context.Majors.AddAsync(user);
+                var user = _mapper.Map<AppRole>(vMRole);
+                var createRole = await _context.Roles.AddAsync(user);
 
                 await _context.SaveChangesAsync();
 
@@ -59,31 +58,29 @@ namespace FindJobsProject.DI
         }
 
 
-        public async Task<IEnumerable> GetListMajor(int IndexPage, int PageSize)
+        public async Task<IEnumerable> GetListRole(int IndexPage, int PageSize)
         {
-            var getList =  _context.Majors.AsQueryable();
-            var data = await getList.Select(x => new VMMajor
+            var getList =  _context.Roles.AsQueryable();
+            var data = await getList.Select(x => new VMRole
             {
-                IdMajor = x.IdMajor,
+                Id = x.Id,
                 Name = x.Name ,
                 Description = x.Description,
-                IsActive = x.IsActive
 
             }).ToListAsync();
-            var result = PaginatedList<Major>.CreatePages(getList, IndexPage, PageSize);
+            var result = PaginatedList<AppRole>.CreatePages(getList, IndexPage, PageSize);
             var count = data.Count();
             return result;
 
         }
 
-        public async Task<Respone> UpdateMajor(VMUpdateMajor vMUpdateMajor)
+        public async Task<Respone> UpdateRole(VMUpdateRole vMUpdateRole)
         {
-            var checkId = await _context.Majors.SingleOrDefaultAsync(x => x.IdMajor == vMUpdateMajor.IdMajor);
+            var checkId = await _context.Roles.SingleOrDefaultAsync(x => x.Id == vMUpdateRole.Id);
             if (checkId != null)
             {
-                checkId.Name = vMUpdateMajor.Name;
-                checkId.Description = vMUpdateMajor.Description;
-                checkId.IsActive = vMUpdateMajor.IsActive;
+                checkId.Name = vMUpdateRole.Name;
+                checkId.Description = vMUpdateRole.Description;
 
                await _context.SaveChangesAsync();
             }
@@ -93,12 +90,12 @@ namespace FindJobsProject.DI
             };
         }
 
-        public async Task<Respone> DeteleMajor(VMDeleteMajor vMDeteleMajor)
+        public async Task<Respone> DeteleRole(VMDeleteRole vMDeteleRole)
         {
-            var checkId = await _context.Majors.SingleOrDefaultAsync(x => x.IdMajor == vMDeteleMajor.IdMajor);
+            var checkId = await _context.Roles.SingleOrDefaultAsync(x => x.Id == vMDeteleRole.Id);
             if (checkId != null)
             {
-                _context.Majors.Remove(checkId);
+                _context.Roles.Remove(checkId);
                 await _context.SaveChangesAsync();
             }
             return new Respone

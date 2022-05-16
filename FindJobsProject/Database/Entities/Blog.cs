@@ -10,8 +10,10 @@ namespace FindJobsProject.Database.Entities
     {
         [Key]
         public Guid IdBlog { get; set; }
-        
+
         public string TItle { get; set; }
+
+        public string Image { get; set; }
 
         public Guid IdMajor { get; set; }
 

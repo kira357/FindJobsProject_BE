@@ -9,7 +9,7 @@ namespace FindJobsProject.DI
 {
     public interface IReposityMajor
     {
-        Task<IEnumerable> GetListMajor(int pageIndex , int pageSize );
+        Task<IEnumerable> GetListMajor(int IndexPage, int PageSize);
         Task<Respone> CreateMajor(VMMajor vMMajor);
 
         Task<Respone> UpdateMajor(VMUpdateMajor vMUpdateMajor);
