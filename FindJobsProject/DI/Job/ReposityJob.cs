@@ -37,28 +37,42 @@ namespace FindJobsProject.DI
             _context = context;
         }
 
-        public async Task<Respone> CreateJob(VMJob vMJob)
+        public async Task<Respone> CreateJob(VMRecruitmentJob vMRecruitmentJob)
         {
-            //try
-            //{
-            //    var user = _mapper.Map<Job>(vMJob);
-            //    var createJob = await _context.Jobs.AddAsync(user);
+            try
+            {
+                var id = Guid.NewGuid();
+                VMRecruitmentJob Job = new VMRecruitmentJob
+                {
+                    Id = id,
+                    Name = vMRecruitmentJob.Name,
+                    CompanyOfJobs = vMRecruitmentJob.CompanyOfJobs,
+                    Position = vMRecruitmentJob.Position,
+                    MajorName = vMRecruitmentJob.MajorName,
+                    Amount = vMRecruitmentJob.Amount,
+                    Experience = vMRecruitmentJob.Experience,
+                    WorkTime = vMRecruitmentJob.WorkTime,
+                    SalaryMin = vMRecruitmentJob.SalaryMin,
+                    SalaryMax = vMRecruitmentJob.SalaryMax,
+                    Address = vMRecruitmentJob.Address,
+                    DealineForSubmission = vMRecruitmentJob.DealineForSubmission,
+                };
 
-            //    await _context.SaveChangesAsync();
+                var jobsMaps = _mapper.Map<Job>(Job);
+                var recruitmentJob = _mapper.Map<RecruitmentJob>(Job);
+                await _context.Jobs.AddAsync(jobsMaps);
+                await _context.recruitmentJob.AddAsync(recruitmentJob);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
 
-            //    return new Respone
-            //    {
-            //        Ok = "Success"
-            //    };
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    throw ex.InnerException;
-            //}
-            return null;
-
-        }
+                throw ex.InnerException;
+            }
+                return new Respone { Ok = "Success" };
+      
+            return new Respone { Fail = "Fails" };
+    }
 
 
         public async Task<IEnumerable> GetListJob(int pageIndex, int pageSize)

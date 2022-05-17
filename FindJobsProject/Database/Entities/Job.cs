@@ -10,12 +10,15 @@ namespace FindJobsProject.Data.Entities
     public class Job
     {
         public Guid Id { get; set; }
-        
+
         public string? CompanyOfJobs { get; set; }
+
+        public string Name { get; set; }
+
+        public long MajorName { get; set; }
 
         public string? Position { get; set; }
 
-        [Required]
         public string JobImage { get; set; }
         [Required]
         public string JobDetail { get; set; }

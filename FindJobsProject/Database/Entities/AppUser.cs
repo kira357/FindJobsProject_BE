@@ -20,7 +20,7 @@ namespace FindJobsProject.Database.Entities
             public long? IdMajor { get; set; }
             public Major UserMajor { get; set; }
 
-        public string UrlAvatar { get; set; }
+            public string UrlAvatar { get; set; }
 
             public string Description { get; set; }
 

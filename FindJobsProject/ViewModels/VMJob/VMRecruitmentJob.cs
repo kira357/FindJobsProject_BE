@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace FindJobsProject.ViewModels.VMJob
 {
-    public class VMDeleteJob
+    public class VMRecruitmentJob
     {
         public Guid Id { get; set; }
+
+        public Guid RecruitmentId { get; set; }
         public string? CompanyOfJobs { get; set; }
         public string Name { get; set; }
-
+        public long MajorName { get; set; }
         public string? Position { get; set; }
 
-        public string JobImage { get; set; }
+        public string? JobImage { get; set; }
         public string JobDetail { get; set; }
 
         public int Amount { get; set; }

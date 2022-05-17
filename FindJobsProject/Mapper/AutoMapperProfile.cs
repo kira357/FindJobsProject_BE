@@ -2,6 +2,7 @@
 using FindJobsProject.Data.Entities;
 using FindJobsProject.Database.Entities;
 using FindJobsProject.ViewModels;
+using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMMajor;
 
 namespace FindJobsProject.Mapper
@@ -16,6 +17,10 @@ namespace FindJobsProject.Mapper
 
             // Major 
             CreateMap<VMMajor, Major>();
+
+            //job 
+            CreateMap<VMRecruitmentJob, Job>();
+            CreateMap<VMRecruitmentJob, RecruitmentJob>();
         }
     }
 }

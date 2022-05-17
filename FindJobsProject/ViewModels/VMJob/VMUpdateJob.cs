@@ -10,9 +10,9 @@ namespace FindJobsProject.ViewModels.VMJob
     {
         public Guid Id { get; set; }
         public string? CompanyOfJobs { get; set; }
-
+        public string Name { get; set; }
+        public long MajorName { get; set; }
         public string? Position { get; set; }
-
         public string JobImage { get; set; }
         public string JobDetail { get; set; }
 
