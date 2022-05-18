@@ -13,17 +13,17 @@ namespace FindJobsProject.Data.Configurations
         public void Configure(EntityTypeBuilder<RecruitmentJob> builder)
         {
             builder.ToTable("RecruitmentJob");
-            builder.HasKey(sc => new { sc.RecruitmentId, sc.JobsId });
+            builder.HasKey(sc => new { sc.IdRecruitment, sc.IdJob });
 
             builder.ToTable("RecruitmentJob")
             .HasOne<AppUser>(sc => sc.Recruitments)
-            .WithMany(s => s.RecruitmentJob)
-            .HasForeignKey(sc => sc.RecruitmentId);
+            .WithMany(s => s.RecruitmentJobTable)
+            .HasForeignKey(sc => sc.IdRecruitment);
 
             builder.ToTable("RecruitmentJob")
                 .HasOne<Job>(sc => sc.Jobs)
-                .WithMany(s => s.RecruitmentJob)
-                .HasForeignKey(sc => sc.JobsId);
+                .WithMany(s => s.RecruitmentJobTable)
+                .HasForeignKey(sc => sc.IdJob);
         }
     }
 }

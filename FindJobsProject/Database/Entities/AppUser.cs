@@ -24,9 +24,10 @@ namespace FindJobsProject.Database.Entities
 
             public string Description { get; set; }
 
-            public IList<RecruitmentJob> RecruitmentJob { get; set; }
-            public IList<CandidateJob> CandidateJob { get; set; }
-            public ICollection<Blog> UserBlog { get; set; }
+        public IList<RecruitmentJob> RecruitmentJobTable { get; set; }
+        public ICollection<CandidateJob> CandidateJob { get; set; }
+        //public ICollection<Job> RecruitmentJob { get; set; }
+        public ICollection<Blog> UserBlog { get; set; }
 
     }
     

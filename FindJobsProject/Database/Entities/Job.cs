@@ -9,13 +9,13 @@ namespace FindJobsProject.Data.Entities
 {
     public class Job
     {
-        public Guid Id { get; set; }
+        public Guid IdJob { get; set; }
 
         public string? CompanyOfJobs { get; set; }
 
         public string Name { get; set; }
 
-        public long MajorName { get; set; }
+        public long? IdMajor { get; set; }
 
         public string? Position { get; set; }
 
@@ -31,19 +31,18 @@ namespace FindJobsProject.Data.Entities
         [Required]
         public decimal SalaryMax { get; set; }  
         [Required]
-        public string SalaryUnit { get; set; } 
-        [Required]
         public int WorkTime { get; set; }
         [Required]
         public string Address { get; set; }
         [Required]
-        public DateTimeOffset DealineForSubmission { get; set; }     // Hạn cuối nộp đơn
+        public DateTimeOffset DateExpire { get; set; }     // Hạn cuối nộp đơn
 
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset? UpdatedOn { get; set; }
-        public bool IsActive { get; set; }
 
-        public IList<RecruitmentJob> RecruitmentJob { get; set; }
+        public IList<RecruitmentJob> RecruitmentJobTable { get; set; }
+        //public Guid IdRecruitment { get; set; }
+        //public AppUser RecruitmentJob { get; set; }
         public IList<CandidateJob> CandidateJob { get; set; }
 
 

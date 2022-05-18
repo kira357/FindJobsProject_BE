@@ -19,7 +19,9 @@ namespace FindJobsProject.Mapper
             CreateMap<VMMajor, Major>();
 
             //job 
-            CreateMap<VMRecruitmentJob, Job>();
+            CreateMap<VMJob, Job>();
+
+            //RecruitmentJob
             CreateMap<VMRecruitmentJob, RecruitmentJob>();
         }
     }

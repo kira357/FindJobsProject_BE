@@ -56,32 +56,6 @@ namespace FindJobsProject.Database
             builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
 
 
-            //base.OnModelCreating(builder);
-            //builder.Entity<Employees>()
-            //    .HasOne<User>(e => e.user)
-            //    .WithOne(e => e.employees)
-            //    .HasForeignKey<User>(e => e.IdEmployee);
-
-            //base.OnModelCreating(builder);
-            //builder.Entity<User>()
-            //    .HasOne<Company>(e => e.company)
-            //    .WithOne(e => e.user)
-            //    .HasForeignKey<Company>(e => e.idUser);
-
-
-            //builder.Entity<CompanyJobs>()
-            //       .HasKey(sc => new { sc.companyId, sc.jobsId });
-
-            //builder.Entity<CompanyJobs>()
-            // .HasOne<Company>(sc => sc.company)
-            // .WithMany(s => s.companyJobs)
-            // .HasForeignKey(sc => sc.companyId);
-
-
-            //builder.Entity<CompanyJobs>()
-            //    .HasOne<Jobs>(sc => sc.jobs)
-            //    .WithMany(s => s.companyJobs)
-            //    .HasForeignKey(sc => sc.jobsId);
 
             builder.Seed();
         }

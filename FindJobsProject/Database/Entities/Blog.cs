@@ -14,8 +14,9 @@ namespace FindJobsProject.Database.Entities
         public string TItle { get; set; }
 
         public string Image { get; set; }
+       
 
-        public Guid IdMajor { get; set; }
+        public long? IdMajor { get; set; }
 
         public Guid UserId { get; set; }
         public AppUser UserBlog { get; set; }

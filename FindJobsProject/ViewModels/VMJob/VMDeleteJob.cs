@@ -8,10 +8,11 @@ namespace FindJobsProject.ViewModels.VMJob
 {
     public class VMDeleteJob
     {
-        public Guid Id { get; set; }
+        public Guid IdJob { get; set; }
+        public Guid IdRecruitment { get; set; }
         public string? CompanyOfJobs { get; set; }
         public string Name { get; set; }
-
+        public long? IdMajor { get; set; }
         public string? Position { get; set; }
 
         public string JobImage { get; set; }
@@ -25,16 +26,14 @@ namespace FindJobsProject.ViewModels.VMJob
 
         public decimal SalaryMax { get; set; }
 
-        public string SalaryUnit { get; set; }
 
         public int WorkTime { get; set; }
 
         public string Address { get; set; }
 
-        public DateTimeOffset DealineForSubmission { get; set; }  
+        public DateTimeOffset DateExpire { get; set; }  
 
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset? UpdatedOn { get; set; }
-        public bool IsActive { get; set; }
     }
 }

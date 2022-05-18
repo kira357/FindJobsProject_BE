@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,12 +9,15 @@ namespace FindJobsProject.ViewModels.VMJob
 {
     public class VMJob
     {
-        public Guid Id { get; set; }
+        public Guid IdJob { get; set; }
+
+        [NotMapped]
+        public Guid IdRecruitment { get; set; }
 
         public string? CompanyOfJobs { get; set; }
 
         public string Name { get; set; }
-        public long MajorName { get; set; }
+        public long? MajorId { get; set; }
 
         public string? Position { get; set; }
 
@@ -28,16 +32,17 @@ namespace FindJobsProject.ViewModels.VMJob
 
         public decimal SalaryMax { get; set; }
 
-        public string SalaryUnit { get; set; }
 
         public int WorkTime { get; set; }
 
         public string Address { get; set; }
 
-        public DateTimeOffset DealineForSubmission { get; set; }  
+        public bool IsActive { get; set; }
+
+        public DateTimeOffset DateExpire { get; set; }  
 
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset? UpdatedOn { get; set; }
-        public bool IsActive { get; set; }
+
     }
 }

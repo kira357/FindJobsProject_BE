@@ -37,29 +37,40 @@ namespace FindJobsProject.DI
             _context = context;
         }
 
-        public async Task<Respone> CreateJob(VMRecruitmentJob vMRecruitmentJob)
+        public async Task<Respone> CreateJob(VMJob vMJob)
         {
             try
             {
                 var id = Guid.NewGuid();
-                VMRecruitmentJob Job = new VMRecruitmentJob
+                vMJob = new VMJob
                 {
-                    Id = id,
-                    Name = vMRecruitmentJob.Name,
-                    CompanyOfJobs = vMRecruitmentJob.CompanyOfJobs,
-                    Position = vMRecruitmentJob.Position,
-                    MajorName = vMRecruitmentJob.MajorName,
-                    Amount = vMRecruitmentJob.Amount,
-                    Experience = vMRecruitmentJob.Experience,
-                    WorkTime = vMRecruitmentJob.WorkTime,
-                    SalaryMin = vMRecruitmentJob.SalaryMin,
-                    SalaryMax = vMRecruitmentJob.SalaryMax,
-                    Address = vMRecruitmentJob.Address,
-                    DealineForSubmission = vMRecruitmentJob.DealineForSubmission,
+                    IdRecruitment = vMJob.IdRecruitment,
+                    IdJob = id,
+                    JobImage = vMJob.JobImage,
+                    Name = vMJob.Name,
+                    CompanyOfJobs = vMJob.CompanyOfJobs,
+                    Position = vMJob.Position,
+                    MajorId = vMJob.MajorId,
+                    Amount = vMJob.Amount,
+                    Experience = vMJob.Experience,
+                    WorkTime = vMJob.WorkTime,
+                    SalaryMin = vMJob.SalaryMin,
+                    SalaryMax = vMJob.SalaryMax,
+                    Address = vMJob.Address,
+                    DateExpire = vMJob.DateExpire,
+                    JobDetail = vMJob.JobDetail,
+                    CreatedOn = DateTimeOffset.UtcNow,     
                 };
 
-                var jobsMaps = _mapper.Map<Job>(Job);
-                var recruitmentJob = _mapper.Map<RecruitmentJob>(Job);
+                var jobsMaps = _mapper.Map<Job>(vMJob);
+
+                VMRecruitmentJob vMRecruitmentJob = new VMRecruitmentJob
+                {
+                    IdJob = vMJob.IdJob,
+                    IdRecruitment = vMJob.IdRecruitment,
+                    IsActive = false,
+                };
+                var recruitmentJob = _mapper.Map<RecruitmentJob>(vMRecruitmentJob);
                 await _context.Jobs.AddAsync(jobsMaps);
                 await _context.recruitmentJob.AddAsync(recruitmentJob);
                 await _context.SaveChangesAsync();
@@ -78,28 +89,36 @@ namespace FindJobsProject.DI
         public async Task<IEnumerable> GetListJob(int pageIndex, int pageSize)
         {
             var getList = _context.Jobs.AsQueryable();
-            var data = await getList.Select(x => new VMJob
-            {
-                Id = x.Id,
-                CompanyOfJobs = x.CompanyOfJobs,
-                Position = x.Position,
-                JobImage = x.JobImage,
-                JobDetail = x.JobDetail,
-                Amount = x.Amount,
-                Experience = x.Experience,
-                SalaryMin = x.SalaryMin,
-                SalaryMax = x.SalaryMax,
-                SalaryUnit = x.SalaryUnit,
-                WorkTime = x.WorkTime,
-                Address = x.Address,
-                DealineForSubmission = x.DealineForSubmission,
-                CreatedOn = x.CreatedOn,
-                UpdatedOn = x.UpdatedOn,
-                IsActive = x.IsActive
+            var data = getList.Join(_context.recruitmentJob,
+                                    job => job.IdJob,
+                                    recruitment => recruitment.IdJob,
+                                    (job, recruitment) => new { job, recruitment })
+                               .Join(_context.AppUsers,
+                                    user => user.recruitment.IdRecruitment,
+                                    job => job.Id,
+                                    (user, job) =>
+                                    new VMJob
+                                    {
+                                        IdJob = user.recruitment.IdJob,
+                                        IdRecruitment = user.recruitment.IdRecruitment,
+                                        CompanyOfJobs = user.job.CompanyOfJobs,
+                                        Position = user.job.Position,
+                                        Name = user.job.Name,
+                                        JobImage = user.job.JobImage,
+                                        JobDetail = user.job.JobDetail,
+                                        Amount = user.job.Amount,
+                                        Experience = user.job.Experience,
+                                        SalaryMin = user.job.SalaryMin,
+                                        SalaryMax = user.job.SalaryMax,
+                                        WorkTime = user.job.WorkTime,
+                                        Address = user.job.Address,
+                                        DateExpire = user.job.DateExpire,
+                                        IsActive = user.recruitment.IsActive,
+                                        CreatedOn = user.job.CreatedOn,
+                                        UpdatedOn = user.job.UpdatedOn,
+                                    });
 
-
-            }).ToListAsync();
-            var result = PaginatedList<Job>.CreatePages(getList, pageIndex, pageSize);
+            var result = PaginatedList<VMJob>.CreatePages(data, pageIndex, pageSize);
             var count = data.Count();
             return result;
 
@@ -107,20 +126,30 @@ namespace FindJobsProject.DI
 
         public async Task<Respone> UpdateJob(VMUpdateJob vMUpdateJob)
         {
-            //var checkId = await _context.Jobs.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
-            //if (checkId != null)
-            //{
-            //    checkId.Name = vMUpdateJob.Name;
-            //    checkId.Description = vMUpdateJob.Description;
-            //    checkId.IsActive = vMUpdateJob.IsActive;
+            try
+            {
+                var checkId = await _context.Jobs.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
+                var checkIdRecruitment = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
+                if (checkId != null && checkIdRecruitment != null)
+                {
+                    checkId.Name = vMUpdateJob.Name;
+                    checkIdRecruitment.IsActive = vMUpdateJob.IsActive;
+                    checkIdRecruitment.UpdatedOn = DateTimeOffset.UtcNow;    
 
-            //    await _context.SaveChangesAsync();
-            //}
-            //return new Respone
-            //{
-            //    Ok = "Success"
-            //};
-            return null;
+                    await _context.SaveChangesAsync();
+                }
+                return new Respone
+                {
+                    Ok = "Success"
+                };
+
+            }
+            catch (Exception ex )
+            {
+
+                throw ex.InnerException;
+            }
+            
         }
 
         public async Task<Respone> DeteleJob(VMDeleteJob vMDeleteJob)

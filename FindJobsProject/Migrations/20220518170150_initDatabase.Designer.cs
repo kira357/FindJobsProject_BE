@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FindJobsProject.Migrations
 {
     [DbContext(typeof(FindJobsContext))]
-    [Migration("20220515144851_updateMajorTable")]
-    partial class updateMajorTable
+    [Migration("20220518170150_initDatabase")]
+    partial class initDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,7 +48,7 @@ namespace FindJobsProject.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "0996ae87-4649-4011-8177-6bada5295859",
+                            ConcurrencyStamp = "4e5bf46d-f18e-4d8c-a738-7b97356ff038",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
@@ -56,7 +56,7 @@ namespace FindJobsProject.Migrations
                         new
                         {
                             Id = new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0"),
-                            ConcurrencyStamp = "5dbe8c2c-897f-460e-bdec-2505e58d41ce",
+                            ConcurrencyStamp = "4632a5e9-4f5a-4fae-85b7-4724e7983bd8",
                             Description = "Recruitment role",
                             Name = "Recruitment",
                             NormalizedName = "RECRUITMENT"
@@ -65,13 +65,16 @@ namespace FindJobsProject.Migrations
 
             modelBuilder.Entity("FindJobsProject.Data.Entities.CandidateJob", b =>
                 {
-                    b.Property<Guid>("CandicateId")
+                    b.Property<Guid>("IdCandicate")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("JobId")
+                    b.Property<Guid>("IdJob")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("DateApply")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Introduction")
@@ -86,16 +89,16 @@ namespace FindJobsProject.Migrations
                     b.Property<DateTimeOffset?>("UpdatedOn")
                         .HasColumnType("datetimeoffset");
 
-                    b.HasKey("CandicateId", "JobId");
+                    b.HasKey("IdCandicate", "IdJob");
 
-                    b.HasIndex("JobId");
+                    b.HasIndex("IdJob");
 
                     b.ToTable("CandidateJob");
                 });
 
             modelBuilder.Entity("FindJobsProject.Data.Entities.Job", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("IdJob")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -112,22 +115,24 @@ namespace FindJobsProject.Migrations
                     b.Property<DateTimeOffset>("CreatedOn")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset>("DealineForSubmission")
+                    b.Property<DateTimeOffset>("DateExpire")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Experience")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<long?>("IdMajor")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("JobDetail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JobImage")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Position")
@@ -139,17 +144,13 @@ namespace FindJobsProject.Migrations
                     b.Property<decimal>("SalaryMin")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("SalaryUnit")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTimeOffset?>("UpdatedOn")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<int>("WorkTime")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdJob");
 
                     b.ToTable("Job");
                 });
@@ -245,7 +246,7 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2f247932-c00a-43e5-ad35-871dd82d053e",
+                            ConcurrencyStamp = "781d64cf-e8ac-410c-b85b-7b76cc906147",
                             Email = "5951071014@st.utc2.edu.vn",
                             EmailConfirmed = true,
                             FirstName = "Đạt",
@@ -254,7 +255,7 @@ namespace FindJobsProject.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "5951071014@st.utc2.edu.vn",
                             NormalizedUserName = "5951071014@st.utc2.edu.vn",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMgYx142l6/ityR66EEm7eESYT3T7OKWK7ZqMUk+O+u/A9XjsejIM3qduUi4lmEadg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKoeWn/8flizVdn++fU2OXfb95/TItoiaJx7DZgMro9Tx7Uo+h/WO2GsK+hKLThdNw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -265,7 +266,7 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f9a7725c-239e-4bf4-b127-c68911dc33b5",
+                            ConcurrencyStamp = "9c94b9b9-47e3-4158-908c-547200281814",
                             Email = "5951071017@st.utc2.edu.vn",
                             EmailConfirmed = true,
                             FirstName = "Đông",
@@ -274,7 +275,7 @@ namespace FindJobsProject.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "5951071017@st.utc2.edu.vn",
                             NormalizedUserName = "5951071017@st.utc2.edu.vn",
-                            PasswordHash = "AQAAAAEAACcQAAAAECES8x+8pq7DjPOKuHeRVhw7DoyBtfogkI+WrCbdwdVOV3DQJ8UwpkVDlUpwlFCgog==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBovzi+0UxbyeQmzfhye5tAj+Syc1wtMx/9RbDfmOa44xfiwoaOpNw25GqrRCZtIbA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -285,7 +286,7 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("9bc1bf33-d875-42b2-a39e-b0cfc3fb6f2c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a3c6f61b-17b7-49a9-80a1-f5d6aff52bb2",
+                            ConcurrencyStamp = "c3de0e0b-685f-49e8-bc15-a802a309b835",
                             Email = "5951071021@st.utc2.edu.vn",
                             EmailConfirmed = true,
                             FirstName = "Hảo",
@@ -294,7 +295,7 @@ namespace FindJobsProject.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "5951071021@st.utc2.edu.vn",
                             NormalizedUserName = "5951071021@st.utc2.edu.vn",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDjze0pvn9hpac2TqoTBQlrRMtInSc8ONE/jwd1ygvRNaoBixxvKMF/HDOz/cYfr1g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENS/oqV6x2vj4M2BmH6ZOfxgimLDvSZZnJRZIw/BoTM7p63EVRm47geHjOTG5+aZ4w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -312,8 +313,11 @@ namespace FindJobsProject.Migrations
                     b.Property<DateTimeOffset>("CreatedOn")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("IdMajor")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long?>("IdMajor")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -357,10 +361,10 @@ namespace FindJobsProject.Migrations
 
             modelBuilder.Entity("FindJobsProject.Database.Entities.RecruitmentJob", b =>
                 {
-                    b.Property<Guid>("RecruitmentId")
+                    b.Property<Guid>("IdRecruitment")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("JobsId")
+                    b.Property<Guid>("IdJob")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedOn")
@@ -375,9 +379,9 @@ namespace FindJobsProject.Migrations
                     b.Property<DateTimeOffset?>("UpdatedOn")
                         .HasColumnType("datetimeoffset");
 
-                    b.HasKey("RecruitmentId", "JobsId");
+                    b.HasKey("IdRecruitment", "IdJob");
 
-                    b.HasIndex("JobsId");
+                    b.HasIndex("IdJob");
 
                     b.ToTable("RecruitmentJob");
                 });
@@ -498,13 +502,13 @@ namespace FindJobsProject.Migrations
                 {
                     b.HasOne("FindJobsProject.Database.Entities.AppUser", "Candicate")
                         .WithMany("CandidateJob")
-                        .HasForeignKey("CandicateId")
+                        .HasForeignKey("IdCandicate")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FindJobsProject.Data.Entities.Job", "Job")
                         .WithMany("CandidateJob")
-                        .HasForeignKey("JobId")
+                        .HasForeignKey("IdJob")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -528,14 +532,14 @@ namespace FindJobsProject.Migrations
             modelBuilder.Entity("FindJobsProject.Database.Entities.RecruitmentJob", b =>
                 {
                     b.HasOne("FindJobsProject.Data.Entities.Job", "Jobs")
-                        .WithMany("RecruitmentJob")
-                        .HasForeignKey("JobsId")
+                        .WithMany("RecruitmentJobTable")
+                        .HasForeignKey("IdJob")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FindJobsProject.Database.Entities.AppUser", "Recruitments")
-                        .WithMany("RecruitmentJob")
-                        .HasForeignKey("RecruitmentId")
+                        .WithMany("RecruitmentJobTable")
+                        .HasForeignKey("IdRecruitment")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

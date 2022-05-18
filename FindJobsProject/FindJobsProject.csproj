@@ -22,6 +22,34 @@
     <Compile Remove="Migrations\20220509162926_init1.Designer.cs" />
     <Compile Remove="Migrations\20220512031625_init1.cs" />
     <Compile Remove="Migrations\20220512031625_init1.Designer.cs" />
+    <Compile Remove="Migrations\20220515113948_initDatabase.cs" />
+    <Compile Remove="Migrations\20220515113948_initDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220515143001_addMajorTable.cs" />
+    <Compile Remove="Migrations\20220515143001_addMajorTable.Designer.cs" />
+    <Compile Remove="Migrations\20220515144851_updateMajorTable.cs" />
+    <Compile Remove="Migrations\20220515144851_updateMajorTable.Designer.cs" />
+    <Compile Remove="Migrations\20220518155709_initDatabase.cs" />
+    <Compile Remove="Migrations\20220518155709_initDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220518160421_initDatabase.cs" />
+    <Compile Remove="Migrations\20220518160421_initDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220518160949_initDatabase.cs" />
+    <Compile Remove="Migrations\20220518160949_initDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220518161103_initDatabase2.cs" />
+    <Compile Remove="Migrations\20220518161103_initDatabase2.Designer.cs" />
+    <Compile Remove="Migrations\20220518161856_initDatabase2.cs" />
+    <Compile Remove="Migrations\20220518161856_initDatabase2.Designer.cs" />
+    <Compile Remove="Migrations\20220518161944_initDatabase.cs" />
+    <Compile Remove="Migrations\20220518161944_initDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220518162120_initDatabase2.cs" />
+    <Compile Remove="Migrations\20220518162120_initDatabase2.Designer.cs" />
+    <Compile Remove="Migrations\20220518163920_initDatabase.cs" />
+    <Compile Remove="Migrations\20220518163920_initDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220518164241_initDatabase2.cs" />
+    <Compile Remove="Migrations\20220518164241_initDatabase2.Designer.cs" />
+    <Compile Remove="Migrations\20220518165436_initDatabase.cs" />
+    <Compile Remove="Migrations\20220518165436_initDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220518165800_initDatabase.cs" />
+    <Compile Remove="Migrations\20220518165800_initDatabase.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +69,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 

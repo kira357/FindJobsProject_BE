@@ -13,8 +13,8 @@ namespace FindJobsProject.Data.Configurations
     {
         public void Configure (EntityTypeBuilder<AppUser> builder)
         {
-            builder.ToTable("AppUsers");
-            builder.HasKey(x => x.Id);
+            builder.ToTable("AppUsers")
+                    .HasKey(x => x.Id);
             builder.Property(x => x.FirstName).HasMaxLength(50);
             builder.Property(x => x.LastName).HasMaxLength(50);
 

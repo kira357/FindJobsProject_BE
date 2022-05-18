@@ -1,18 +1,16 @@
-﻿
-using FindJobsProject.Data.Entities;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace FindJobsProject.Database.Entities
+namespace FindJobsProject.ViewModels.VMJob
 {
-    public class RecruitmentJob
+    public class VMRecruitmentJob
     {
-        public Guid IdRecruitment { get; set; }
-        public AppUser Recruitments { get; set; }
-
         public Guid IdJob { get; set; }
-        public Job Jobs { get; set; }
 
+        public Guid IdRecruitment { get; set; }
         public string Description { get; set; }
         public bool IsActive { get; set; }
 
