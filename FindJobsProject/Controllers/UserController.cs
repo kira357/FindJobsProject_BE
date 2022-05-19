@@ -1,6 +1,7 @@
 ﻿using FindJobsProject.DI;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
+using FindJobsProject.ViewModels.ConfigPagination;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -53,11 +54,11 @@ namespace FindJobsProject.Controllers
             }
         }
         [HttpGet("getall")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter)
         {
             try
             {
-                var getAll = await _repo.GetAllAcc();
+                var getAll = await _repo.GetAllAcc(filter);
                 return Ok(getAll);
             }
             catch (Exception ex)
@@ -74,6 +75,20 @@ namespace FindJobsProject.Controllers
             try
             {
                 var defaultRole = await _repo.CreateRole(roleVM);
+                return Ok(defaultRole);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+        } 
+        [HttpPost("create-user")]
+        public async Task<IActionResult> CreateUser(VMUserRegister vMUserRegister)
+        {
+            try
+            {
+                var defaultRole = await _repo.CreateUser(vMUserRegister);
                 return Ok(defaultRole);
             }
             catch (Exception ex)

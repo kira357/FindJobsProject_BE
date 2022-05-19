@@ -60,7 +60,7 @@ namespace FindJobsProject.DI
         }
 
 
-        public async Task<PagedResponse<IEnumerable<Major>>> GetListMajor(int IndexPage, int PageSize)
+        public async Task<PagedResponse<IEnumerable<Major>>> GetListMajor(PaginationFilter filter)
         {
             var getList =  _context.Majors.AsQueryable();
             var data = await getList.Select(x => new VMMajor
@@ -71,9 +71,10 @@ namespace FindJobsProject.DI
                 IsActive = x.IsActive
 
             }).ToListAsync();
-            var result = PaginatedList<Major>.CreatePages(getList, IndexPage, PageSize);
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<Major>.CreatePages(getList, validFilter.IndexPage, validFilter.PageSize);
             var count = data.Count();
-            return new PagedResponse<IEnumerable<Major>>(result, IndexPage, PageSize , count);
+            return new PagedResponse<IEnumerable<Major>>(result, validFilter.IndexPage, validFilter.PageSize, count);
 
         }
 
@@ -84,7 +85,6 @@ namespace FindJobsProject.DI
             {
                 checkId.Name = vMUpdateMajor.Name;
                 checkId.Description = vMUpdateMajor.Description;
-                checkId.IsActive = vMUpdateMajor.IsActive;
 
                await _context.SaveChangesAsync();
             }

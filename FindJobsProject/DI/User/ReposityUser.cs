@@ -4,10 +4,13 @@ using FindJobsProject.Database;
 using FindJobsProject.Database.Entities;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
+using FindJobsProject.ViewModels.ConfigPagination;
+using FindJobsProject.ViewModels.VMUser;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -89,10 +92,40 @@ namespace FindJobsProject.DI
             };
         }
 
-        public async Task<IEnumerable> GetAllAcc()
+        public async Task<PagedResponse<IEnumerable<VMGetUser>>> GetAllAcc(PaginationFilter filter)
         {
-            var getALL = await _context.recruitmentJob.ToListAsync();
-            return getALL;
+            var getList =  _userManager.Users.AsQueryable();
+            var data =  getList.Join(_context.UserRoles,
+                                    idUser => idUser.Id,
+                                    idRole => idRole.UserId,
+                                    (idUser, idRole) => new { idUser, idRole })
+                                    .Join(_roleManager.Roles,
+                                    userrole => userrole.idRole.RoleId,
+                                    role => role.Id,
+                                    (userrole, role) => new VMGetUser
+                                    { 
+                                        UserName = userrole.idUser.UserName,
+                                        LastName = userrole.idUser.LastName,
+                                        FirstName = userrole.idUser.FirstName,
+                                        FullName = userrole.idUser.FullName,
+                                        Address = userrole.idUser.Address,
+                                        PhoneNumber = userrole.idUser.PhoneNumber,
+                                        Email = userrole.idUser.Email,
+                                        DateOfBirth = userrole.idUser.DateOfBirth,
+                                        RoleName = role.Name,
+                                        Gender = userrole.idUser.Gender,
+                                        IdMajor = userrole.idUser.IdMajor,
+                                        UrlAvatar = userrole.idUser.UrlAvatar,
+                                        Description = userrole.idUser.Description,
+                                        IsActive = userrole.idUser.IsActive
+                                    });
+
+    
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<VMGetUser>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
+            var count = data.Count();
+
+            return new PagedResponse<IEnumerable<VMGetUser>>(result, validFilter.IndexPage, validFilter.PageSize, count); ;
         }
 
         public async Task<Respone> LoginUser(VMUserLogin vMUserLogin)

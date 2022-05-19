@@ -12,7 +12,7 @@ namespace FindJobsProject.DI
 {
     public interface IReposityMajor
     {
-        Task<PagedResponse<IEnumerable<Major>>> GetListMajor(int IndexPage, int PageSize);
+        Task<PagedResponse<IEnumerable<Major>>> GetListMajor(PaginationFilter filter);
         Task<Respone> CreateMajor(VMMajor vMMajor);
 
         Task<Respone> UpdateMajor(VMUpdateMajor vMUpdateMajor);

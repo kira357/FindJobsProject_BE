@@ -1,6 +1,7 @@
 ﻿using FindJobsProject.DI;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
+using FindJobsProject.ViewModels.ConfigPagination;
 using FindJobsProject.ViewModels.VMMajor;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -40,11 +41,11 @@ namespace FindJobsProject.Controllers
 
         }
         [HttpGet("getlist-major")]
-        public async Task<IActionResult> GetListMajor(int IndexPage, int PageSize)
+        public async Task<IActionResult> GetListMajor([FromQuery] PaginationFilter filter)
         {
             try
             {
-                var create = await _repo.GetListMajor(IndexPage ,PageSize);
+                var create = await _repo.GetListMajor(filter);
                 return Ok(create);
             }
             catch (Exception ex)

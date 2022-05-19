@@ -79,42 +79,29 @@ namespace FindJobsProject.DI
             throw new NotImplementedException();
         }
 
-        public Task<PagedResponse<IEnumerable<VMGetCandidateJob>>> GetListCandidate(int pageIndex, int pageSize , Guid Id)
+        public async Task<PagedResponse<IEnumerable<VMGetCandidateJob>>> GetListCandidate(int pageIndex, int pageSize , Guid Id)
         {
-            //var checkId  = _userManager.Users.SingleOrDefault(x => x.Id == Id);
-            //if(checkId != null)
+            //var checkId = _userManager.Users.SingleOrDefault(x => x.Id == Id);
+            //if (checkId != null)
             //{
             //    var getList = _userManager.Users.AsQueryable();
-            //    var data = getList.Join(_context.recruitmentJob,
-            //                            job => job.IdJob,
-            //                            recruitment => recruitment.IdJob,
-            //                            (job, recruitment) => new { job, recruitment })
-            //                       .Join(_context.AppUsers,
-            //                            user => user.recruitment.IdRecruitment,
-            //                            job => job.Id,
-            //                            (user, job) =>
-            //                            new VMJob
-            //                            {
-            //                                IdJob = user.recruitment.IdJob,
-            //                                IdRecruitment = user.recruitment.IdRecruitment,
-            //                                CompanyOfJobs = user.job.CompanyOfJobs,
-            //                                Position = user.job.Position,
-            //                                Name = user.job.Name,
-            //                                JobImage = user.job.JobImage,
-            //                                JobDetail = user.job.JobDetail,
-            //                                Amount = user.job.Amount,
-            //                                Experience = user.job.Experience,
-            //                                SalaryMin = user.job.SalaryMin,
-            //                                SalaryMax = user.job.SalaryMax,
-            //                                WorkTime = user.job.WorkTime,
-            //                                Address = user.job.Address,
-            //                                DateExpire = user.job.DateExpire,
-            //                                IsActive = user.recruitment.IsActive,
-            //                                CreatedOn = user.job.CreatedOn,
-            //                                UpdatedOn = user.job.UpdatedOn,
-            //                            });
+            //    //var data = getList.Join(_context.CandidateJobs,
+            //    //                        iduser => iduser.Id,
+            //    //                        idrecruitment => idrecruitment.IdRecruitment,
+            //    //                        (iduser, idrecruitment) => new { iduser, idrecruitment }) .Where(x => x.iduser.Id == Id)
+            //    //                   .Join(_context.Jobs,
+            //    //                        user => user.idrecruitment.IdJob,
+            //    //                        job => job.IdJob,
+            //    //                        (user, job) =>
+            //    //                        new VMGetCandidateJob
+            //    //                        {
+            //    //                            NameJob = job.Name,
+            //    //                            NameRecruitment = checkId.FullName,
 
-            //    var result = PaginatedList<VMJob>.CreatePages(data, pageIndex, pageSize);
+            //    //                        });
+            //    var data = _context.CandidateJobs.ToList().Where(x => x.IdRecruitment == Id); 
+
+            //    var result = PaginatedList<VMGetCandidateJob>.CreatePages(data, pageIndex, pageSize);
             //    var count = data.Count();
             //    return new PagedResponse<IEnumerable<VMGetCandidateJob>>(result, pageIndex, pageSize, count);
             //}

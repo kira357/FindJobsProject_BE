@@ -47,6 +47,8 @@
     <Compile Remove="Migrations\20220519080823_test2.Designer.cs" />
     <Compile Remove="Migrations\20220519080937_test3.cs" />
     <Compile Remove="Migrations\20220519080937_test3.Designer.cs" />
+    <Compile Remove="Migrations\20220519135645_initDatabase.cs" />
+    <Compile Remove="Migrations\20220519135645_initDatabase.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,7 +72,6 @@
 
   <ItemGroup>
     <Folder Include="DI\Recruiment\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 
