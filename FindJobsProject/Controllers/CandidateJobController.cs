@@ -15,21 +15,21 @@ namespace FindJobsProject.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class JobController : ControllerBase
+    public class CandidateJobController : ControllerBase
     {
-        private readonly IReposityJob _repo;
+        private readonly IReposityCandidate _repo;
 
-        public JobController(IReposityJob repo)
+        public CandidateJobController(IReposityCandidate repo)
         {
             _repo = repo;
         }
 
-        [HttpPost("create-Job")]
-        public async Task<IActionResult> CreateJob(VMJob vMJob)
+        [HttpPost("Apply-job")]
+        public async Task<IActionResult> CreateCandidateJob(VMCandidateJob vMCandidateJob)
         {
             try
             {
-                var create = await _repo.CreateJob(vMJob);
+                var create = await _repo.ApplyJob(vMCandidateJob);
                 return Ok(create);
             }
             catch (Exception ex)
@@ -39,12 +39,12 @@ namespace FindJobsProject.Controllers
             }
 
         }
-        [HttpGet("get-list-Job")]
-        public async Task<IActionResult> GetListJob(int PageIndex , int PageSize)
+        [HttpGet("get-list-CandidateJob")]
+        public async Task<IActionResult> GetListCandidate(int PageIndex , int PageSize , Guid Id)
         {
             try
             {
-                var getList = await _repo.GetListJob(PageIndex,PageSize);
+                var getList = await _repo.GetListCandidate(PageIndex,PageSize,Id);
                 return Ok(getList);
             }
             catch (Exception ex)
@@ -55,27 +55,12 @@ namespace FindJobsProject.Controllers
 
         }
         
-        [HttpPut("update-Job")]
-        public async Task<IActionResult> UpdateJob(VMUpdateJob vMUpdateJob)
+        [HttpPut("update-CandidateJob")]
+        public async Task<IActionResult> UpdateCandidate(VMUpdateCandidateJob vMUpdateCandidateJob)
         {
             try
             {
-                var getList = await _repo.UpdateJob(vMUpdateJob);
-                return Ok(getList);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.InnerException);
-            }
-
-        } 
-        [HttpDelete("delete-Job")]
-        public async Task<IActionResult> DeleteJob(VMDeleteJob vMDeleteJob)
-        {
-            try
-            {
-                var getList = await _repo.DeleteJob(vMDeleteJob);
+                var getList = await _repo.UpdateCandidate(vMUpdateCandidateJob);
                 return Ok(getList);
             }
             catch (Exception ex)

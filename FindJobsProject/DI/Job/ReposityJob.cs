@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -86,7 +87,7 @@ namespace FindJobsProject.DI
     }
 
 
-        public async Task<IEnumerable> GetListJob(int pageIndex, int pageSize)
+        public async Task<PagedResponse<IEnumerable<VMJob>>> GetListJob(int pageIndex, int pageSize)
         {
             var getList = _context.Jobs.AsQueryable();
             var data = getList.Join(_context.recruitmentJob,
@@ -120,7 +121,7 @@ namespace FindJobsProject.DI
 
             var result = PaginatedList<VMJob>.CreatePages(data, pageIndex, pageSize);
             var count = data.Count();
-            return result;
+            return new PagedResponse<IEnumerable<VMJob>>(result, pageIndex, pageSize, count);
 
         }
 
@@ -128,16 +129,30 @@ namespace FindJobsProject.DI
         {
             try
             {
-                var checkId = await _context.Jobs.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
-                var checkIdRecruitment = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
-                if (checkId != null && checkIdRecruitment != null)
+                var checkIdJob = await _context.Jobs.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
+                var checkIdRecruitmentJob = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
+                if (checkIdJob != null)
                 {
-                    checkId.Name = vMUpdateJob.Name;
-                    checkIdRecruitment.IsActive = vMUpdateJob.IsActive;
-                    checkIdRecruitment.UpdatedOn = DateTimeOffset.UtcNow;    
-
-                    await _context.SaveChangesAsync();
+                   //_context.Entry(checkIdJob).CurrentValues.SetValues(vMUpdateJob);          
+                    checkIdJob.Name = vMUpdateJob.Name;
+                    checkIdJob.CompanyOfJobs = vMUpdateJob.CompanyOfJobs;
+                    checkIdJob.Position = vMUpdateJob.Position;
+                    checkIdJob.JobImage = vMUpdateJob.JobImage;
+                    checkIdJob.JobDetail = vMUpdateJob.JobDetail;
+                    checkIdJob.Amount = vMUpdateJob.Amount;
+                    checkIdJob.Experience = vMUpdateJob.Experience;
+                    checkIdJob.SalaryMin = vMUpdateJob.SalaryMin;
+                    checkIdJob.SalaryMax = vMUpdateJob.SalaryMax;
+                    checkIdJob.WorkTime = vMUpdateJob.WorkTime;
+                    checkIdJob.Address = vMUpdateJob.Address;
+                    checkIdJob.DateExpire = vMUpdateJob.DateExpire;
+                    checkIdJob.UpdatedOn = DateTimeOffset.UtcNow;
                 }
+                if (checkIdRecruitmentJob != null) {
+                    checkIdRecruitmentJob.IsActive = vMUpdateJob.IsActive;
+                    checkIdRecruitmentJob.UpdatedOn = DateTimeOffset.UtcNow;
+                }
+                await _context.SaveChangesAsync();
                 return new Respone
                 {
                     Ok = "Success"
@@ -152,19 +167,28 @@ namespace FindJobsProject.DI
             
         }
 
-        public async Task<Respone> DeteleJob(VMDeleteJob vMDeleteJob)
+        public async Task<Respone> DeleteJob(VMDeleteJob vMDeleteJob)
         {
-            //var checkId = await _context.Jobs.SingleOrDefaultAsync(x => x.IdJob == vMDeteleJob.IdJob);
-            //if (checkId != null)
-            //{
-            //    _context.Jobs.Remove(checkId);
-            //    await _context.SaveChangesAsync();
-            //}
-            //return new Respone
-            //{
-            //    Ok = "Success"
-            //};
-            return null;
+            try
+            {
+                var checkId = await _context.Jobs.SingleOrDefaultAsync(x => x.IdJob == vMDeleteJob.IdJob);
+                var checkIdRecruitmentJob = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdJob == vMDeleteJob.IdJob);
+                if (checkId != null)
+                {
+                    _context.Jobs.Remove(checkId);
+                    await _context.SaveChangesAsync();
+                }
+                return new Respone
+                {
+                    Ok = "Success"
+                };
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+      
         }
     }
 }

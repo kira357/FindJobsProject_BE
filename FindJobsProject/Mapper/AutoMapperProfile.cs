@@ -23,6 +23,13 @@ namespace FindJobsProject.Mapper
 
             //RecruitmentJob
             CreateMap<VMRecruitmentJob, RecruitmentJob>();
+        
+
+            //Candidate Job 
+             CreateMap<VMGetCandidateJob, CandidateJob>();
+             CreateMap<VMCandidateJob, CandidateJob>();
+             CreateMap<VMUpdateCandidateJob, CandidateJob>();
+             CreateMap<VMDeleteCandidateJob, CandidateJob>();
         }
     }
 }

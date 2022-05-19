@@ -32,7 +32,7 @@ namespace FindJobsProject.Database
         public DbSet<RecruitmentJob> recruitmentJob { get; set; }
 
         public DbSet<Job> Jobs { get; set; }
-        public DbSet<CandidateJob> JobCandidates { get; set; }
+        public DbSet<CandidateJob> CandidateJobs { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Major> Majors { get; set; }
         

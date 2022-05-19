@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -59,7 +60,7 @@ namespace FindJobsProject.DI
         }
 
 
-        public async Task<IEnumerable> GetListMajor(int IndexPage, int PageSize)
+        public async Task<PagedResponse<IEnumerable<Major>>> GetListMajor(int IndexPage, int PageSize)
         {
             var getList =  _context.Majors.AsQueryable();
             var data = await getList.Select(x => new VMMajor
@@ -72,7 +73,7 @@ namespace FindJobsProject.DI
             }).ToListAsync();
             var result = PaginatedList<Major>.CreatePages(getList, IndexPage, PageSize);
             var count = data.Count();
-            return result;
+            return new PagedResponse<IEnumerable<Major>>(result, IndexPage, PageSize , count);
 
         }
 

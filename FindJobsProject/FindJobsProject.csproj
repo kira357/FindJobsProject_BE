@@ -5,17 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DI\Candidate\**" />
-    <Compile Remove="DI\Recruiment\**" />
-    <Content Remove="DI\Candidate\**" />
-    <Content Remove="DI\Recruiment\**" />
-    <EmbeddedResource Remove="DI\Candidate\**" />
-    <EmbeddedResource Remove="DI\Recruiment\**" />
-    <None Remove="DI\Candidate\**" />
-    <None Remove="DI\Recruiment\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="Migrations\20220509162315_init1.cs" />
     <Compile Remove="Migrations\20220509162315_init1.Designer.cs" />
     <Compile Remove="Migrations\20220509162926_init1.cs" />
@@ -50,6 +39,14 @@
     <Compile Remove="Migrations\20220518165436_initDatabase.Designer.cs" />
     <Compile Remove="Migrations\20220518165800_initDatabase.cs" />
     <Compile Remove="Migrations\20220518165800_initDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220518170150_initDatabase.cs" />
+    <Compile Remove="Migrations\20220518170150_initDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220519080642_test1.cs" />
+    <Compile Remove="Migrations\20220519080642_test1.Designer.cs" />
+    <Compile Remove="Migrations\20220519080823_test2.cs" />
+    <Compile Remove="Migrations\20220519080823_test2.Designer.cs" />
+    <Compile Remove="Migrations\20220519080937_test3.cs" />
+    <Compile Remove="Migrations\20220519080937_test3.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +69,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DI\Recruiment\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

@@ -18,12 +18,16 @@ namespace FindJobsProject.Data.Configurations
             builder.ToTable("RecruitmentJob")
             .HasOne<AppUser>(sc => sc.Recruitments)
             .WithMany(s => s.RecruitmentJobTable)
-            .HasForeignKey(sc => sc.IdRecruitment);
+            .HasForeignKey(sc => sc.IdRecruitment)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
 
             builder.ToTable("RecruitmentJob")
                 .HasOne<Job>(sc => sc.Jobs)
                 .WithMany(s => s.RecruitmentJobTable)
-                .HasForeignKey(sc => sc.IdJob);
+                .HasForeignKey(sc => sc.IdJob)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

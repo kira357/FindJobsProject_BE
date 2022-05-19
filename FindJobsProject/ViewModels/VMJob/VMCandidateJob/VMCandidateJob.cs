@@ -12,10 +12,11 @@ namespace FindJobsProject.ViewModels.VMJob
 
         public Guid IdCandicate { get; set; }
 
-        public Guid RecruitmentId { get; set; }
+        public Guid IdRecruitment { get; set; }
         public string Introduction { get; set; }
 
         public string Resume { get; set; }
+        public bool IsActive { get; set; }
 
         public DateTimeOffset DateApply { get; set; }  
 

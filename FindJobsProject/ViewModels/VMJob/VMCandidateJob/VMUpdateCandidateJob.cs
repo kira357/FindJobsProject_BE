@@ -1,24 +1,25 @@
-﻿using FindJobsProject.Database.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace FindJobsProject.Data.Entities
+namespace FindJobsProject.ViewModels.VMJob
 {
-    public class CandidateJob
+    public class VMUpdateCandidateJob
     {
-        public Guid IdCandicate { get; set; }
-        public AppUser Candicate { get; set; }
         public Guid IdJob { get; set; }
-        public Job Job { get; set; }
+
+        public Guid IdCandicate { get; set; }
+
         public Guid IdRecruitment { get; set; }
         public string Introduction { get; set; }
+
         public string Resume { get; set; }
         public bool IsActive { get; set; }
-        public DateTimeOffset DateApply { get; set; }
+        public DateTimeOffset DateApply { get; set; }  
+
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset? UpdatedOn { get; set; }
-
     }
 }
