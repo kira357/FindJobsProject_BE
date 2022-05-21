@@ -4,6 +4,7 @@ using FindJobsProject.Database.Entities;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMMajor;
+using FindJobsProject.ViewModels.VMUser;
 
 namespace FindJobsProject.Mapper
 {
@@ -14,6 +15,15 @@ namespace FindJobsProject.Mapper
             // User and role 
             CreateMap<VMUserRegister, AppUser>();
             CreateMap<VMRole, AppRole>();
+            CreateMap<VMUpdateRole, AppRole>();
+            CreateMap<VMDeleteRole, AppRole>();
+            CreateMap<VMUserRole, AppUserRole>();
+
+            //User 
+            CreateMap<VMCreateUser, AppUser>();
+            CreateMap<VMUserUpdate, AppUser>();
+            CreateMap<VMUserDelete, AppUser>();
+            CreateMap<VMGetUser, AppUser>();
 
             // Major 
             CreateMap<VMMajor, Major>();

@@ -21,7 +21,9 @@ namespace FindJobsProject.ViewModels
        public string PhoneNumber { get; set; }
        public string Major { get; set; }
        public string Gender { get; set; }
-       
+
+        public bool? IsActive { get; set; }
+
         public string Address { get; set; }
 
     }

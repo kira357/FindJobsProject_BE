@@ -60,7 +60,7 @@ namespace FindJobsProject.DI
                     Address = vMJob.Address,
                     DateExpire = vMJob.DateExpire,
                     JobDetail = vMJob.JobDetail,
-                    CreatedOn = DateTimeOffset.UtcNow,     
+                    CreatedOn = DateTimeOffset.UtcNow.Date,     
                 };
 
                 var jobsMaps = _mapper.Map<Job>(vMJob);
@@ -146,11 +146,11 @@ namespace FindJobsProject.DI
                     checkIdJob.WorkTime = vMUpdateJob.WorkTime;
                     checkIdJob.Address = vMUpdateJob.Address;
                     checkIdJob.DateExpire = vMUpdateJob.DateExpire;
-                    checkIdJob.UpdatedOn = DateTimeOffset.UtcNow;
+                    checkIdJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
                 }
                 if (checkIdRecruitmentJob != null) {
                     checkIdRecruitmentJob.IsActive = vMUpdateJob.IsActive;
-                    checkIdRecruitmentJob.UpdatedOn = DateTimeOffset.UtcNow;
+                    checkIdRecruitmentJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
                 }
                 await _context.SaveChangesAsync();
                 return new Respone
@@ -175,6 +175,7 @@ namespace FindJobsProject.DI
                 var checkIdRecruitmentJob = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdJob == vMDeleteJob.IdJob);
                 if (checkId != null)
                 {
+                    _context.recruitmentJob.Remove(checkIdRecruitmentJob);
                     _context.Jobs.Remove(checkId);
                     await _context.SaveChangesAsync();
                 }

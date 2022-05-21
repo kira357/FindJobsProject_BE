@@ -1,6 +1,7 @@
 ﻿using FindJobsProject.DI;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
+using FindJobsProject.ViewModels.ConfigPagination;
 using FindJobsProject.ViewModels.VMMajor;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,7 +25,7 @@ namespace FindJobsProject.Controllers
             _repo = repo;
         }
 
-        [HttpPost("create-Role")]
+        [HttpPost("create-role")]
         public async Task<IActionResult> CreateRole(VMRole vMRole)
         {
             try
@@ -39,12 +40,12 @@ namespace FindJobsProject.Controllers
             }
 
         }
-        [HttpGet("getlist-Role")]
-        public async Task<IActionResult> GetListRole(int IndexPage, int PageSize)
+        [HttpGet("getlist-role")]
+        public async Task<IActionResult> GetListRole([FromQuery] PaginationFilter filter)
         {
             try
             {
-                var create = await _repo.GetListRole(IndexPage ,PageSize);
+                var create = await _repo.GetListRole(filter);
                 return Ok(create);
             }
             catch (Exception ex)
@@ -54,7 +55,7 @@ namespace FindJobsProject.Controllers
             }
 
         }
-        [HttpPut("update-Role")]
+        [HttpPut("update-role")]
         public async Task<IActionResult> UpdateRole(VMUpdateRole vMUpdateRole)
         {
             try
@@ -69,7 +70,7 @@ namespace FindJobsProject.Controllers
             }
 
         } 
-        [HttpDelete("detele-Role")]
+        [HttpDelete("detele-role")]
         public async Task<IActionResult> DeleteRole(VMDeleteRole vMRole)
         {
             try

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,8 +40,14 @@ namespace FindJobsProject.DI
         {
             try
             {
+                vMRole = new VMRole
+                {
+                    Name = vMRole.Name,
+                    NormalizedName = vMRole.Name.ToUpper(),
+                    Description = vMRole.Description,
+                };
                 var user = _mapper.Map<AppRole>(vMRole);
-                var createRole = await _context.Roles.AddAsync(user);
+                var createRole = await _context.AppRoles.AddAsync(user);
 
                 await _context.SaveChangesAsync();
 
@@ -58,7 +65,7 @@ namespace FindJobsProject.DI
         }
 
 
-        public async Task<IEnumerable> GetListRole(int IndexPage, int PageSize)
+        public async Task<PagedResponse<IEnumerable<AppRole>>> GetListRole(PaginationFilter filter)
         {
             var getList =  _context.Roles.AsQueryable();
             var data = await getList.Select(x => new VMRole
@@ -68,9 +75,10 @@ namespace FindJobsProject.DI
                 Description = x.Description,
 
             }).ToListAsync();
-            var result = PaginatedList<AppRole>.CreatePages(getList, IndexPage, PageSize);
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<AppRole>.CreatePages(getList, validFilter.IndexPage, validFilter.PageSize);
             var count = data.Count();
-            return result;
+            return new PagedResponse<IEnumerable<AppRole>>(result, validFilter.IndexPage, validFilter.PageSize, count); ;
 
         }
 
@@ -80,6 +88,7 @@ namespace FindJobsProject.DI
             if (checkId != null)
             {
                 checkId.Name = vMUpdateRole.Name;
+                checkId.NormalizedName = checkId.Name.ToUpper();
                 checkId.Description = vMUpdateRole.Description;
 
                await _context.SaveChangesAsync();

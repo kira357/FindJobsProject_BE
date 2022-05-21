@@ -5,6 +5,7 @@ namespace FindJobsProject.ViewModels.VMUser
 {
     public class VMGetUser
     {
+        public Guid Id { get; set; }
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -24,6 +25,6 @@ namespace FindJobsProject.ViewModels.VMUser
 
         public string Description { get; set; }
 
-        public string IsActive { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

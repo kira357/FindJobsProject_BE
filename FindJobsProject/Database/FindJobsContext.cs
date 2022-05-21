@@ -24,6 +24,7 @@ namespace FindJobsProject.Database
 
         public DbSet<AppRole> AppRoles { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<AppUserRole> AppUserRoles { get; set; }
         //public DbSet<Employees> employees { get; set; }
         //public DbSet<Company> companies { get; set; }
         //public DbSet<CompanyJobs> companyJobs { get; set; }

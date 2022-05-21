@@ -49,6 +49,8 @@
     <Compile Remove="Migrations\20220519080937_test3.Designer.cs" />
     <Compile Remove="Migrations\20220519135645_initDatabase.cs" />
     <Compile Remove="Migrations\20220519135645_initDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220521084929_updateUser.cs" />
+    <Compile Remove="Migrations\20220521084929_updateUser.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

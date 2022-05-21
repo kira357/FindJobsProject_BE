@@ -2,6 +2,7 @@
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
+using FindJobsProject.ViewModels.VMUser;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -24,41 +25,13 @@ namespace FindJobsProject.Controllers
             _repo = repo;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(VMUserRegister vMUserRegister)
-        {
-            try
-            {
-                var create = await _repo.RegisterUser(vMUserRegister);
-                return Ok(create);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.InnerException);
-            }
-
-        }
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(VMUserLogin vMUserLogin)
-        {
-            try
-            {
-                var login = await _repo.LoginUser(vMUserLogin);
-                return Ok(login);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.InnerException);
-            }
-        }
+       
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter)
         {
             try
             {
-                var getAll = await _repo.GetAllAcc(filter);
+                var getAll = await _repo.GetAllAcc(filter , Request);
                 return Ok(getAll);
             }
             catch (Exception ex)
@@ -84,7 +57,7 @@ namespace FindJobsProject.Controllers
             }
         } 
         [HttpPost("create-user")]
-        public async Task<IActionResult> CreateUser(VMUserRegister vMUserRegister)
+        public async Task<IActionResult> CreateUser(VMCreateUser vMUserRegister)
         {
             try
             {
@@ -97,12 +70,12 @@ namespace FindJobsProject.Controllers
                 return BadRequest(ex.InnerException);
             }
         } 
-        [HttpPost("adduserrole")]
-        public async Task<IActionResult> AddUserToRole(VMUserRegister user , string role)
+        [HttpPut("update-user")]
+        public async Task<IActionResult> UpdateUser(VMUserUpdate user)
         {
             try
             {
-                var defaultRole = await _repo.AddUserToRole(user,role);
+               var defaultRole = await _repo.UpdateUser(user);
                 return Ok(defaultRole);
             }
             catch (Exception ex)
@@ -110,7 +83,8 @@ namespace FindJobsProject.Controllers
 
                 return BadRequest(ex.InnerException);
             }
-        }
+        } 
+        
 
 
 

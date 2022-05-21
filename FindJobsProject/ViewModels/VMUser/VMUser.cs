@@ -1,13 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 
-namespace FindJobsProject.ViewModels
+namespace FindJobsProject.ViewModels.VMUser
 {
-    public class VMUserUpdate
+    public class VMUser
     {
         public Guid Id { get; set; }
         public string Email { get; set; }
@@ -23,14 +18,9 @@ namespace FindJobsProject.ViewModels
         public string RoleName { get; set; }
         public string PhoneNumber { get; set; }
         public long? IdMajor { get; set; }
-        public string NameMajor { get; set; }
-        [NotMapped]
-        public IFormFile imageFile { get; set; }
-        public string UrlAvatar { get; set; }
         public string Gender { get; set; }
 
         public string Address { get; set; }
-
         public bool? IsActive { get; set; }
     }
 }
