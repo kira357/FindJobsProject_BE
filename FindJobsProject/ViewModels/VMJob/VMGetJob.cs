@@ -1,19 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FindJobsProject.ViewModels.VMJob
 {
-    public class VMJob
+    public class VMGetJob
     {
         public Guid IdJob { get; set; }
 
         [NotMapped]
         public Guid IdRecruitment { get; set; }
+
+        public string RecruitmentName { get; set; }
 
         public string? CompanyOfJobs { get; set; }
 
@@ -27,8 +24,6 @@ namespace FindJobsProject.ViewModels.VMJob
 
         public int Amount { get; set; }
 
-        [NotMapped]
-        public IFormFile imageFile { get; set; }
         public string Experience { get; set; }
 
         public decimal SalaryMin { get; set; }
@@ -42,10 +37,9 @@ namespace FindJobsProject.ViewModels.VMJob
 
         public bool IsActive { get; set; }
 
-        public DateTimeOffset DateExpire { get; set; }  
+        public DateTimeOffset DateExpire { get; set; }
 
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset? UpdatedOn { get; set; }
-
     }
 }

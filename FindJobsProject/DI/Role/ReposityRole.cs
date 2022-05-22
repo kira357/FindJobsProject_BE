@@ -42,8 +42,8 @@ namespace FindJobsProject.DI
             {
                 vMRole = new VMRole
                 {
-                    Name = vMRole.Name,
-                    NormalizedName = vMRole.Name.ToUpper(),
+                    Name = vMRole.Name.Trim(),
+                    NormalizedName = vMRole.Name.ToUpper().Trim(),
                     Description = vMRole.Description,
                 };
                 var user = _mapper.Map<AppRole>(vMRole);

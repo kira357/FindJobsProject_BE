@@ -13,6 +13,9 @@ namespace FindJobsProject.Models
         public bool Active { get; set; }
         public string Token { get; set; }
         public string Expire { get; set; }
+        public string Id { get; set; }
+        public string UserName { get; set; }
+        public string RoleName { get; set; }
 
         public List<VMCompany> dataCompany { get; set; }
         public int pageIndex { get; set; }

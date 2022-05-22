@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FindJobsProject.Controllers
 {
-    
+
 
     [Route("api/[controller]")]
     [ApiController]
@@ -25,13 +25,13 @@ namespace FindJobsProject.Controllers
             _repo = repo;
         }
 
-       
+
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter)
         {
             try
             {
-                var getAll = await _repo.GetAllAcc(filter , Request);
+                var getAll = await _repo.GetAllAcc(filter, Request);
                 return Ok(getAll);
             }
             catch (Exception ex)
@@ -55,7 +55,7 @@ namespace FindJobsProject.Controllers
 
                 return BadRequest(ex.InnerException);
             }
-        } 
+        }
         [HttpPost("create-user")]
         public async Task<IActionResult> CreateUser(VMCreateUser vMUserRegister)
         {
@@ -69,13 +69,28 @@ namespace FindJobsProject.Controllers
 
                 return BadRequest(ex.InnerException);
             }
-        } 
-        [HttpPut("update-user")]
-        public async Task<IActionResult> UpdateUser(VMUserUpdate user)
+        }
+        [HttpPut("update-user/{Id}")]
+        public async Task<IActionResult> UpdateUser(VMUserUpdate user , Guid Id)
         {
             try
             {
-               var defaultRole = await _repo.UpdateUser(user);
+               var defaultRole = await _repo.UpdateUser(user,Id);
+                return Ok(defaultRole);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+        }  
+        
+        [HttpDelete("delete-user/{Id}")]
+        public async Task<IActionResult> DeleteUser(VMUserDelete user , Guid Id)
+        {
+            try
+            {
+               var defaultRole = await _repo.DeleteUser(user,Id);
                 return Ok(defaultRole);
             }
             catch (Exception ex)

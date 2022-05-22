@@ -59,10 +59,18 @@ namespace FindJobsProject.DI
                     var check2 = await _signInManager.PasswordSignInAsync(check.UserName.Trim(), vMUserLogin.Password.Trim(), true, false);
                     if (check2.Succeeded)
                     {
-                            return new Respone
+                        var userId = await _userManager.GetUserIdAsync(check);
+                        var checkRoleId = await _context.UserRoles.FirstOrDefaultAsync(x => x.UserId == check.Id);
+                        var getRole = await _context.AppRoles.FirstOrDefaultAsync(x => x.Id == checkRoleId.RoleId);
+                        
+                        return new Respone
                             {
-                                Ok = "Member",
-                                Active = true
+                                Ok = "Success",
+                                Active = true,
+                                Token = "",
+                                Id = userId,
+                                RoleName = getRole.Name,
+                                UserName =check.FullName
 
                             };
 
@@ -87,31 +95,34 @@ namespace FindJobsProject.DI
             var check = _userManager.Users.SingleOrDefault(x => x.Email.Trim() == vMUserRegister.Email.Trim());
             try
             {
-                        vMUserRegister = new VMUserRegister
-                        {
-                            LastName = vMUserRegister.LastName,
-                            FirstName = vMUserRegister.FirstName,
-                            Gender = vMUserRegister.Gender,
-                            Email = vMUserRegister.Email,
-                            Major = vMUserRegister.Major,
-                            Password = vMUserRegister.Password,
-                            RoleName = "memeber",
-                            Address = vMUserRegister.Address,
-                            UserName = vMUserRegister.Email,
-                            FullName= vMUserRegister.LastName + vMUserRegister.FirstName,
-                        };
-                        var user = _mapper.Map<AppUser>(vMUserRegister);
-                        var CreateAccount = await _userManager.CreateAsync(user, vMUserRegister.Password);
-                        if (CreateAccount.Succeeded)
-                        {
+                if(check == null)
+                {
+                    vMUserRegister = new VMUserRegister
+                    {
+                        LastName = vMUserRegister.LastName,
+                        FirstName = vMUserRegister.FirstName,
+                        Email = vMUserRegister.Email,
+                        Password = vMUserRegister.Password,
+                        RoleName = "Student",
+                        UserName = vMUserRegister.UserName,
+                        FullName = vMUserRegister.LastName + vMUserRegister.FirstName,
+                        IsActive = true,
+                    };
+                    var user = _mapper.Map<AppUser>(vMUserRegister);
+                    var CreateAccount = await _userManager.CreateAsync(user, vMUserRegister.Password);
+                    if (CreateAccount.Succeeded)
+                    {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        //var addUserRole = await AddUserToRole(vMUserRegister, vMUserRegister.RoleName);
-                        return new Respone { Ok = "Success" };
+                        var roleExist = await _roleManager.RoleExistsAsync("Student");
+                        if (roleExist)
+                        {
+                            var createRole = await _userManager.AddToRoleAsync(user, "Student");
                         }
-                     
+                        return new Respone { Ok = "Success" };
+                    }
+                }
                     return new Respone { Fail = "Fail" };
-               
-                 
+                                   
             }
             catch (Exception ex)
             {

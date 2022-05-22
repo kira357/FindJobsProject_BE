@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,11 +14,13 @@ namespace FindJobsProject.ViewModels.VMJob
         public Guid IdRecruitment { get; set; }
         public string? CompanyOfJobs { get; set; }
         public string Name { get; set; }
-        public long? MajorId { get; set; }
+        public long? IdMajor { get; set; }
         public string? Position { get; set; }
         public string JobImage { get; set; }
         public string JobDetail { get; set; }
 
+        [NotMapped]
+        public IFormFile imageFile { get; set; }
         public int Amount { get; set; }
 
         public string Experience { get; set; }

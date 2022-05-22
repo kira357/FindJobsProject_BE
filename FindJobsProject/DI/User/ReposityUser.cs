@@ -101,7 +101,7 @@ namespace FindJobsProject.DI
         public async Task<PagedResponse<IEnumerable<VMGetUser>>> GetAllAcc(PaginationFilter filter , HttpRequest request)
         {
             var getList =  _userManager.Users.AsQueryable();
-            var data =  getList.Join(_context.UserRoles,
+            var data = getList.Join(_context.UserRoles,
                                     idUser => idUser.Id,
                                     idRole => idRole.UserId,
                                     (idUser, idRole) => new { idUser, idRole })
@@ -126,12 +126,11 @@ namespace FindJobsProject.DI
                                         IsActive = userrole.idUser.IsActive
                                     });
 
-    
             var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
             var result = PaginatedList<VMGetUser>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
             var count = data.Count();
 
-            return new PagedResponse<IEnumerable<VMGetUser>>(result, validFilter.IndexPage, validFilter.PageSize, count); ;
+            return new PagedResponse<IEnumerable<VMGetUser>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
 
       
@@ -144,9 +143,9 @@ namespace FindJobsProject.DI
             {
                 vMUserRegister = new VMCreateUser
                 {
-                    LastName = vMUserRegister.LastName,
-                    FirstName = vMUserRegister.FirstName,
-                    UserName = vMUserRegister.Email,
+                    LastName = vMUserRegister.LastName.Trim(),
+                    FirstName = vMUserRegister.FirstName.Trim(),
+                    UserName = vMUserRegister.UserName,
                     FullName = vMUserRegister.LastName +" "+ vMUserRegister.FirstName,
                     Gender = vMUserRegister.Gender,
                     Email = vMUserRegister.Email,
@@ -178,18 +177,18 @@ namespace FindJobsProject.DI
             }
         }
 
-        public async Task<Respone> UpdateUser(VMUserUpdate vMUserUpdate)
+        public async Task<Respone> UpdateUser(VMUserUpdate vMUserUpdate , Guid Id)
         {
             //MediaFile mediaFile = new MediaFile();
             //vMUserUpdate.UrlAvatar = await mediaFile.SaveFile(vMUserUpdate.imageFile, _webHostEnvironment);
-            var check = _userManager.Users.SingleOrDefault(x => x.Id == vMUserUpdate.Id);
+            var check = await _userManager.Users.SingleOrDefaultAsync(x => x.Id == Id);
             var getRole = _roleManager.FindByNameAsync(vMUserUpdate.RoleName);
 
             try
             {
-                    check.LastName = vMUserUpdate.LastName;
-                    check.FirstName = vMUserUpdate.FirstName;
-                    check.UserName = vMUserUpdate.Email;
+                    check.LastName = vMUserUpdate.LastName.Trim();
+                    check.FirstName = vMUserUpdate.FirstName.Trim();
+                    check.UserName = vMUserUpdate.UserName;
                     check.FullName = vMUserUpdate.LastName +" "+ vMUserUpdate.FirstName;
                     check.Gender = vMUserUpdate.Gender;
                     check.Email = vMUserUpdate.Email;
@@ -204,7 +203,7 @@ namespace FindJobsProject.DI
                 var CreateAccount = await _userManager.UpdateAsync(user);
                 if (CreateAccount.Succeeded)
                 {
-                    var checkGetRole = _context.UserRoles.SingleOrDefault(x => x.UserId == user.Id);
+                    var checkGetRole = await _context.UserRoles.SingleOrDefaultAsync(x => x.UserId == user.Id);
                     if(checkGetRole != null)
                     {
                         _context.UserRoles.Remove(checkGetRole);
@@ -239,12 +238,12 @@ namespace FindJobsProject.DI
             }
         }
         
-        public async Task<Respone> DeleteUser(VMUserDelete vMUserDelete)
+        public async Task<Respone> DeleteUser(VMUserDelete vMUserDelete , Guid Id)
         {
 
-            var check = _userManager.Users.SingleOrDefault(x => x.Id == vMUserDelete.Id);
-            var checkGetRole = _context.UserRoles.SingleOrDefault(x => x.UserId == vMUserDelete.Id);
-            var chechGetJob = _context.recruitmentJob.SingleOrDefault(x => x.IdRecruitment == vMUserDelete.Id);
+            var check = _userManager.Users.SingleOrDefault(x => x.Id == Id);
+            var checkGetRole = _context.UserRoles.SingleOrDefault(x => x.UserId == Id);
+            var checkGetJob = _context.recruitmentJob.SingleOrDefault(x => x.IdRecruitment == Id);
             try
             {
                  if(check != null)
@@ -253,9 +252,9 @@ namespace FindJobsProject.DI
                     var remove = await _userManager.DeleteAsync(user);
                     if (remove.Succeeded)
                     {
-                        if(checkGetRole  != null)
+                        if(checkGetJob != null)
                         {
-                            _context.recruitmentJob.Remove(chechGetJob);
+                            _context.recruitmentJob.Remove(checkGetJob);
                         }
                         if (checkGetRole != null)
                         {
@@ -264,6 +263,7 @@ namespace FindJobsProject.DI
                         await _context.SaveChangesAsync();
                         return new Respone { Ok = "Success" };
                     }
+                    return new Respone { Ok = "Success" };
                 }
 
                 return new Respone { Fail = "Fail" };

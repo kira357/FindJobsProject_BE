@@ -1,6 +1,7 @@
 ﻿using FindJobsProject.DI;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
+using FindJobsProject.ViewModels.ConfigPagination;
 using FindJobsProject.ViewModels.VMJob;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,8 +25,8 @@ namespace FindJobsProject.Controllers
             _repo = repo;
         }
 
-        [HttpPost("create-Job")]
-        public async Task<IActionResult> CreateJob(VMJob vMJob)
+        [HttpPost("create-Job")] 
+        public async Task<IActionResult> CreateJob([FromForm]VMJob vMJob)
         {
             try
             {
@@ -39,12 +40,12 @@ namespace FindJobsProject.Controllers
             }
 
         }
-        [HttpGet("get-list-Job")]
-        public async Task<IActionResult> GetListJob(int PageIndex , int PageSize)
+        [HttpGet("getlist-Job")]
+        public async Task<IActionResult> GetListJob([FromQuery] PaginationFilter filter)
         {
             try
             {
-                var getList = await _repo.GetListJob(PageIndex,PageSize);
+                var getList = await _repo.GetListJob(filter, Request);
                 return Ok(getList);
             }
             catch (Exception ex)
@@ -56,7 +57,7 @@ namespace FindJobsProject.Controllers
         }
         
         [HttpPut("update-Job")]
-        public async Task<IActionResult> UpdateJob(VMUpdateJob vMUpdateJob)
+        public async Task<IActionResult> UpdateJob([FromForm]VMUpdateJob vMUpdateJob)
         {
             try
             {

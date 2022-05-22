@@ -2,11 +2,14 @@
 using FindJobsProject.Data.Entities;
 using FindJobsProject.Database;
 using FindJobsProject.Database.Entities;
+using FindJobsProject.Helper;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
 using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMMajor;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,21 +28,26 @@ namespace FindJobsProject.DI
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         public ReposityJob(IMapper mapper,
                             UserManager<AppUser> userManager,
                             RoleManager<AppRole> roleManager,
                             SignInManager<AppUser> signInManager,
-                            FindJobsContext context)
+                            FindJobsContext context ,
+                             IWebHostEnvironment webHostEnvironment)
         {
             _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<Respone> CreateJob(VMJob vMJob)
+        public async Task<Respone> CreateJob( VMJob vMJob)
         {
+            MediaFile mediaFile = new MediaFile();
+            var image = await mediaFile.SaveFile(vMJob.imageFile, _webHostEnvironment);
             try
             {
                 var id = Guid.NewGuid();
@@ -47,11 +55,11 @@ namespace FindJobsProject.DI
                 {
                     IdRecruitment = vMJob.IdRecruitment,
                     IdJob = id,
-                    JobImage = vMJob.JobImage,
+                    JobImage = image,
                     Name = vMJob.Name,
                     CompanyOfJobs = vMJob.CompanyOfJobs,
                     Position = vMJob.Position,
-                    MajorId = vMJob.MajorId,
+                    idMajor = vMJob.idMajor,
                     Amount = vMJob.Amount,
                     Experience = vMJob.Experience,
                     WorkTime = vMJob.WorkTime,
@@ -87,7 +95,7 @@ namespace FindJobsProject.DI
     }
 
 
-        public async Task<PagedResponse<IEnumerable<VMJob>>> GetListJob(int pageIndex, int pageSize)
+        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetListJob(PaginationFilter filter, HttpRequest request)
         {
             var getList = _context.Jobs.AsQueryable();
             var data = getList.Join(_context.recruitmentJob,
@@ -98,30 +106,32 @@ namespace FindJobsProject.DI
                                     user => user.recruitment.IdRecruitment,
                                     job => job.Id,
                                     (user, job) =>
-                                    new VMJob
+                                    new VMGetJob
                                     {
                                         IdJob = user.recruitment.IdJob,
                                         IdRecruitment = user.recruitment.IdRecruitment,
+                                        RecruitmentName = job.FullName,
                                         CompanyOfJobs = user.job.CompanyOfJobs,
                                         Position = user.job.Position,
                                         Name = user.job.Name,
-                                        JobImage = user.job.JobImage,
+                                        JobImage = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, user.job.JobImage), 
                                         JobDetail = user.job.JobDetail,
                                         Amount = user.job.Amount,
                                         Experience = user.job.Experience,
                                         SalaryMin = user.job.SalaryMin,
                                         SalaryMax = user.job.SalaryMax,
                                         WorkTime = user.job.WorkTime,
+                                        idMajor = user.job.IdMajor,
                                         Address = user.job.Address,
                                         DateExpire = user.job.DateExpire,
                                         IsActive = user.recruitment.IsActive,
                                         CreatedOn = user.job.CreatedOn,
                                         UpdatedOn = user.job.UpdatedOn,
                                     });
-
-            var result = PaginatedList<VMJob>.CreatePages(data, pageIndex, pageSize);
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<VMGetJob>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
             var count = data.Count();
-            return new PagedResponse<IEnumerable<VMJob>>(result, pageIndex, pageSize, count);
+            return new PagedResponse<IEnumerable<VMGetJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
 
         }
 
@@ -131,33 +141,57 @@ namespace FindJobsProject.DI
             {
                 var checkIdJob = await _context.Jobs.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
                 var checkIdRecruitmentJob = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
-                if (checkIdJob != null)
+
+                if (checkIdJob != null && checkIdRecruitmentJob != null)
                 {
-                   //_context.Entry(checkIdJob).CurrentValues.SetValues(vMUpdateJob);          
-                    checkIdJob.Name = vMUpdateJob.Name;
-                    checkIdJob.CompanyOfJobs = vMUpdateJob.CompanyOfJobs;
-                    checkIdJob.Position = vMUpdateJob.Position;
-                    checkIdJob.JobImage = vMUpdateJob.JobImage;
-                    checkIdJob.JobDetail = vMUpdateJob.JobDetail;
-                    checkIdJob.Amount = vMUpdateJob.Amount;
-                    checkIdJob.Experience = vMUpdateJob.Experience;
-                    checkIdJob.SalaryMin = vMUpdateJob.SalaryMin;
-                    checkIdJob.SalaryMax = vMUpdateJob.SalaryMax;
-                    checkIdJob.WorkTime = vMUpdateJob.WorkTime;
-                    checkIdJob.Address = vMUpdateJob.Address;
-                    checkIdJob.DateExpire = vMUpdateJob.DateExpire;
-                    checkIdJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
-                }
-                if (checkIdRecruitmentJob != null) {
+                    if (vMUpdateJob.imageFile != null)
+                    {
+                        MediaFile mediaFile = new MediaFile();
+                        var image = await mediaFile.SaveFile(vMUpdateJob.imageFile, _webHostEnvironment);
+                        checkIdJob.Name = vMUpdateJob.Name;
+                        checkIdJob.CompanyOfJobs = vMUpdateJob.CompanyOfJobs;
+                        checkIdJob.Position = vMUpdateJob.Position;
+                        checkIdJob.JobImage = image;
+                        checkIdJob.JobDetail = vMUpdateJob.JobDetail;
+                        checkIdJob.Amount = vMUpdateJob.Amount;
+                        checkIdJob.Experience = vMUpdateJob.Experience;
+                        checkIdJob.SalaryMin = vMUpdateJob.SalaryMin;
+                        checkIdJob.SalaryMax = vMUpdateJob.SalaryMax;
+                        checkIdJob.WorkTime = vMUpdateJob.WorkTime;
+                        checkIdJob.Address = vMUpdateJob.Address;
+                        checkIdJob.DateExpire = vMUpdateJob.DateExpire;
+                        checkIdJob.IdMajor = vMUpdateJob.IdMajor;
+                        checkIdJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
+                    }
+                    else
+                    {
+                        checkIdJob.Name = vMUpdateJob.Name;
+                        checkIdJob.CompanyOfJobs = vMUpdateJob.CompanyOfJobs;
+                        checkIdJob.Position = vMUpdateJob.Position;
+                        checkIdJob.JobDetail = vMUpdateJob.JobDetail;
+                        checkIdJob.JobImage = vMUpdateJob.JobImage;
+                        checkIdJob.Amount = vMUpdateJob.Amount;
+                        checkIdJob.Experience = vMUpdateJob.Experience;
+                        checkIdJob.SalaryMin = vMUpdateJob.SalaryMin;
+                        checkIdJob.SalaryMax = vMUpdateJob.SalaryMax;
+                        checkIdJob.WorkTime = vMUpdateJob.WorkTime;
+                        checkIdJob.Address = vMUpdateJob.Address;
+                        checkIdJob.DateExpire = vMUpdateJob.DateExpire;
+                        checkIdJob.IdMajor = vMUpdateJob.IdMajor;
+                        checkIdJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
+                    }
                     checkIdRecruitmentJob.IsActive = vMUpdateJob.IsActive;
                     checkIdRecruitmentJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
+                    await _context.SaveChangesAsync();
+                    return new Respone
+                    {
+                        Ok = "Success"
+                    };
                 }
-                await _context.SaveChangesAsync();
                 return new Respone
                 {
-                    Ok = "Success"
+                    Ok = "Fail"
                 };
-
             }
             catch (Exception ex )
             {
