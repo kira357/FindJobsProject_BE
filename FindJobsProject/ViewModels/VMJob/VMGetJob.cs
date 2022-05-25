@@ -17,6 +17,8 @@ namespace FindJobsProject.ViewModels.VMJob
         public string Name { get; set; }
         public long? idMajor { get; set; }
 
+        public string NameMajor { get; set; }
+
         public string? Position { get; set; }
 
         public string JobImage { get; set; }

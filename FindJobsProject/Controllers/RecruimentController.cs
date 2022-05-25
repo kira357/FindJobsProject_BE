@@ -27,12 +27,12 @@ namespace FindJobsProject.Controllers
         }
 
 
-        [HttpGet("getall")]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter , Guid IdRecruiment)
+        [HttpGet("getlist-recruiment/{Id}")]
+        public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter , Guid Id)
         {
             try
             {
-                var getAll = await _repo.GetListRecruiment(filter, Request , IdRecruiment);
+                var getAll = await _repo.GetListRecruiment(filter, Request , Id);
                 return Ok(getAll);
             }
             catch (Exception ex)
@@ -49,6 +49,20 @@ namespace FindJobsProject.Controllers
             try
             {
                var defaultRole = await _repo.UpdateActiveJobs(vMRecruitmentJobs);
+                return Ok(defaultRole);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+        }   
+        [HttpPut("update-active")]
+        public async Task<IActionResult> UpdateActivie(VMUpdateJob vMUpdateJob)
+        {
+            try
+            {
+               var defaultRole = await _repo.ActiveJobs(vMUpdateJob);
                 return Ok(defaultRole);
             }
             catch (Exception ex)

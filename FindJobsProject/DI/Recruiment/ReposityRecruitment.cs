@@ -47,7 +47,7 @@ namespace FindJobsProject.DI
      
 
 
-        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetListRecruiment(PaginationFilter filter, HttpRequest request, Guid IdRecruiment)
+        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetListRecruiment(PaginationFilter filter, HttpRequest request, Guid Id)
         {
             var getList = _context.Jobs.AsQueryable();
             var data = getList.Join(_context.recruitmentJob,
@@ -57,30 +57,35 @@ namespace FindJobsProject.DI
                                .Join(_context.AppUsers,
                                     user => user.recruitment.IdRecruitment,
                                     job => job.Id,
-                                    (user, job) =>
-                                    new VMGetJob
+                                    (user, job) => new { user, job })
+                               .Join(_context.Majors,
+                                    userrole => userrole.user.job.IdMajor,
+                                    major => major.IdMajor,
+                                    (userrole, major) => new VMGetJob
                                     {
-                                        IdJob = user.recruitment.IdJob,
-                                        IdRecruitment = user.recruitment.IdRecruitment,
-                                        RecruitmentName = job.FullName,
-                                        CompanyOfJobs = user.job.CompanyOfJobs,
-                                        Position = user.job.Position,
-                                        Name = user.job.Name,
-                                        JobImage = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, user.job.JobImage),
-                                        JobDetail = user.job.JobDetail,
-                                        Amount = user.job.Amount,
-                                        Experience = user.job.Experience,
-                                        SalaryMin = user.job.SalaryMin,
-                                        SalaryMax = user.job.SalaryMax,
-                                        WorkTime = user.job.WorkTime,
-                                        idMajor = user.job.IdMajor,
-                                        Address = user.job.Address,
-                                        DateExpire = user.job.DateExpire,
-                                        IsActive = user.recruitment.IsActive,
-                                        CreatedOn = user.job.CreatedOn,
-                                        UpdatedOn = user.job.UpdatedOn,
-                                    }).Where(x => x.IdRecruitment == IdRecruiment);
-            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+                                        IdJob = userrole.user.recruitment.IdJob,
+                                        IdRecruitment = userrole.user.recruitment.IdRecruitment,
+                                        RecruitmentName = userrole.job.FullName,
+                                        CompanyOfJobs = userrole.user.job.CompanyOfJobs,
+                                        Position = userrole.user.job.Position,
+                                        Name = userrole.user.job.Name,
+                                        JobImage = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, userrole.user.job.JobImage),
+                                        JobDetail = userrole.user.job.JobDetail,
+                                        Amount = userrole.user.job.Amount,
+                                        Experience = userrole.user.job.Experience,
+                                        SalaryMin = userrole.user.job.SalaryMin,
+                                        SalaryMax = userrole.user.job.SalaryMax,
+                                        WorkTime = userrole.user.job.WorkTime,
+                                        idMajor = userrole.user.job.IdMajor,
+                                        NameMajor = major.Name,
+                                        Address = userrole.user.job.Address,
+                                        DateExpire = userrole.user.job.DateExpire,
+                                        IsActive = userrole.user.recruitment.IsActive,
+                                        CreatedOn = userrole.user.job.CreatedOn,
+                                        UpdatedOn = userrole.user.job.UpdatedOn,
+                                    }).Where(x => x.IdRecruitment == Id);
+
+var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
             var result = PaginatedList<VMGetJob>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
             var count = data.Count();
             return new PagedResponse<IEnumerable<VMGetJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
@@ -214,5 +219,25 @@ namespace FindJobsProject.DI
             }
         }
 
+        public  async Task<Respone> ActiveJobs(VMUpdateJob vMUpdateJob)
+        {
+            try
+            {
+                var check = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
+                if(check != null)
+                {
+                    check.IsActive = vMUpdateJob.IsActive;
+                    check.UpdatedOn = DateTimeOffset.UtcNow.Date;
+                    await _context.SaveChangesAsync();
+                    return new Respone { Ok = "Success", Active = true };
+                }
+                return new Respone { Fail = "Fail", Active = false };
+            }
+            catch (Exception ex)
+            {
+
+                throw ex.InnerException;
+            }
+        }
     }
 }
