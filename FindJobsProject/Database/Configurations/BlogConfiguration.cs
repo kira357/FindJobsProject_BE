@@ -15,7 +15,7 @@ namespace FindJobsProject.Data.Configurations
             builder.ToTable("Blog")
             .HasOne<AppUser>(s => s.UserBlog)
             .WithMany(g => g.UserBlog)
-            .HasForeignKey(s => s.UserId)
+            .HasForeignKey(s => s.IdUser)
             .OnDelete(DeleteBehavior.Cascade);
             
 

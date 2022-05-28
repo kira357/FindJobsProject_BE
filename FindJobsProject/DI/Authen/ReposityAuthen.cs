@@ -40,7 +40,7 @@ namespace FindJobsProject.DI
         public async Task<Respone> LoginUser(VMUserLogin vMUserLogin)
         {
             var admin = new Organization();
-            var check = _userManager.Users.SingleOrDefault(x => x.Email.Trim() == vMUserLogin.Email.Trim());
+            var check = await _userManager.Users.SingleOrDefaultAsync(x => x.Email.Trim() == vMUserLogin.Email.Trim());
             try
             {
                 if (check == null)

@@ -2,6 +2,7 @@
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
+using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMUser;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -98,9 +99,22 @@ namespace FindJobsProject.Controllers
 
                 return BadRequest(ex.InnerException);
             }
-        } 
-        
+        }
 
+        [HttpPut("update-active")]
+        public async Task<IActionResult> UpdateActivie(VMUpdateJob vMUpdateJob)
+        {
+            try
+            {
+                var defaultRole = await _repo.ActiveJobs(vMUpdateJob);
+                return Ok(defaultRole);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+        }
 
 
     }

@@ -2,6 +2,7 @@
 using FindJobsProject.Data.Entities;
 using FindJobsProject.Database.Entities;
 using FindJobsProject.ViewModels;
+using FindJobsProject.ViewModels.VMBlog;
 using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMMajor;
 using FindJobsProject.ViewModels.VMUser;
@@ -30,6 +31,10 @@ namespace FindJobsProject.Mapper
 
             //job 
             CreateMap<VMJob, Job>();
+            //blog 
+            CreateMap<VMCreateBlog, Blog>();
+            CreateMap<VMUpdateBlog, Job>();
+            CreateMap<VMDeleteBlog, Job>();
 
             //RecruitmentJob
             CreateMap<VMRecruitmentJob, RecruitmentJob>();

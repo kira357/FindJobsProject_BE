@@ -2,6 +2,7 @@
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
+using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMUser;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -16,7 +17,7 @@ namespace FindJobsProject.DI
         Task<Respone> CreateUser(VMCreateUser user);
         Task<Respone> UpdateUser(VMUserUpdate user , Guid Id);
         Task<Respone> DeleteUser(VMUserDelete user , Guid Id);
-
+        Task<Respone> ActiveJobs(VMUpdateJob vMUpdateJob);
         Task<Respone> CreateRole(VMRole role);
         Task<PagedResponse<IEnumerable<VMGetUser>>> GetAllAcc(PaginationFilter filter, HttpRequest request);
     }

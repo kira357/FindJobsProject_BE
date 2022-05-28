@@ -57,20 +57,7 @@ namespace FindJobsProject.Controllers
                 return BadRequest(ex.InnerException);
             }
         }   
-        [HttpPut("update-active")]
-        public async Task<IActionResult> UpdateActivie(VMUpdateJob vMUpdateJob)
-        {
-            try
-            {
-               var defaultRole = await _repo.ActiveJobs(vMUpdateJob);
-                return Ok(defaultRole);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.InnerException);
-            }
-        }  
+       
         
         [HttpDelete("delete-recruiment/{Id}")]
         public async Task<IActionResult> DeleteRecruiment(Guid Idjob)

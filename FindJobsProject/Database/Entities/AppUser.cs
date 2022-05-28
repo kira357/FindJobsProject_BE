@@ -31,6 +31,8 @@ namespace FindJobsProject.Database.Entities
             //public ICollection<Job> RecruitmentJob { get; set; }
             public ICollection<Blog> UserBlog { get; set; }
 
+            public ICollection<Comment> UserComment { get; set; }
+            public ICollection<ReplyComment> UserReplyComment { get; set; }
     }
     
 }

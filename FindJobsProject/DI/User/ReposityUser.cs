@@ -6,6 +6,7 @@ using FindJobsProject.Helper;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
+using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMUser;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -269,6 +270,27 @@ namespace FindJobsProject.DI
                 return new Respone { Fail = "Fail" };
 
 
+            }
+            catch (Exception ex)
+            {
+
+                throw ex.InnerException;
+            }
+        }
+
+        public async Task<Respone> ActiveJobs(VMUpdateJob vMUpdateJob)
+        {
+            try
+            {
+                var check = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
+                if (check != null)
+                {
+                    check.IsActive = vMUpdateJob.IsActive;
+                    check.UpdatedOn = DateTimeOffset.UtcNow.Date;
+                    await _context.SaveChangesAsync();
+                    return new Respone { Ok = "Success", Active = true };
+                }
+                return new Respone { Fail = "Fail", Active = false };
             }
             catch (Exception ex)
             {

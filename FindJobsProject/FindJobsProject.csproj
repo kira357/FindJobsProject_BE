@@ -51,6 +51,26 @@
     <Compile Remove="Migrations\20220519135645_initDatabase.Designer.cs" />
     <Compile Remove="Migrations\20220521084929_updateUser.cs" />
     <Compile Remove="Migrations\20220521084929_updateUser.Designer.cs" />
+    <Compile Remove="Migrations\20220528052349_blogCommentAndReply.cs" />
+    <Compile Remove="Migrations\20220528052349_blogCommentAndReply.Designer.cs" />
+    <Compile Remove="Migrations\20220528052907_blogCommentAndReply.cs" />
+    <Compile Remove="Migrations\20220528052907_blogCommentAndReply.Designer.cs" />
+    <Compile Remove="Migrations\20220528053113_blogCommentAndReply.cs" />
+    <Compile Remove="Migrations\20220528053113_blogCommentAndReply.Designer.cs" />
+    <Compile Remove="Migrations\20220528054344_blogCommentAndReply.cs" />
+    <Compile Remove="Migrations\20220528054344_blogCommentAndReply.Designer.cs" />
+    <Compile Remove="Migrations\20220528054743_blogCommentAndReply.cs" />
+    <Compile Remove="Migrations\20220528054743_blogCommentAndReply.Designer.cs" />
+    <Compile Remove="Migrations\20220528055158_blogCommentAndReply.cs" />
+    <Compile Remove="Migrations\20220528055158_blogCommentAndReply.Designer.cs" />
+    <Compile Remove="Migrations\20220528055322_blogCommentAndReply.cs" />
+    <Compile Remove="Migrations\20220528055322_blogCommentAndReply.Designer.cs" />
+    <Compile Remove="Migrations\20220528055715_blogCommentAndReply.cs" />
+    <Compile Remove="Migrations\20220528055715_blogCommentAndReply.Designer.cs" />
+    <Compile Remove="Migrations\20220528055937_blogCommentAndReply.cs" />
+    <Compile Remove="Migrations\20220528055937_blogCommentAndReply.Designer.cs" />
+    <Compile Remove="Migrations\20220528060350_blogCommentAndReply.cs" />
+    <Compile Remove="Migrations\20220528060350_blogCommentAndReply.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

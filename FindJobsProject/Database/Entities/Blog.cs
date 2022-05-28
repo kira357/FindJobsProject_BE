@@ -19,13 +19,13 @@ namespace FindJobsProject.Database.Entities
         public string? NameMajor { get; set; }
         public string? Summary { get; set; }
         public string Description { get; set; }
-
         public DateTime DatePost { get; set; }
         public string Status { get; set; }
         public int? View { get; set; }
         public bool IsActive { get; set; }
+        public bool HotPost { get; set; }
 
-        public Guid UserId { get; set; }
+        public Guid IdUser { get; set; }
         public AppUser UserBlog { get; set; }
 
         public DateTimeOffset CreatedOn { get; set; }
