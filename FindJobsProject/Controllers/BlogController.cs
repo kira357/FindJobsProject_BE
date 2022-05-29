@@ -56,6 +56,21 @@ namespace FindJobsProject.Controllers
             }
 
         } 
+        [HttpGet("getitem-post/{Id}")]
+        public async Task<IActionResult> GetItemBlog([FromQuery] PaginationFilter filter, Guid Id)
+        {
+            try
+            {
+                var getList = await _repo.GetItemBlog(filter, Request , Id);
+                return Ok(getList);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+
+        } 
         
         [HttpGet("getlist-post")]
         public async Task<IActionResult> GetListAllBlog([FromQuery] PaginationFilter filter)
@@ -63,6 +78,22 @@ namespace FindJobsProject.Controllers
             try
             {
                 var getList = await _repo.GetListAllBlog(filter, Request);
+                return Ok(getList);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+
+        } 
+        
+        [HttpGet("getlist-post-active")]
+        public async Task<IActionResult> GetListBlogActive([FromQuery] PaginationFilter filter)
+        {
+            try
+            {
+                var getList = await _repo.GetListBlogActive(filter, Request);
                 return Ok(getList);
             }
             catch (Exception ex)

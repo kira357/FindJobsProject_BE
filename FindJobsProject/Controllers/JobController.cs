@@ -25,7 +25,7 @@ namespace FindJobsProject.Controllers
             _repo = repo;
         }
 
-        [HttpPost("create-Job")] 
+        [HttpPost("create-job")] 
         public async Task<IActionResult> CreateJob([FromForm]VMJob vMJob)
         {
             try
@@ -40,7 +40,7 @@ namespace FindJobsProject.Controllers
             }
 
         }
-        [HttpGet("getlist-Job")]
+        [HttpGet("getlist-job")]
         public async Task<IActionResult> GetListJob([FromQuery] PaginationFilter filter)
         {
             try
@@ -54,9 +54,41 @@ namespace FindJobsProject.Controllers
                 return BadRequest(ex.InnerException);
             }
 
+        }  
+        
+        
+        [HttpGet("getitem-job/{Id}")]
+        public async Task<IActionResult> GetItemJob([FromQuery] PaginationFilter filter,Guid Id)
+        {
+            try
+            {
+                var getList = await _repo.GetItemJob(filter, Request,Id);
+                return Ok(getList);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+
+        }
+        [HttpGet("getlist-job-active")]
+        public async Task<IActionResult> GetListJobActive([FromQuery] PaginationFilter filter)
+        {
+            try
+            {
+                var getList = await _repo.GetListJobActive(filter, Request);
+                return Ok(getList);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+
         }
         
-        [HttpPut("update-Job")]
+        [HttpPut("update-job")]
         public async Task<IActionResult> UpdateJob([FromForm]VMUpdateJob vMUpdateJob)
         {
             try
@@ -71,7 +103,7 @@ namespace FindJobsProject.Controllers
             }
 
         } 
-        [HttpDelete("delete-Job")]
+        [HttpDelete("delete-job")]
         public async Task<IActionResult> DeleteJob(VMDeleteJob vMDeleteJob)
         {
             try

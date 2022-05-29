@@ -14,7 +14,9 @@ namespace FindJobsProject.DI
     public interface IReposityBlog
     {
         Task<PagedResponse<IEnumerable<VMGetBlog>>> GetListBlog(PaginationFilter filter, HttpRequest request , Guid Id);
+        Task<PagedResponse<IEnumerable<VMGetBlog>>> GetItemBlog(PaginationFilter filter, HttpRequest request , Guid Id);
         Task<PagedResponse<IEnumerable<VMGetBlog>>> GetListAllBlog(PaginationFilter filter, HttpRequest request );
+        Task<PagedResponse<IEnumerable<VMGetBlog>>> GetListBlogActive(PaginationFilter filter, HttpRequest request );
         Task<Respone> CreateBlog(VMCreateBlog vMBlog);
         Task<Respone> UpdateBlog(VMUpdateBlog vMUpdateBlog);
         Task<Respone> UpdateApproved(VMUpdateBlog vMUpdateBlog);

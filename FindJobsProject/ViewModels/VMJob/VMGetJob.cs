@@ -43,5 +43,8 @@ namespace FindJobsProject.ViewModels.VMJob
 
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset? UpdatedOn { get; set; }
+
+        //user
+        public string ImageUser { get; set; }
     }
 }
