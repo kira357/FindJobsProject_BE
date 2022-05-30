@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,40 @@ namespace FindJobsProject.Helper
             }
 
             return fileName;
-        }
+        }  
+        
+        public async Task<string> SaveFileApply(IFormFile file, IWebHostEnvironment _webHostEnvironment)
+        {
+            string fileName = null;
+            if (file != null)
+            {
+                fileName = new string(Path.GetFileNameWithoutExtension(file.FileName).Take(10).ToArray()).Replace(' ', '-');
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(file.FileName);
+
+                var upload = Path.Combine(_webHostEnvironment.ContentRootPath, "Files");
+                if (!Directory.Exists(upload))
+                {
+                    Directory.CreateDirectory(upload);
+                }
+                if (File.Exists(upload))
+                {
+                    File.Delete(upload);
+                }
+
+                if (file.Length > 0)
+                {
+                    var filePath = Path.Combine(upload, fileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                }
+            }
+
+            return fileName;
+        } 
+        
+      
 
     }
 }

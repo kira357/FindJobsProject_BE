@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +18,9 @@ namespace FindJobsProject.ViewModels.VMJob
         public string Introduction { get; set; }
 
         public string Resume { get; set; }
+
+        [NotMapped]
+        public IFormFile FileApply { get; set; }
         public bool IsActive { get; set; }
 
         public DateTimeOffset DateApply { get; set; }  

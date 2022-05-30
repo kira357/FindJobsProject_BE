@@ -77,6 +77,7 @@ namespace FindJobsProject.Extends
             services.AddScoped<IReposityUser, ReposityUser>();
             services.AddScoped<IReposityAuthen, ReposityAuthen>();
             services.AddScoped<IReposityRecruitment, ReposityRecruitment>();
+            services.AddScoped<IReposityCandidate, ReposityCandidate>();
             services.AddScoped<IReposityBlog, ReposityBlog>();
 
 
