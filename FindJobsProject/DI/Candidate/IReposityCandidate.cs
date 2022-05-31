@@ -15,9 +15,9 @@ namespace FindJobsProject.DI
     {
         Task<PagedResponse<IEnumerable<VMGetCandidateJob>>> GetListApplyJob(PaginationFilter filter, HttpRequest request);
         Task<PagedResponse<IEnumerable<VMGetCandidateJob>>> GetItemApplyJob(PaginationFilter filter, HttpRequest request, Guid Id);
+        Task<VMGetCandidateJob> CheckIsApply(Guid Id,Guid idJob);
         Task<Respone> ApplyJob(VMCandidateJob vMCandidate);
 
-        Task<Respone> DownloadFile(string fileName);
         Task<Respone> DeteleCandidate(VMDeleteCandidateJob vMDeteleJob);
     }
 }

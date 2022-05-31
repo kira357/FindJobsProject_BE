@@ -18,6 +18,8 @@ namespace FindJobsProject.Helper
                 fileName = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
                 fileName = fileName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
                 var imagePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Images", fileName);
+                if (File.Exists(imagePath))
+                    File.Delete(imagePath);
                 using (var fileStream = new FileStream(imagePath, FileMode.Create))
                 {
                     await imageFile.CopyToAsync(fileStream);

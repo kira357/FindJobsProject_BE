@@ -74,6 +74,22 @@ namespace FindJobsProject.Controllers
                 return BadRequest(ex.InnerException);
             }
 
+        } 
+        
+        [HttpGet("is-apply/{id}")]
+        public async Task<IActionResult> GetCheckIsApply(Guid id,Guid IdJob)
+        {
+            try
+            {
+                var getList = await _repo.CheckIsApply(id,IdJob);
+                return Ok(getList);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+
         }
         
         [HttpGet("download-file")]

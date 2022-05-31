@@ -39,6 +39,7 @@ namespace FindJobsProject.ViewModels.VMJob
 
         public bool IsActive { get; set; }
 
+
         public DateTimeOffset DateExpire { get; set; }
 
         public DateTimeOffset CreatedOn { get; set; }

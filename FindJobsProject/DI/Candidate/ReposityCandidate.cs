@@ -66,7 +66,7 @@ namespace FindJobsProject.DI
                         Introduction = vMCandidate.Introduction,
                         DateApply = vMCandidate.DateApply,
                         Resume = file,
-                        IsActive = false,
+                        IsActive = true,
                         CreatedOn = vMCandidate.DateApply,
                     };
                     var user = _mapper.Map<CandidateJob>(vMCandidate);
@@ -178,9 +178,20 @@ namespace FindJobsProject.DI
 
         }
 
-        public async Task<Respone> DownloadFile(string fileName)
+        public async Task<VMGetCandidateJob> CheckIsApply(Guid Id,Guid IdJob)
         {
-            return null;
+            var check = await _context.CandidateJobs.SingleOrDefaultAsync(x => x.IdCandicate == Id && x.IdJob == IdJob);
+            if(check != null)
+            {
+                return new VMGetCandidateJob
+                {
+                    IsActive = check.IsActive,
+                };
+            }
+            return new VMGetCandidateJob
+            {
+                IsActive = false,
+            };
         }
     }
 }
