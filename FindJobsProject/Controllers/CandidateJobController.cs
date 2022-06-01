@@ -91,6 +91,36 @@ namespace FindJobsProject.Controllers
             }
 
         }
+        [HttpPut("is-approved/{id}")]
+        public async Task<IActionResult> UpdateApproved(VMUpdateCandidateJob vMUpdateCandidateJob, Guid id)
+        {
+            try
+            {
+                var getList = await _repo.ApprovedCandidate(vMUpdateCandidateJob, id);
+                return Ok(getList);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+
+        }
+        [HttpPut("is-delete/{id}")]
+        public async Task<IActionResult> DeleteCandidate(VMDeleteCandidateJob vMDetelecCandidateJob , Guid id)
+        {
+            try
+            {
+                var getList = await _repo.DeteleCandidate(vMDetelecCandidateJob, id);
+                return Ok(getList);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+
+        }
         
         [HttpGet("download-file")]
         public async Task<IActionResult> DownloadFile([FromQuery]string fileName)

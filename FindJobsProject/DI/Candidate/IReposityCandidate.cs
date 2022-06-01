@@ -18,6 +18,7 @@ namespace FindJobsProject.DI
         Task<VMGetCandidateJob> CheckIsApply(Guid Id,Guid idJob);
         Task<Respone> ApplyJob(VMCandidateJob vMCandidate);
 
-        Task<Respone> DeteleCandidate(VMDeleteCandidateJob vMDeteleJob);
+        Task<Respone> DeteleCandidate(VMDeleteCandidateJob vMDeteleJob , Guid id);
+        Task<Respone> ApprovedCandidate(VMUpdateCandidateJob vMUpdateJob, Guid id);
     }
 }

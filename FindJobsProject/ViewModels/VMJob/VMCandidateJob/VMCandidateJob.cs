@@ -22,6 +22,8 @@ namespace FindJobsProject.ViewModels.VMJob
         [NotMapped]
         public IFormFile FileApply { get; set; }
         public bool IsActive { get; set; }
+        public bool IsPending { get; set; }
+        public bool IsDelete { get; set; }
 
         public DateTimeOffset DateApply { get; set; }  
 

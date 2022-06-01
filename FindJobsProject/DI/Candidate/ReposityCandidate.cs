@@ -67,6 +67,8 @@ namespace FindJobsProject.DI
                         DateApply = vMCandidate.DateApply,
                         Resume = file,
                         IsActive = true,
+                        IsPending = true,
+                        IsDelete= false,
                         CreatedOn = vMCandidate.DateApply,
                     };
                     var user = _mapper.Map<CandidateJob>(vMCandidate);
@@ -84,10 +86,7 @@ namespace FindJobsProject.DI
             return new Respone { Fail = "Fails" };
     }
 
-        public Task<Respone> DeteleCandidate(VMDeleteCandidateJob vMDeteleJob)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public async Task<PagedResponse<IEnumerable<VMGetCandidateJob>>> GetListApplyJob(PaginationFilter filter, HttpRequest request)
         {
@@ -151,10 +150,12 @@ namespace FindJobsProject.DI
                                         IdCandicate = candidatejob.candidate.IdCandicate,
                                         NameJob = job.Name,
                                         IsActive = candidatejob.candidate.IsActive,
+                                        IsPending = candidatejob.candidate.IsPending,
+                                        IsDelete  = candidatejob.candidate.IsDelete,
                                         Introduction = candidatejob.candidate.Introduction,
                                         Resume = candidatejob.candidate.Resume,
                                     }
-                                   ).Where(x => x.IdRecruitment == Id);
+                                   ).Where(x => x.IdRecruitment == Id && x.IsDelete == false && x.IsPending == true);
 
             var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
             var result = PaginatedList<VMGetCandidateJob>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
@@ -178,6 +179,8 @@ namespace FindJobsProject.DI
 
         }
 
+
+
         public async Task<VMGetCandidateJob> CheckIsApply(Guid Id,Guid IdJob)
         {
             var check = await _context.CandidateJobs.SingleOrDefaultAsync(x => x.IdCandicate == Id && x.IdJob == IdJob);
@@ -192,6 +195,62 @@ namespace FindJobsProject.DI
             {
                 IsActive = false,
             };
+        }
+
+        public async Task<Respone> ApprovedCandidate(VMUpdateCandidateJob vMUpdateCandidateJob , Guid id)
+        {
+            var check =  _context.CandidateJobs.SingleOrDefault(x => x.IdCandicate == vMUpdateCandidateJob.IdCandicate && 
+                                                                    x.IdJob == vMUpdateCandidateJob.IdJob && x.IdRecruitment == id);
+            try
+            {
+                if (check != null)
+                {
+                    check.IsPending = false;
+                    await _context.SaveChangesAsync();
+                    return new Respone
+                    {
+                        Ok = "Success"
+                    };
+                };
+                return new Respone
+                {
+                    Fail = "fail"
+                };
+            }
+            catch (Exception ex)
+            {
+
+                throw ex.InnerException;
+            }
+            
+        }
+
+        public async Task<Respone> DeteleCandidate(VMDeleteCandidateJob vMDetelecCandidateJob, Guid id)
+        {
+            var check = _context.CandidateJobs.SingleOrDefault(x => x.IdCandicate == vMDetelecCandidateJob.IdCandicate &&
+                                                                    x.IdJob == vMDetelecCandidateJob.IdJob);
+            try
+            {
+                if (check != null)
+                {
+                    check.IsDelete = true;
+                    check.IsPending = true;
+                    await _context.SaveChangesAsync();
+                    return new Respone
+                    {
+                        Ok = "Success"
+                    };
+                };
+                return new Respone
+                {
+                    Fail = "fail"
+                };
+            }
+            catch (Exception ex)
+            {
+
+                throw ex.InnerException;
+            }
         }
     }
 }

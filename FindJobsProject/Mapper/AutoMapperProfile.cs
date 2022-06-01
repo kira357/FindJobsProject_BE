@@ -3,8 +3,10 @@ using FindJobsProject.Data.Entities;
 using FindJobsProject.Database.Entities;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.VMBlog;
+using FindJobsProject.ViewModels.VMComment;
 using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMMajor;
+using FindJobsProject.ViewModels.VMReply;
 using FindJobsProject.ViewModels.VMUser;
 
 namespace FindJobsProject.Mapper
@@ -45,6 +47,16 @@ namespace FindJobsProject.Mapper
              CreateMap<VMCandidateJob, CandidateJob>();
              CreateMap<VMUpdateCandidateJob, CandidateJob>();
              CreateMap<VMDeleteCandidateJob, CandidateJob>();
+            
+            
+            //Comment
+             CreateMap<VMComment, Comment>();
+             CreateMap<VMCreateComment, Comment>();
+             CreateMap<VMUpdateComment, Comment>();
+            
+            //Reply
+             CreateMap<VMReply, ReplyComment>();
+
         }
     }
 }
