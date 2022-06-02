@@ -48,7 +48,7 @@ namespace FindJobsProject.Controllers
 
         }
         [HttpPost("reply-comment")]
-        public async Task<IActionResult> ReplyComment(VMReply vMReply)
+        public async Task<IActionResult> ReplyComment(VMReplyComment vMReply)
         {
             try
             {

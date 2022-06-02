@@ -55,7 +55,7 @@ namespace FindJobsProject.Mapper
              CreateMap<VMUpdateComment, Comment>();
             
             //Reply
-             CreateMap<VMReply, ReplyComment>();
+             CreateMap<VMReplyComment, ReplyComment>();
 
         }
     }

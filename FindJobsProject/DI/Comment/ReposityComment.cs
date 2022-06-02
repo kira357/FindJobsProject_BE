@@ -75,11 +75,11 @@ namespace FindJobsProject.DI
             return new Respone { Fail = "Fails" };
     }
 
-        public async Task<Respone> ReplyComment(VMReply vMReply)
+        public async Task<Respone> ReplyComment(VMReplyComment vMReply)
         {
             try
             {
-                vMReply = new VMReply
+                vMReply = new VMReplyComment
                 {
                     IdUser = vMReply.IdUser,
                     IdComment = vMReply.IdComment,
@@ -107,28 +107,39 @@ namespace FindJobsProject.DI
         {
             try
             {
+                var userId = _context.AppUsers.AsQueryable();
                 var comments = _context.Comments.Include(x => x.Replies)
                .ThenInclude(x => x.User)
-               .OrderByDescending(x => x.CommentDate)
                .Select(x => new VMComment
                {
                    Id = x.Id,
                    IdUser = x.IdUser,
                    CommentDate = x.CommentDate,
                    CommentOn = x.CommentOn,
-                   Replies = x.Replies,
                    UserName = x.UserComment.FullName,
                    UrlAvatar = x.UserComment.UrlAvatar,
                    IdPosition = x.IdPosition,
                    CommentMsg = x.CommentMsg,
+                   Replies = (ICollection<VMReplyComment>)x.Replies.Select(r=> new VMReplyComment
+                   {
+                       IdUser = r.IdUser,
+                       IdComment = r.IdComment,
+                       Id = r.Id,
+                       UserName = r.User.FullName,
+                       UrlAvatar = r.User.UrlAvatar,
+                       ReplyMsg = r.ReplyMsg,
+                       CreateOn = r .CreateOn,
+                       IdPostion = x.IdPosition
+                   }),
 
-               }).Where(x => x.IdPosition == id);
-
-
+               })
+               .Where(x => x.IdPosition == id)
+                .OrderByDescending(x => x.CommentDate);
 
                 var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
-                var result = PaginatedList<VMComment>.CreatePages(comments, validFilter.IndexPage, validFilter.PageSize);
                 var count = comments.Count();
+                var result = PaginatedList<VMComment>.CreatePages(comments, validFilter.IndexPage, validFilter.PageSize);
+   
                 return new PagedResponse<IEnumerable<VMComment>>(result, validFilter.IndexPage, validFilter.PageSize, count);
 
             }

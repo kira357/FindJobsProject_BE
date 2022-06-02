@@ -155,7 +155,7 @@ namespace FindJobsProject.DI
                                         Introduction = candidatejob.candidate.Introduction,
                                         Resume = candidatejob.candidate.Resume,
                                     }
-                                   ).Where(x => x.IdRecruitment == Id && x.IsDelete == false && x.IsPending == true);
+                                   ).Where(x => x.IdRecruitment == Id);
 
             var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
             var result = PaginatedList<VMGetCandidateJob>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);

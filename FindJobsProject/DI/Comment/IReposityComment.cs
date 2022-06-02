@@ -18,6 +18,6 @@ namespace FindJobsProject.DI
         Task<PagedResponse<IEnumerable<VMComment>>> GetCommentUserOnJobs(PaginationFilter filter, HttpRequest request, Guid id);
         Task<PagedResponse<IEnumerable<VMComment>>> GetAllListComment(PaginationFilter filter, HttpRequest request, Guid id);
         Task<Respone> CreateComment(VMCreateComment vMCreateComment);
-        Task<Respone> ReplyComment(VMReply vMReply);
+        Task<Respone> ReplyComment(VMReplyComment vMReply);
     }
 }
