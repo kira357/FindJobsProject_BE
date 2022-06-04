@@ -40,6 +40,22 @@ namespace FindJobsProject.Controllers
 
                 return BadRequest(ex.InnerException);
             }
+        } 
+        
+        
+        [HttpGet("getcurrent-user/{id}")]
+        public async Task<IActionResult> GetCurrentUser(Guid id)
+        {
+            try
+            {
+                var getAll = await _repo.GetCurrentUser(id, Request);
+                return Ok(getAll);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
         }
 
 

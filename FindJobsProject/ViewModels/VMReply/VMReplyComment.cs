@@ -1,5 +1,6 @@
 ﻿using FindJobsProject.Database.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace FindJobsProject.ViewModels.VMReply
 {
@@ -14,5 +15,6 @@ namespace FindJobsProject.ViewModels.VMReply
         public Guid? IdUser { get; set; }
         public Guid IdPostion { get; set; }
 
+        public ICollection<VMReplyComment> SortItemsList { get; set; }
     }
 }

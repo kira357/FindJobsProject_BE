@@ -116,8 +116,8 @@ namespace FindJobsProject.DI
                    IdUser = x.IdUser,
                    CommentDate = x.CommentDate,
                    CommentOn = x.CommentOn,
-                   UserName = x.UserComment.FullName,
-                   UrlAvatar = x.UserComment.UrlAvatar,
+                   UserName = x.UserComment.FullName,                
+                   UrlAvatar = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.UserComment.UrlAvatar),
                    IdPosition = x.IdPosition,
                    CommentMsg = x.CommentMsg,
                    Replies = (ICollection<VMReplyComment>)x.Replies.Select(r=> new VMReplyComment
@@ -126,11 +126,11 @@ namespace FindJobsProject.DI
                        IdComment = r.IdComment,
                        Id = r.Id,
                        UserName = r.User.FullName,
-                       UrlAvatar = r.User.UrlAvatar,
+                       UrlAvatar =  String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, r.User.UrlAvatar),
                        ReplyMsg = r.ReplyMsg,
                        CreateOn = r .CreateOn,
-                       IdPostion = x.IdPosition
-                   }),
+                       IdPostion = x.IdPosition,
+                   }).OrderByDescending(x => x.CreateOn),
 
                })
                .Where(x => x.IdPosition == id)

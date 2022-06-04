@@ -298,5 +298,34 @@ namespace FindJobsProject.DI
                 throw ex.InnerException;
             }
         }
+
+        public async Task<List<VMGetUser>> GetCurrentUser(Guid id, HttpRequest request)
+        {
+            var idUser = _context.AppUsers.AsQueryable();
+            var idUserRole = _context.UserRoles.AsQueryable();
+            var idRole = _context.AppRoles.AsQueryable();
+            var idMajor = _context.Majors.AsQueryable();
+
+            var currentUser = await (from user in idUser
+                               join userrole in idUserRole
+                               on user.Id equals userrole.UserId into urt
+                               from userandrole in urt.DefaultIfEmpty()
+                               join role in idRole 
+                               on userandrole.RoleId equals role.Id into r
+                               from rolename in r.DefaultIfEmpty()
+                               join major in idMajor
+                               on user.IdMajor equals major.IdMajor into mrt
+                               from usermajor in mrt.DefaultIfEmpty()
+                               select new VMGetUser
+                               {
+                                   Id = user.Id,
+                                   FullName = user.FullName,
+                                   UrlAvatar = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, user.UrlAvatar),
+                                   RoleName = rolename.Name,
+                                   NameMajor = usermajor.Name,
+                               }).Where(x => x.Id == id).ToListAsync();
+
+            return currentUser;
+        }
     }
 }

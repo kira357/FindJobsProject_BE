@@ -20,5 +20,6 @@ namespace FindJobsProject.DI
         Task<Respone> ActiveJobs(VMUpdateJob vMUpdateJob);
         Task<Respone> CreateRole(VMRole role);
         Task<PagedResponse<IEnumerable<VMGetUser>>> GetAllAcc(PaginationFilter filter, HttpRequest request);
+        Task<List<VMGetUser>> GetCurrentUser(Guid id,HttpRequest request);
     }
 }
