@@ -100,6 +100,21 @@ namespace FindJobsProject.Controllers
 
                 return BadRequest(ex.InnerException);
             }
+        } 
+        
+        [HttpPut("update-information/{Id}")]
+        public async Task<IActionResult> UpdateInfoUser([FromForm] VMUserUpdate user , Guid Id)
+        {
+            try
+            {
+               var defaultRole = await _repo.UpdateInfoUser(user,Id);
+                return Ok(defaultRole);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
         }  
         
         [HttpDelete("delete-user/{Id}")]

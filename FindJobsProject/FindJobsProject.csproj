@@ -71,6 +71,12 @@
     <Compile Remove="Migrations\20220528055937_blogCommentAndReply.Designer.cs" />
     <Compile Remove="Migrations\20220528060350_blogCommentAndReply.cs" />
     <Compile Remove="Migrations\20220528060350_blogCommentAndReply.Designer.cs" />
+    <Compile Remove="Migrations\20220605154111_typeJob.cs" />
+    <Compile Remove="Migrations\20220605154111_typeJob.Designer.cs" />
+    <Compile Remove="Migrations\20220605160234_userExperience.cs" />
+    <Compile Remove="Migrations\20220605160234_userExperience.Designer.cs" />
+    <Compile Remove="Migrations\20220605160348_userExperience.cs" />
+    <Compile Remove="Migrations\20220605160348_userExperience.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -94,8 +100,8 @@
 
   <ItemGroup>
     <Folder Include="Images\" />
-    <Folder Include="Hub\" />
     <Folder Include="Files\" />
+    <Folder Include="Hub\" />
   </ItemGroup>
 
 

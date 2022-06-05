@@ -152,52 +152,44 @@ namespace FindJobsProject.DI
         }
 
 
-        public async Task<PagedResponse<IEnumerable<VMComment>>> GetAllListComment(PaginationFilter filter, HttpRequest request, Guid id)
+        public async Task<PagedResponse<IEnumerable<VMComment>>> GetAllListComment(PaginationFilter filter, HttpRequest request)
         {
-            //var getList = _context.AppUsers.AsQueryable();
-            //var data = getList.Join(_context.CandidateJobs,
-            //                        user => user.Id,
-            //                        candidate => candidate.IdCandicate,
-            //                        (user, candidate) => new { user, candidate })
-            //                   .Join(_context.Jobs,
-            //                        candidatejob => candidatejob.candidate.IdJob,
-            //                        job => job.IdJob,
-            //                        (candidatejob, job) => new VMGetCandidateJob
-            //                        {
-            //                            IdJob = job.IdJob,
-            //                            IdRecruitment =candidatejob.candidate.IdRecruitment,
-            //                            IdCandicate = candidatejob.candidate.IdCandicate,
-            //                            NameJob = job.Name,
-            //                            IsActive = candidatejob.candidate.IsActive,
-            //                            IsPending = candidatejob.candidate.IsPending,
-            //                            IsDelete  = candidatejob.candidate.IsDelete,
-            //                            Introduction = candidatejob.candidate.Introduction,
-            //                            Resume = candidatejob.candidate.Resume,
-            //                        }
-            //                       ).Where(x => x.IdRecruitment == Id && x.IsDelete == false && x.IsPending == true);
+            var getList = _context.AppUsers.AsQueryable();
+            var commentTable = _context.Comments.AsQueryable();
+            var replyComment = _context.ReplyComments.AsQueryable();
+            var job = _context.Jobs.AsQueryable();
+            var recruiment = _context.recruitmentJob.AsQueryable();
+            var data = from user in getList
+                       join comment in commentTable
+                       on user.Id equals comment.IdUser
+                       join position in job
+                       on comment.IdPosition equals position.IdJob
+                       join reply in replyComment 
+                       on comment.Id equals reply.IdComment into replyjob
+                       from replys in replyjob.DefaultIfEmpty()
+                       select new VMComment
+                       {
+                           Id = comment.Id,
+                           CommentDate = comment.CommentDate,
+                           CommentMsg = comment.CommentMsg,
+                           JobName = position.Name,
+                           UserName = user.FullName,
+                           UserReply = replys.User.FullName,
+                           ReplyMsg = replys.ReplyMsg,
+                           ReplyCreate = replys.CreateOn
+                       };
 
-            //var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
-            //var result = PaginatedList<VMGetCandidateJob>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
-            //var count = data.Count();
-            //if (result.Any())
-            //{
-            //    var idRecruitment = result.Select(x => x.IdRecruitment).Distinct();
-            //    var idCadidate  = result.Select(x => x.IdCandicate).Distinct();
-            //    if (idRecruitment.Any() || idCadidate.Any())
-            //    {
-            //        //var recruitmentData = _context.AppUsers.AsQueryable()
-            //        //  .Where(x => idRecruitment.Contains(x.Id)).Select(x => new { x.Id, x.FullName }).ToList();
-            //        //result.ForEach(x => x.NameRecruitment = recruitmentData.FirstOrDefault(v => v.Id == x.IdRecruitment)?.FullName);
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var count = data.Count();
+            var result = PaginatedList<VMComment>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
 
-            //        var candidateData = _context.AppUsers.AsQueryable()
-            //         .Where(x => idCadidate.Contains(x.Id)).Select(x => new { x.Id, x.FullName }).ToList();
-            //        result.ForEach(x => x.NameCandidate = candidateData.FirstOrDefault(v => v.Id == x.IdCandicate)?.FullName);
-            //    }
-            //}
-            //return new PagedResponse<IEnumerable<VMGetCandidateJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
-            return null;
+            return new PagedResponse<IEnumerable<VMComment>>(result, validFilter.IndexPage, validFilter.PageSize, count);
 
         }
 
+        public Task<PagedResponse<IEnumerable<VMComment>>> GetCommnentRecruiment(PaginationFilter filter, HttpRequest request, Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

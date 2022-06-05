@@ -4,14 +4,16 @@ using FindJobsProject.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FindJobsProject.Migrations
 {
     [DbContext(typeof(FindJobsContext))]
-    partial class FindJobsContextModelSnapshot : ModelSnapshot
+    [Migration("20220605154451_typeJob")]
+    partial class typeJob
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +48,7 @@ namespace FindJobsProject.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "9110fae0-3817-4f9b-9301-6daae9e4537f",
+                            ConcurrencyStamp = "52ba51f0-f8fc-4075-922a-9edae94aebe6",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
@@ -54,7 +56,7 @@ namespace FindJobsProject.Migrations
                         new
                         {
                             Id = new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0"),
-                            ConcurrencyStamp = "2d104941-1fff-4b8a-a110-dc8d13d49b8e",
+                            ConcurrencyStamp = "a1dd434e-bef6-4408-9f15-e1c62076862a",
                             Description = "Recruitment role",
                             Name = "Recruitment",
                             NormalizedName = "RECRUITMENT"
@@ -267,7 +269,7 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1fa1d284-7d2d-493d-9dc3-d79830f67e28",
+                            ConcurrencyStamp = "a4196a71-f070-4568-b4f0-9f73ab1e1b78",
                             Email = "5951071014@st.utc2.edu.vn",
                             EmailConfirmed = true,
                             FirstName = "Đạt",
@@ -277,7 +279,7 @@ namespace FindJobsProject.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "5951071014@st.utc2.edu.vn",
                             NormalizedUserName = "5951071014@st.utc2.edu.vn",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDCjLHqrgO9MPibSgEP63VSzmetuYaaD91oJq3feBC1TAQzEG+ynECrmy+X87FGG2Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEqKWHy09F22KcQwsWviKH5Oj/guh2B2w9efFFhky/+t8OYBQJrrwIQIs86NyCYVkA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -288,7 +290,7 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "04179f32-b611-4a45-b2a3-e3005afd4b07",
+                            ConcurrencyStamp = "bf58d989-f3fb-4307-ad63-c5235d02228c",
                             Email = "5951071017@st.utc2.edu.vn",
                             EmailConfirmed = true,
                             FirstName = "Đông",
@@ -298,7 +300,7 @@ namespace FindJobsProject.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "5951071017@st.utc2.edu.vn",
                             NormalizedUserName = "5951071017@st.utc2.edu.vn",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB8O9memNgfmXUzf6iIrMB4SlEeqMnexyLbV/aYQ8JU0Lg04YdZQ9fJFXf1fXGSutg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENnsWiOCcgvVt+lLJlOTfwfergiP+l6+lIK9z4wZcjujrcGiY9jjVFMqsPDxZA3Huw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -309,7 +311,7 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("9bc1bf33-d875-42b2-a39e-b0cfc3fb6f2c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9dd05056-c505-4fc5-bdc2-43a54b241fdf",
+                            ConcurrencyStamp = "eafa62bf-8ef7-49d4-9bd7-17b24195b5b1",
                             Email = "5951071021@st.utc2.edu.vn",
                             EmailConfirmed = true,
                             FirstName = "Hảo",
@@ -319,7 +321,7 @@ namespace FindJobsProject.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "5951071021@st.utc2.edu.vn",
                             NormalizedUserName = "5951071021@st.utc2.edu.vn",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK4gOo/4+XiUWUY5EJFobKwZ5zc1WtUo5dY9hI8MBl/Ibo8ULaA8dIMCGJSI4zVMfg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEELFRtGxvLQRlzoGuKvucm5Iw30HYXTOLdK5uToXEGmCgpnLVun0oC4NYWwLHH+ZcQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

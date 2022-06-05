@@ -237,6 +237,57 @@ namespace FindJobsProject.DI
 
                 throw ex.InnerException;
             }
+        }   
+        
+        
+        public async Task<Respone> UpdateInfoUser(VMUserUpdate vMUserUpdate , Guid Id)
+        {
+            var check = await _userManager.Users.SingleOrDefaultAsync(x => x.Id == Id);
+            try
+            {
+                if (check != null)
+                {
+                    if (vMUserUpdate.imageFile != null)
+                    {
+                        MediaFile mediaFile = new MediaFile();
+                        mediaFile.DeleteFile(vMUserUpdate.imageFile.FileName, _webHostEnvironment);
+                        var image = await mediaFile.SaveFile(vMUserUpdate.imageFile, _webHostEnvironment);
+                        check.LastName = vMUserUpdate.LastName.Trim();
+                        check.FirstName = vMUserUpdate.FirstName.Trim();
+                        check.FullName = vMUserUpdate.LastName + " " + vMUserUpdate.FirstName;
+                        check.UrlAvatar = image;
+                        check.Experience = vMUserUpdate.Experience;
+                        check.PhoneNumber = vMUserUpdate.PhoneNumber;
+                        check.IdMajor = vMUserUpdate.IdMajor;
+                        check.Address = vMUserUpdate.Address;
+                    }
+                    else
+                    {
+                        check.LastName = vMUserUpdate.LastName.Trim();
+                        check.FirstName = vMUserUpdate.FirstName.Trim();
+                        check.FullName = vMUserUpdate.LastName + " " + vMUserUpdate.FirstName;
+                        check.PhoneNumber = vMUserUpdate.PhoneNumber;
+                        check.Experience = vMUserUpdate.Experience;
+                        check.IdMajor = vMUserUpdate.IdMajor;
+                        check.Address = vMUserUpdate.Address;
+                    }
+                    var user = _mapper.Map<AppUser>(check);
+                    var CreateAccount = await _userManager.UpdateAsync(user);
+                    if (CreateAccount.Succeeded)
+                    {
+                        await _context.SaveChangesAsync();
+                        return new Respone { Ok = "Success" };
+                    }
+
+                }
+                return new Respone { Fail = "Fail" };
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex.InnerException;
+            }
         }
         
         public async Task<Respone> DeleteUser(VMUserDelete vMUserDelete , Guid Id)
@@ -320,9 +371,15 @@ namespace FindJobsProject.DI
                                {
                                    Id = user.Id,
                                    FullName = user.FullName,
+                                   FirstName = user.FirstName,
+                                   LastName = user.LastName,
                                    UrlAvatar = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, user.UrlAvatar),
                                    RoleName = rolename.Name,
+                                   IdMajor = usermajor.IdMajor,
                                    NameMajor = usermajor.Name,
+                                   Experience = user.Experience,
+                                   Address = user.Address,
+                                   PhoneNumber = user.PhoneNumber,
                                }).Where(x => x.Id == id).ToListAsync();
 
             return currentUser;

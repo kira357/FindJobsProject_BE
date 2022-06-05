@@ -25,7 +25,7 @@ namespace FindJobsProject.Data.Entities
         [Required]
         public int Amount { get; set; }    
         [Required]
-        public String Experience { get; set; }   
+        public string? Experience { get; set; }   
         [Required]
         public decimal SalaryMin { get; set; }   
         [Required]
@@ -36,6 +36,8 @@ namespace FindJobsProject.Data.Entities
         public string Address { get; set; }
         [Required]
         public DateTimeOffset DateExpire { get; set; }     // Hạn cuối nộp đơn
+
+        public long? TypeJob { get; set; } 
 
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset? UpdatedOn { get; set; }

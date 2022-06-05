@@ -26,7 +26,7 @@ namespace FindJobsProject.ViewModels.VMJob
 
         public int Amount { get; set; }
 
-        public string Experience { get; set; }
+        public string? Experience { get; set; }
 
         public decimal SalaryMin { get; set; }
 

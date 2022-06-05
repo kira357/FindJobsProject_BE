@@ -251,6 +251,7 @@ namespace FindJobsProject.DI
                     if (vMUpdateJob.imageFile != null)
                     {
                         MediaFile mediaFile = new MediaFile();
+                        mediaFile.DeleteFile(vMUpdateJob.imageFile.FileName, _webHostEnvironment);
                         var image = await mediaFile.SaveFile(vMUpdateJob.imageFile, _webHostEnvironment);
                         checkIdJob.Name = vMUpdateJob.Name;
                         checkIdJob.CompanyOfJobs = vMUpdateJob.CompanyOfJobs;
@@ -314,6 +315,8 @@ namespace FindJobsProject.DI
                 {
                     _context.recruitmentJob.Remove(checkIdRecruitmentJob);
                     _context.Jobs.Remove(checkId);
+                    MediaFile mediaFile = new MediaFile();
+                    mediaFile.DeleteFile(checkId.JobImage, _webHostEnvironment);
                     await _context.SaveChangesAsync();
                 }
                 return new Respone

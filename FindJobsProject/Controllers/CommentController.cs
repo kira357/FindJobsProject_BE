@@ -62,12 +62,12 @@ namespace FindJobsProject.Controllers
             }
 
         }
-        [HttpGet("get-all-list-comment/{id}")]
-        public async Task<IActionResult> GetAllListComment([FromQuery] PaginationFilter filter , Guid id)
+        [HttpGet("get-all-list-comment")]
+        public async Task<IActionResult> GetAllListComment([FromQuery] PaginationFilter filter)
         {
             try
             {
-                var getList = await _repo.GetAllListComment(filter, Request,id);
+                var getList = await _repo.GetAllListComment(filter, Request);
                 return Ok(getList);
             }
             catch (Exception ex)

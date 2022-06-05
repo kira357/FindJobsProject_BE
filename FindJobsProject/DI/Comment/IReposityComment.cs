@@ -16,7 +16,8 @@ namespace FindJobsProject.DI
     public interface IReposityComment
     {
         Task<PagedResponse<IEnumerable<VMComment>>> GetCommentUserOnJobs(PaginationFilter filter, HttpRequest request, Guid id);
-        Task<PagedResponse<IEnumerable<VMComment>>> GetAllListComment(PaginationFilter filter, HttpRequest request, Guid id);
+        Task<PagedResponse<IEnumerable<VMComment>>> GetCommnentRecruiment(PaginationFilter filter, HttpRequest request, Guid id);
+        Task<PagedResponse<IEnumerable<VMComment>>> GetAllListComment(PaginationFilter filter, HttpRequest request);
         Task<Respone> CreateComment(VMCreateComment vMCreateComment);
         Task<Respone> ReplyComment(VMReplyComment vMReply);
     }

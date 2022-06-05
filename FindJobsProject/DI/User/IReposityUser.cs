@@ -16,6 +16,7 @@ namespace FindJobsProject.DI
     {
         Task<Respone> CreateUser(VMCreateUser user);
         Task<Respone> UpdateUser(VMUserUpdate user , Guid Id);
+        Task<Respone> UpdateInfoUser(VMUserUpdate user , Guid Id);
         Task<Respone> DeleteUser(VMUserDelete user , Guid Id);
         Task<Respone> ActiveJobs(VMUpdateJob vMUpdateJob);
         Task<Respone> CreateRole(VMRole role);

@@ -20,5 +20,15 @@ namespace FindJobsProject.ViewModels.VMComment
 
         public ICollection<VMReplyComment> Replies { get; set; }
         public ICollection<AppUser> Users { get; set; }
+
+        // display
+
+        public string JobName { get; set; }
+        public string UserReply { get; set; }
+        public string JobsNameReply { get; set; }
+        public string ReplyMsg { get; set; }
+
+        public DateTime? ReplyCreate { get; set; }
+
     }
 }

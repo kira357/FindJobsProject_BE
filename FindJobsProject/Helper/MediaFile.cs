@@ -18,8 +18,7 @@ namespace FindJobsProject.Helper
                 fileName = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
                 fileName = fileName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
                 var imagePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Images", fileName);
-                if (File.Exists(imagePath))
-                    File.Delete(imagePath);
+
                 using (var fileStream = new FileStream(imagePath, FileMode.Create))
                 {
                     await imageFile.CopyToAsync(fileStream);
@@ -27,8 +26,15 @@ namespace FindJobsProject.Helper
             }
 
             return fileName;
-        }  
+        } 
         
+        public void DeleteFile(string fileName, IWebHostEnvironment _webHostEnvironment)
+        {
+
+                var imagePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Images", fileName);
+                if (File.Exists(imagePath))
+                    File.Delete(imagePath);
+        }
         public async Task<string> SaveFileApply(IFormFile file, IWebHostEnvironment _webHostEnvironment)
         {
             string fileName = null;

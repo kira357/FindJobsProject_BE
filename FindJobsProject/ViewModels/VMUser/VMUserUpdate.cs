@@ -16,6 +16,7 @@ namespace FindJobsProject.ViewModels
         public string UserName { get; set; }
         public string FullName { get; set; }
         public string Description { get; set; }
+        public string Experience { get; set; }
         public DateTimeOffset? DateOfBirth { get; set; }
 
         public string LastName { get; set; }
@@ -27,7 +28,7 @@ namespace FindJobsProject.ViewModels
         [NotMapped]
         public IFormFile imageFile { get; set; }
         public string UrlAvatar { get; set; }
-        public string Gender { get; set; }
+        public int Gender { get; set; }
 
         public string Address { get; set; }
 
