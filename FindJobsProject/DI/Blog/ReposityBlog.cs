@@ -340,5 +340,44 @@ namespace FindJobsProject.DI
             }
             return new PagedResponse<IEnumerable<VMGetBlog>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
+
+        public async Task<PagedResponse<IEnumerable<VMGetBlog>>> GetBlogFilterByMajor(PaginationFilter filter, HttpRequest request, long idMajor)
+        {
+            var getList = _context.Blogs.AsQueryable();
+            var data = getList.Join(_context.AppUsers,
+                                    blog => blog.IdUser,
+                                    user => user.Id,
+                                    (blog, user) => new VMGetBlog
+                                    {
+                                        IdBlog = blog.IdBlog,
+                                        IdUser = user.Id,
+                                        NameUser = user.FullName,
+                                        ImageUser = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, user.UrlAvatar),
+                                        IdMajor = blog.IdMajor,
+                                        Title = blog.Title,
+                                        Image = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, blog.Image),
+                                        Summary = blog.Summary,
+                                        Description = blog.Description,
+                                        View = blog.View,
+                                        IsActive = blog.IsActive,
+                                        DatePost = blog.DatePost,
+                                        HotPost = blog.HotPost,
+                                        Status = blog.Status
+                                    }).Where(x => x.IdMajor == idMajor && x.IsActive == true);
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<VMGetBlog>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
+            var count = data.Count();
+            if (result.Any())
+            {
+                var id = result.Select(x => x.IdMajor).Distinct();
+                if (id.Any())
+                {
+                    var majorData = _context.Majors.AsQueryable()
+                      .Where(x => id.Contains(x.IdMajor)).Select(x => new { x.IdMajor, x.Name }).ToList();
+                    result.ForEach(x => x.NameMajor = majorData.FirstOrDefault(v => v.IdMajor == x.IdMajor)?.Name);
+                }
+            }
+            return new PagedResponse<IEnumerable<VMGetBlog>>(result, validFilter.IndexPage, validFilter.PageSize, count);
+        }
     }
     }

@@ -33,7 +33,7 @@ namespace FindJobsProject.DI
                             UserManager<AppUser> userManager,
                             RoleManager<AppRole> roleManager,
                             SignInManager<AppUser> signInManager,
-                            FindJobsContext context ,
+                            FindJobsContext context,
                              IWebHostEnvironment webHostEnvironment)
         {
             _mapper = mapper;
@@ -44,7 +44,7 @@ namespace FindJobsProject.DI
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<Respone> CreateJob( VMJob vMJob)
+        public async Task<Respone> CreateJob(VMJob vMJob)
         {
             MediaFile mediaFile = new MediaFile();
             var image = await mediaFile.SaveFile(vMJob.imageFile, _webHostEnvironment);
@@ -68,7 +68,7 @@ namespace FindJobsProject.DI
                     Address = vMJob.Address,
                     DateExpire = vMJob.DateExpire,
                     JobDetail = vMJob.JobDetail,
-                    CreatedOn = DateTimeOffset.UtcNow.Date,     
+                    CreatedOn = DateTimeOffset.UtcNow.Date,
                 };
 
                 var jobsMaps = _mapper.Map<Job>(vMJob);
@@ -89,10 +89,10 @@ namespace FindJobsProject.DI
 
                 throw ex.InnerException;
             }
-                return new Respone { Ok = "Success" };
-      
+            return new Respone { Ok = "Success" };
+
             return new Respone { Fail = "Fails" };
-    }
+        }
 
 
         public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetListJob(PaginationFilter filter, HttpRequest request)
@@ -105,11 +105,11 @@ namespace FindJobsProject.DI
                                .Join(_context.AppUsers,
                                     user => user.recruitment.IdRecruitment,
                                     job => job.Id,
-                                    (user, job) => new { user , job})
+                                    (user, job) => new { user, job })
                                .Join(_context.Majors,
                                     userrole => userrole.user.job.IdMajor,
                                     major => major.IdMajor,
-                                    (userrole , major) => new VMGetJob
+                                    (userrole, major) => new VMGetJob
                                     {
                                         IdJob = userrole.user.recruitment.IdJob,
                                         IdRecruitment = userrole.user.recruitment.IdRecruitment,
@@ -149,11 +149,11 @@ namespace FindJobsProject.DI
                                .Join(_context.AppUsers,
                                     user => user.recruitment.IdRecruitment,
                                     job => job.Id,
-                                    (user, job) => new { user , job})
+                                    (user, job) => new { user, job })
                                .Join(_context.Majors,
                                     userrole => userrole.user.job.IdMajor,
                                     major => major.IdMajor,
-                                    (userrole , major) => new VMGetJob
+                                    (userrole, major) => new VMGetJob
                                     {
                                         IdJob = userrole.user.recruitment.IdJob,
                                         IdRecruitment = userrole.user.recruitment.IdRecruitment,
@@ -239,7 +239,7 @@ namespace FindJobsProject.DI
             return new PagedResponse<IEnumerable<VMGetJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
 
         }
-            public async Task<Respone> UpdateJob(VMUpdateJob vMUpdateJob)
+        public async Task<Respone> UpdateJob(VMUpdateJob vMUpdateJob)
         {
             try
             {
@@ -297,12 +297,12 @@ namespace FindJobsProject.DI
                     Ok = "Fail"
                 };
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
 
                 throw ex.InnerException;
             }
-            
+
         }
 
         public async Task<Respone> DeleteJob(VMDeleteJob vMDeleteJob)
@@ -329,7 +329,50 @@ namespace FindJobsProject.DI
 
                 throw ex;
             }
-      
+
+        }
+
+        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetJobFilterByMajor(PaginationFilter filter , HttpRequest request, long idMajor , string experience)
+        {
+            var job = _context.Jobs.AsQueryable();
+            var recruitment = _context.recruitmentJob.AsQueryable();
+            var major = _context.Majors.AsQueryable();
+            var user = _context.AppUsers.AsQueryable();
+            var getAll = (from j in job
+                          join r in recruitment
+                          on j.IdJob equals r.IdJob
+                          join u in user
+                          on r.IdRecruitment equals u.Id
+                          join m in major
+                          on u.IdMajor equals m.IdMajor into mj
+                          from mjs in mj.DefaultIfEmpty()
+                          select new VMGetJob
+                          {
+                              IdJob = j.IdJob,
+                              IdRecruitment = r.IdRecruitment,
+                              RecruitmentName = u.FullName,
+                              CompanyOfJobs = j.CompanyOfJobs,
+                              Position = j.Position,
+                              Name = j.Name,
+                              JobImage = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, j.JobImage),
+                              Amount = j.Amount,
+                              Experience = j.Experience,
+                              SalaryMin = j.SalaryMin,
+                              SalaryMax = j.SalaryMax,
+                              WorkTime = j.WorkTime,
+                              NameMajor = mjs.Name,
+                              idMajor = j.IdMajor,
+                              Address = j.Address,
+                              DateExpire = j.DateExpire,
+                              UpdatedOn = r.UpdatedOn,
+                              IsActive = r.IsActive
+                          }).OrderByDescending(x => x.UpdatedOn)
+                          .Where(x => (x.idMajor == idMajor || x.Experience == experience) && x.IsActive == true);
+
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<VMGetJob>.CreatePages(getAll, validFilter.IndexPage, validFilter.PageSize);
+            var count = getAll.Count();
+            return new PagedResponse<IEnumerable<VMGetJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
     }
 }

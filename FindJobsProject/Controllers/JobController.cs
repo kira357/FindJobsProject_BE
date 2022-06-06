@@ -71,7 +71,26 @@ namespace FindJobsProject.Controllers
                 return BadRequest(ex.InnerException);
             }
 
+        } 
+
+
+        [HttpGet("get-job-filter-major")]
+        public async Task<IActionResult> GetJobFilterByMajor([FromQuery] PaginationFilter filter, long idMajor, string experience)
+        {
+            try
+            {
+                var getList = await _repo.GetJobFilterByMajor(filter, Request, idMajor, experience);
+                return Ok(getList);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+
         }
+
+
         [HttpGet("getlist-job-active")]
         public async Task<IActionResult> GetListJobActive([FromQuery] PaginationFilter filter)
         {

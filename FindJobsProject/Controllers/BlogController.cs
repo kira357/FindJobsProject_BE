@@ -70,8 +70,24 @@ namespace FindJobsProject.Controllers
                 return BadRequest(ex.InnerException);
             }
 
-        } 
-        
+        }
+
+        [HttpGet("get-blog-filter-major")]
+        public async Task<IActionResult> GetBlogFilterByMajor([FromQuery] PaginationFilter filter, long idMajor)
+        {
+            try
+            {
+                var getList = await _repo.GetBlogFilterByMajor(filter, Request, idMajor);
+                return Ok(getList);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+
+        }
+
         [HttpGet("getlist-post")]
         public async Task<IActionResult> GetListAllBlog([FromQuery] PaginationFilter filter)
         {

@@ -16,6 +16,8 @@ namespace FindJobsProject.DI
         Task<PagedResponse<IEnumerable<VMGetBlog>>> GetListBlog(PaginationFilter filter, HttpRequest request , Guid Id);
         Task<PagedResponse<IEnumerable<VMGetBlog>>> GetItemBlog(PaginationFilter filter, HttpRequest request , Guid Id);
         Task<PagedResponse<IEnumerable<VMGetBlog>>> GetListAllBlog(PaginationFilter filter, HttpRequest request );
+
+        Task<PagedResponse<IEnumerable<VMGetBlog>>> GetBlogFilterByMajor(PaginationFilter filter, HttpRequest request, long idMajor);
         Task<PagedResponse<IEnumerable<VMGetBlog>>> GetListBlogActive(PaginationFilter filter, HttpRequest request );
         Task<Respone> CreateBlog(VMCreateBlog vMBlog);
         Task<Respone> UpdateBlog(VMUpdateBlog vMUpdateBlog);

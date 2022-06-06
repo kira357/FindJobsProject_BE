@@ -196,7 +196,7 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
                         if (checkIdRecruitmentJob != null)
                         {
                             checkIdRecruitmentJob.IsActive = job.IsActive;
-                            checkIdRecruitmentJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
+                            checkIdRecruitmentJob.UpdatedOn = DateTime.Now;
                             await _context.SaveChangesAsync();
                         }
 
