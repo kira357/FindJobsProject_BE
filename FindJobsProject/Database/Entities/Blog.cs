@@ -28,6 +28,9 @@ namespace FindJobsProject.Database.Entities
         public Guid IdUser { get; set; }
         public AppUser UserBlog { get; set; }
 
+        public ICollection<FavoritesBlogs> Favorites { get; set; }
+
+
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset? UpdatedOn { get; set; }
     }
