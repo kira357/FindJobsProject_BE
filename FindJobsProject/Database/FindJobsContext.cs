@@ -36,7 +36,7 @@ namespace FindJobsProject.Database
         public DbSet<CandidateJob> CandidateJobs { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Major> Majors { get; set; }
-        public DbSet<FavoritesBlogs> Favourites { get; set; }
+        public DbSet<FavoritesJobs> FavouritesJobs { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<ReplyComment> ReplyComments { get; set; }
 
@@ -54,7 +54,7 @@ namespace FindJobsProject.Database
             builder.ApplyConfiguration(new BlogConfiguration());
             builder.ApplyConfiguration(new CommentConfiguration());
             builder.ApplyConfiguration(new ReplyCommentConfiguration());
-            builder.ApplyConfiguration(new FavoritesBlogsConfiguration());
+            builder.ApplyConfiguration(new FavoritesJobsConfiguration());
 
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             builder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });

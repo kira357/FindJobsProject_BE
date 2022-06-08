@@ -5,11 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FindJobsProject.Database.Entities
 {
-    public class FavoritesBlogs
+    public class FavoritesJobs
     {
  
-        public Guid idBlog { get; set; }
-        public Blog Blogs { get; set; }
+
+        public Guid idJob { get; set; }
+        public Job Jobs { get; set; }
         public Guid IdUser { get; set; }
         public AppUser Users { get; set; }
         public bool isLike { get; set; }

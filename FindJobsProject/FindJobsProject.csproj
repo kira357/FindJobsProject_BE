@@ -113,6 +113,40 @@
     <Compile Remove="Migrations\20220607175816_favouriteBlogTable.Designer.cs" />
     <Compile Remove="Migrations\20220607175958_favouriteBlogTable.cs" />
     <Compile Remove="Migrations\20220607175958_favouriteBlogTable.Designer.cs" />
+    <Compile Remove="Migrations\20220608163932_favouriteTable.cs" />
+    <Compile Remove="Migrations\20220608163932_favouriteTable.Designer.cs" />
+    <Compile Remove="Migrations\20220608165100_favouriteTable.cs" />
+    <Compile Remove="Migrations\20220608165100_favouriteTable.Designer.cs" />
+    <Compile Remove="Migrations\20220608165132_favouriteTable.cs" />
+    <Compile Remove="Migrations\20220608165132_favouriteTable.Designer.cs" />
+    <Compile Remove="Migrations\20220608165518_favouriteTable.cs" />
+    <Compile Remove="Migrations\20220608165518_favouriteTable.Designer.cs" />
+    <Compile Remove="Migrations\20220608165721_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608165721_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608165812_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608165812_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608165920_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608165920_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608165942_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608165942_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608170027_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608170027_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608170129_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608170129_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608170202_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608170202_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608170254_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608170254_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608170331_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608170331_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608170446_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608170446_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608170734_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608170734_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608170826_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608170826_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608170959_favouriteTable2.cs" />
+    <Compile Remove="Migrations\20220608170959_favouriteTable2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
