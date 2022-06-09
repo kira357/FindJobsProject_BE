@@ -4,6 +4,7 @@ using FindJobsProject.Database.Entities;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.VMBlog;
 using FindJobsProject.ViewModels.VMComment;
+using FindJobsProject.ViewModels.VMFavourite;
 using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMMajor;
 using FindJobsProject.ViewModels.VMReply;
@@ -47,10 +48,18 @@ namespace FindJobsProject.Mapper
              CreateMap<VMCandidateJob, CandidateJob>();
              CreateMap<VMUpdateCandidateJob, CandidateJob>();
              CreateMap<VMDeleteCandidateJob, CandidateJob>();
-            
-            
+
+            // favourite 
+
+            CreateMap<VMGetFavourite, FavouritesJob>();
+            CreateMap<VMUpdateFavourite, FavouritesJob>();
+            CreateMap<VMDeleteFavourite, FavouritesJob>();
+            CreateMap<VMCreateFavourite, FavouritesJob>();
+            CreateMap<VMFavourite, FavouritesJob>();
+
+
             //Comment
-             CreateMap<VMComment, Comment>();
+            CreateMap<VMComment, Comment>();
              CreateMap<VMCreateComment, Comment>();
              CreateMap<VMUpdateComment, Comment>();
             

@@ -8,21 +8,21 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FindJobsProject.Data.Configurations
 {
-    public class FavoritesJobsConfiguration : IEntityTypeConfiguration<FavoritesJobs>
+    public class FavouritesConfiguration : IEntityTypeConfiguration<FavouritesJob>
     {
-        public void Configure(EntityTypeBuilder<FavoritesJobs> builder)
+        public void Configure(EntityTypeBuilder<FavouritesJob> builder)
         {
-            builder.ToTable("FavoritesBlogs");
+            builder.ToTable("FavouritesJob");
             builder.HasKey(sc => new { sc.idJob, sc.IdUser });
 
-            builder.ToTable("FavoritesBlogs")
+            builder.ToTable("FavouritesJob")
             .HasOne<AppUser>(sc => sc.Users)
             .WithMany(s => s.Favorites)
             .HasForeignKey(sc => sc.IdUser)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
-            builder.ToTable("FavoritesBlogs")
+            builder.ToTable("FavouritesJob")
                 .HasOne<Job>(sc => sc.Jobs)
                 .WithMany(s => s.Favorites)
                 .HasForeignKey(sc => sc.idJob)

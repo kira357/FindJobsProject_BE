@@ -43,7 +43,7 @@ namespace FindJobsProject.Data.Entities
         public DateTimeOffset? UpdatedOn { get; set; }
 
         public IList<RecruitmentJob> RecruitmentJobTable { get; set; }
-        public IList<FavoritesJobs> Favorites { get; set; }
+        public IList<FavouritesJob> Favorites { get; set; }
 
         public IList<CandidateJob> CandidateJob { get; set; }
 

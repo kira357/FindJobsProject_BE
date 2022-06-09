@@ -177,6 +177,7 @@ namespace FindJobsProject.DI
                                         UpdatedOn = userrole.user.job.UpdatedOn,
                                     }
                                    ).Where(x => x.IsActive == true);
+
             var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
             var result = PaginatedList<VMGetJob>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
             var count = data.Count();

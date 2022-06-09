@@ -25,18 +25,14 @@ namespace FindJobsProject.Database
         public DbSet<AppRole> AppRoles { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<AppUserRole> AppUserRoles { get; set; }
-        //public DbSet<Employees> employees { get; set; }
-        //public DbSet<Company> companies { get; set; }
-        //public DbSet<CompanyJobs> companyJobs { get; set; }
-        //public DbSet<Jobs> jobs { get; set; }
-
+ 
         public DbSet<RecruitmentJob> recruitmentJob { get; set; }
 
         public DbSet<Job> Jobs { get; set; }
         public DbSet<CandidateJob> CandidateJobs { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Major> Majors { get; set; }
-        public DbSet<FavoritesJobs> FavouritesJobs { get; set; }
+        public DbSet<FavouritesJob> FavouritesJobs { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<ReplyComment> ReplyComments { get; set; }
 
@@ -54,7 +50,7 @@ namespace FindJobsProject.Database
             builder.ApplyConfiguration(new BlogConfiguration());
             builder.ApplyConfiguration(new CommentConfiguration());
             builder.ApplyConfiguration(new ReplyCommentConfiguration());
-            builder.ApplyConfiguration(new FavoritesJobsConfiguration());
+            builder.ApplyConfiguration(new FavouritesConfiguration());
 
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             builder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });

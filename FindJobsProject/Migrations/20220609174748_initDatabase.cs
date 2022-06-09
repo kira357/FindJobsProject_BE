@@ -71,7 +71,8 @@ namespace FindJobsProject.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(nullable: false),
-                    RoleId = table.Column<Guid>(nullable: false)
+                    RoleId = table.Column<Guid>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,6 +111,7 @@ namespace FindJobsProject.Migrations
                     WorkTime = table.Column<int>(nullable: false),
                     Address = table.Column<string>(nullable: false),
                     DateExpire = table.Column<DateTimeOffset>(nullable: false),
+                    TypeJob = table.Column<long>(nullable: true),
                     CreatedOn = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedOn = table.Column<DateTimeOffset>(nullable: true)
                 },
@@ -131,6 +133,75 @@ namespace FindJobsProject.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Majors", x => x.IdMajor);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Blog",
+                columns: table => new
+                {
+                    IdBlog = table.Column<Guid>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
+                    IdMajor = table.Column<long>(nullable: true),
+                    NameMajor = table.Column<string>(nullable: true),
+                    Summary = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    DatePost = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<string>(nullable: true),
+                    View = table.Column<int>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    HotPost = table.Column<bool>(nullable: false),
+                    IdUser = table.Column<Guid>(nullable: false),
+                    CreatedOn = table.Column<DateTimeOffset>(nullable: false),
+                    UpdatedOn = table.Column<DateTimeOffset>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blog", x => x.IdBlog);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CandidateJob",
+                columns: table => new
+                {
+                    IdCandicate = table.Column<Guid>(nullable: false),
+                    IdJob = table.Column<Guid>(nullable: false),
+                    IdRecruitment = table.Column<Guid>(nullable: false),
+                    Introduction = table.Column<string>(nullable: true),
+                    Resume = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsPending = table.Column<bool>(nullable: false),
+                    IsDelete = table.Column<bool>(nullable: false),
+                    DateApply = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedOn = table.Column<DateTimeOffset>(nullable: false),
+                    UpdatedOn = table.Column<DateTimeOffset>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CandidateJob", x => new { x.IdCandicate, x.IdJob });
+                    table.ForeignKey(
+                        name: "FK_CandidateJob_Job_IdJob",
+                        column: x => x.IdJob,
+                        principalTable: "Job",
+                        principalColumn: "IdJob",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comment",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CommentMsg = table.Column<string>(nullable: false),
+                    CommentDate = table.Column<DateTime>(nullable: false),
+                    CommentOn = table.Column<string>(nullable: true),
+                    IdUser = table.Column<Guid>(nullable: false),
+                    IdPosition = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comment", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,16 +227,25 @@ namespace FindJobsProject.Migrations
                     LastName = table.Column<string>(maxLength: 50, nullable: true),
                     FullName = table.Column<string>(nullable: true),
                     DateOfBirth = table.Column<DateTimeOffset>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
+                    Gender = table.Column<int>(nullable: false),
                     Comment = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
+                    Experience = table.Column<string>(nullable: true),
                     IdMajor = table.Column<long>(nullable: true),
                     UrlAvatar = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: true),
+                    CommentId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppUsers_Comment_CommentId",
+                        column: x => x.CommentId,
+                        principalTable: "Comment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AppUsers_Majors_IdMajor",
                         column: x => x.IdMajor,
@@ -175,55 +255,27 @@ namespace FindJobsProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Blog",
+                name: "FavouritesJob",
                 columns: table => new
                 {
-                    IdBlog = table.Column<Guid>(nullable: false),
-                    TItle = table.Column<string>(nullable: true),
-                    Image = table.Column<string>(nullable: true),
-                    IdMajor = table.Column<long>(nullable: true),
-                    UserId = table.Column<Guid>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false),
-                    CreatedOn = table.Column<DateTimeOffset>(nullable: false),
-                    UpdatedOn = table.Column<DateTimeOffset>(nullable: true)
+                    idJob = table.Column<Guid>(nullable: false),
+                    IdUser = table.Column<Guid>(nullable: false),
+                    isLike = table.Column<bool>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    UpdatedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Blog", x => x.IdBlog);
+                    table.PrimaryKey("PK_FavouritesJob", x => new { x.idJob, x.IdUser });
                     table.ForeignKey(
-                        name: "FK_Blog_AppUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CandidateJob",
-                columns: table => new
-                {
-                    IdCandicate = table.Column<Guid>(nullable: false),
-                    IdJob = table.Column<Guid>(nullable: false),
-                    IdRecruitment = table.Column<Guid>(nullable: false),
-                    Introduction = table.Column<string>(nullable: true),
-                    Resume = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false),
-                    DateApply = table.Column<DateTimeOffset>(nullable: false),
-                    CreatedOn = table.Column<DateTimeOffset>(nullable: false),
-                    UpdatedOn = table.Column<DateTimeOffset>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CandidateJob", x => new { x.IdCandicate, x.IdJob });
-                    table.ForeignKey(
-                        name: "FK_CandidateJob_AppUsers_IdCandicate",
-                        column: x => x.IdCandicate,
+                        name: "FK_FavouritesJob_AppUsers_IdUser",
+                        column: x => x.IdUser,
                         principalTable: "AppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CandidateJob_Job_IdJob",
-                        column: x => x.IdJob,
+                        name: "FK_FavouritesJob_Job_idJob",
+                        column: x => x.idJob,
                         principalTable: "Job",
                         principalColumn: "IdJob",
                         onDelete: ReferentialAction.Cascade);
@@ -257,34 +309,67 @@ namespace FindJobsProject.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ReplyComment",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReplyMsg = table.Column<string>(nullable: false),
+                    CreateOn = table.Column<DateTime>(nullable: true),
+                    IdUser = table.Column<Guid>(nullable: true),
+                    IdComment = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReplyComment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ReplyComment_Comment_IdComment",
+                        column: x => x.IdComment,
+                        principalTable: "Comment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ReplyComment_AppUsers_IdUser",
+                        column: x => x.IdUser,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "ed90f873-f437-4c4f-ad0b-c4aac771aa2e", "Administrator role", "Admin", "ADMIN" },
-                    { new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0"), "5977ac7c-7ccd-47ca-ac8e-aa658bee530c", "Recruitment role", "Recruitment", "RECRUITMENT" }
+                    { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "38e80feb-6a44-4506-8cf6-ad61a52d6495", "Administrator role", "Admin", "ADMIN" },
+                    { new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0"), "f88c892f-9f6f-408c-8141-99b0c8a5bc00", "Recruitment role", "Recruitment", "RECRUITMENT" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
-                columns: new[] { "UserId", "RoleId" },
+                columns: new[] { "UserId", "RoleId", "Discriminator" },
                 values: new object[,]
                 {
-                    { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), new Guid("8d04dce2-969a-435d-bba4-df3f325983dc") },
-                    { new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"), new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0") },
-                    { new Guid("9bc1bf33-d875-42b2-a39e-b0cfc3fb6f2c"), new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0") }
+                    { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "IdentityUserRole<Guid>" },
+                    { new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"), new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0"), "IdentityUserRole<Guid>" },
+                    { new Guid("9bc1bf33-d875-42b2-a39e-b0cfc3fb6f2c"), new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0"), "IdentityUserRole<Guid>" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AppUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Address", "Comment", "ConcurrencyStamp", "DateOfBirth", "Description", "Email", "EmailConfirmed", "FirstName", "FullName", "Gender", "IdMajor", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UrlAvatar", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Address", "Comment", "CommentId", "ConcurrencyStamp", "DateOfBirth", "Description", "Email", "EmailConfirmed", "Experience", "FirstName", "FullName", "Gender", "IdMajor", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UrlAvatar", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, null, null, "e9648427-2851-4c2a-a0ae-7941a8ecb393", null, null, "5951071014@st.utc2.edu.vn", true, "Đạt", "Trần Tiến Đạt", null, null, "Trần Tiến", false, null, "5951071014@st.utc2.edu.vn", "5951071014@st.utc2.edu.vn", "AQAAAAEAACcQAAAAEGKMq51wZs8pZ2XhbEPSXJg72D7GuvpUJkgAaCd1or6HdbV32jWQsFkfQFytZ9qfeg==", null, false, "", false, "Images/avt1.png", "5951071014@st.utc2.edu.vn" },
-                    { new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"), 0, null, null, "c7c52e21-1beb-4c1c-abbd-d7ca5dbafdd6", null, null, "5951071017@st.utc2.edu.vn", true, "Đông", "Hoàng Đình Thiên Đông", null, null, "Hoàng Đinh Thiên", false, null, "5951071017@st.utc2.edu.vn", "5951071017@st.utc2.edu.vn", "AQAAAAEAACcQAAAAEF39Dy/8y81nwmYV3nCWetBnaRnS5EqfXWgvuyyVFrBBAEkhxVxX+dWRHoGHeDiRfQ==", null, false, "", false, "Images/avt5.png", "5951071017@st.utc2.edu.vn" },
-                    { new Guid("9bc1bf33-d875-42b2-a39e-b0cfc3fb6f2c"), 0, null, null, "6790caad-2e13-483e-ba68-791a65ccdc54", null, null, "5951071021@st.utc2.edu.vn", true, "Hảo", "Trần Minh Hảo", null, null, "Trần Minh", false, null, "5951071021@st.utc2.edu.vn", "5951071021@st.utc2.edu.vn", "AQAAAAEAACcQAAAAEE7KKeea8PkRNHkQOy/zbd4Y44MjYThxQFHnkvgztTAVCHm5hwSetldKxd58CgNnnw==", null, false, "", false, "Images/avt6.png", "5951071021@st.utc2.edu.vn" }
+                    { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, null, null, null, "0af10fe9-d636-4274-af09-4def29043746", null, null, "5951071014@st.utc2.edu.vn", true, null, "Đạt", "Trần Tiến Đạt", 0, null, null, "Trần Tiến", false, null, "5951071014@st.utc2.edu.vn", "5951071014@st.utc2.edu.vn", "AQAAAAEAACcQAAAAEG5TfWjA8EbVFe26HToD+EeLVJXRVhL3PqYupZshePTspFeag5U/P8ozJvO5voxMvA==", null, false, "", false, "Images/avt1.png", "5951071014@st.utc2.edu.vn" },
+                    { new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"), 0, null, null, null, "44f81189-bcfd-49ae-9917-5f70141b31ee", null, null, "5951071017@st.utc2.edu.vn", true, null, "Đông", "Hoàng Đình Thiên Đông", 0, null, null, "Hoàng Đinh Thiên", false, null, "5951071017@st.utc2.edu.vn", "5951071017@st.utc2.edu.vn", "AQAAAAEAACcQAAAAEF9dRgmelUEhn7yjixtqB9mwWbAows7H7OheMPzaXBrtYx5gBXU8TYVdaQVEjMXTCg==", null, false, "", false, "Images/avt5.png", "5951071017@st.utc2.edu.vn" },
+                    { new Guid("9bc1bf33-d875-42b2-a39e-b0cfc3fb6f2c"), 0, null, null, null, "c5644c0d-cbb1-4b85-85e5-d029717d8d50", null, null, "5951071021@st.utc2.edu.vn", true, null, "Hảo", "Trần Minh Hảo", 0, null, null, "Trần Minh", false, null, "5951071021@st.utc2.edu.vn", "5951071021@st.utc2.edu.vn", "AQAAAAEAACcQAAAAEDX9cHx8jjr0N24bChAxZi/jazs2hHR9r8eWLkt2pmzu1EP85mSOVCLcDpP56pTSEA==", null, false, "", false, "Images/avt6.png", "5951071021@st.utc2.edu.vn" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppUsers_CommentId",
+                table: "AppUsers",
+                column: "CommentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppUsers_IdMajor",
@@ -292,9 +377,9 @@ namespace FindJobsProject.Migrations
                 column: "IdMajor");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Blog_UserId",
+                name: "IX_Blog_IdUser",
                 table: "Blog",
-                column: "UserId");
+                column: "IdUser");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CandidateJob_IdJob",
@@ -302,13 +387,61 @@ namespace FindJobsProject.Migrations
                 column: "IdJob");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comment_IdUser",
+                table: "Comment",
+                column: "IdUser");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FavouritesJob_IdUser",
+                table: "FavouritesJob",
+                column: "IdUser");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RecruitmentJob_IdJob",
                 table: "RecruitmentJob",
                 column: "IdJob");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReplyComment_IdComment",
+                table: "ReplyComment",
+                column: "IdComment");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReplyComment_IdUser",
+                table: "ReplyComment",
+                column: "IdUser");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Blog_AppUsers_IdUser",
+                table: "Blog",
+                column: "IdUser",
+                principalTable: "AppUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CandidateJob_AppUsers_IdCandicate",
+                table: "CandidateJob",
+                column: "IdCandicate",
+                principalTable: "AppUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Comment_AppUsers_IdUser",
+                table: "Comment",
+                column: "IdUser",
+                principalTable: "AppUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_AppUsers_Comment_CommentId",
+                table: "AppUsers");
+
             migrationBuilder.DropTable(
                 name: "AppRoleClaims");
 
@@ -334,10 +467,19 @@ namespace FindJobsProject.Migrations
                 name: "CandidateJob");
 
             migrationBuilder.DropTable(
+                name: "FavouritesJob");
+
+            migrationBuilder.DropTable(
                 name: "RecruitmentJob");
 
             migrationBuilder.DropTable(
+                name: "ReplyComment");
+
+            migrationBuilder.DropTable(
                 name: "Job");
+
+            migrationBuilder.DropTable(
+                name: "Comment");
 
             migrationBuilder.DropTable(
                 name: "AppUsers");

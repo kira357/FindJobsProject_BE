@@ -49,8 +49,16 @@
     <Compile Remove="Migrations\20220519080937_test3.Designer.cs" />
     <Compile Remove="Migrations\20220519135645_initDatabase.cs" />
     <Compile Remove="Migrations\20220519135645_initDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220519135905_initDatabase.cs" />
+    <Compile Remove="Migrations\20220519135905_initDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220519182039_addIsActiveToUser.cs" />
+    <Compile Remove="Migrations\20220519182039_addIsActiveToUser.Designer.cs" />
+    <Compile Remove="Migrations\20220521082029_addUserRoles.cs" />
+    <Compile Remove="Migrations\20220521082029_addUserRoles.Designer.cs" />
     <Compile Remove="Migrations\20220521084929_updateUser.cs" />
     <Compile Remove="Migrations\20220521084929_updateUser.Designer.cs" />
+    <Compile Remove="Migrations\20220521085428_updateUser.cs" />
+    <Compile Remove="Migrations\20220521085428_updateUser.Designer.cs" />
     <Compile Remove="Migrations\20220528052349_blogCommentAndReply.cs" />
     <Compile Remove="Migrations\20220528052349_blogCommentAndReply.Designer.cs" />
     <Compile Remove="Migrations\20220528052907_blogCommentAndReply.cs" />
@@ -71,12 +79,20 @@
     <Compile Remove="Migrations\20220528055937_blogCommentAndReply.Designer.cs" />
     <Compile Remove="Migrations\20220528060350_blogCommentAndReply.cs" />
     <Compile Remove="Migrations\20220528060350_blogCommentAndReply.Designer.cs" />
+    <Compile Remove="Migrations\20220528060439_blogCommentAndReply.cs" />
+    <Compile Remove="Migrations\20220528060439_blogCommentAndReply.Designer.cs" />
+    <Compile Remove="Migrations\20220601150036_addPendingDelete.cs" />
+    <Compile Remove="Migrations\20220601150036_addPendingDelete.Designer.cs" />
     <Compile Remove="Migrations\20220605154111_typeJob.cs" />
     <Compile Remove="Migrations\20220605154111_typeJob.Designer.cs" />
+    <Compile Remove="Migrations\20220605154451_typeJob.cs" />
+    <Compile Remove="Migrations\20220605154451_typeJob.Designer.cs" />
     <Compile Remove="Migrations\20220605160234_userExperience.cs" />
     <Compile Remove="Migrations\20220605160234_userExperience.Designer.cs" />
     <Compile Remove="Migrations\20220605160348_userExperience.cs" />
     <Compile Remove="Migrations\20220605160348_userExperience.Designer.cs" />
+    <Compile Remove="Migrations\20220605160553_userExperience.cs" />
+    <Compile Remove="Migrations\20220605160553_userExperience.Designer.cs" />
     <Compile Remove="Migrations\20220607171136_favouriteTable.cs" />
     <Compile Remove="Migrations\20220607171136_favouriteTable.Designer.cs" />
     <Compile Remove="Migrations\20220607171921_favouriteTable.cs" />
@@ -121,6 +137,8 @@
     <Compile Remove="Migrations\20220608165132_favouriteTable.Designer.cs" />
     <Compile Remove="Migrations\20220608165518_favouriteTable.cs" />
     <Compile Remove="Migrations\20220608165518_favouriteTable.Designer.cs" />
+    <Compile Remove="Migrations\20220608165554_favouriteTable.cs" />
+    <Compile Remove="Migrations\20220608165554_favouriteTable.Designer.cs" />
     <Compile Remove="Migrations\20220608165721_favouriteTable2.cs" />
     <Compile Remove="Migrations\20220608165721_favouriteTable2.Designer.cs" />
     <Compile Remove="Migrations\20220608165812_favouriteTable2.cs" />
@@ -147,6 +165,12 @@
     <Compile Remove="Migrations\20220608170826_favouriteTable2.Designer.cs" />
     <Compile Remove="Migrations\20220608170959_favouriteTable2.cs" />
     <Compile Remove="Migrations\20220608170959_favouriteTable2.Designer.cs" />
+    <Compile Remove="Migrations\20220608171554_favouriteJobs.cs" />
+    <Compile Remove="Migrations\20220608171554_favouriteJobs.Designer.cs" />
+    <Compile Remove="Migrations\20220609173055_favouritesTable.cs" />
+    <Compile Remove="Migrations\20220609173055_favouritesTable.Designer.cs" />
+    <Compile Remove="Migrations\20220609173822_initNewData.cs" />
+    <Compile Remove="Migrations\20220609173822_initNewData.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -172,6 +196,7 @@
     <Folder Include="Images\" />
     <Folder Include="Files\" />
     <Folder Include="Hub\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 

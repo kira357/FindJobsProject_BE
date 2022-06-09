@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FindJobsProject.Database.Entities
 {
-    public class FavoritesJobs
+    public class FavouritesJob
     {
  
 
