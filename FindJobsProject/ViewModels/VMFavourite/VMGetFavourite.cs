@@ -6,6 +6,7 @@ namespace FindJobsProject.ViewModels.VMFavourite
     {
         public Guid IdJob { get; set; }
         public Guid IdUser { get; set; }
+        public Guid IdRecruitment { get; set; }
         public string UserName { get; set; }
 
         public string? CompanyOfJobs { get; set; }

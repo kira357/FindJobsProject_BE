@@ -15,7 +15,7 @@ namespace FindJobsProject.DI
     {
         Task<PagedResponse<IEnumerable<VMGetCandidateJob>>> GetListApplyJob(PaginationFilter filter, HttpRequest request);
         Task<PagedResponse<IEnumerable<VMGetCandidateJob>>> GetItemApplyJob(PaginationFilter filter, HttpRequest request, Guid Id);
-        Task<VMGetCandidateJob> CheckIsApply(Guid Id,Guid idJob);
+        Task<VMGetCandidateJob> CheckIsApplyAndFavourite(Guid Id,Guid idJob);
         Task<Respone> ApplyJob(VMCandidateJob vMCandidate);
 
         Task<Respone> DeteleCandidate(VMDeleteCandidateJob vMDeteleJob , Guid id);

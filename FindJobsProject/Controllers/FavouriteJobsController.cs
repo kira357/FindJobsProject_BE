@@ -41,22 +41,7 @@ namespace FindJobsProject.Controllers
             }
 
         }
-        [HttpGet("get-favourite/{id}")]
-        public async Task<IActionResult> GetListJob([FromQuery] PaginationFilter filter,Guid id)
-        {
-            try
-            {
-                var getList = await _repo.GetItemIsFavourite(filter, Request, id);
-                return Ok(getList);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.InnerException);
-            }
-
-        }  
-       
+      
 
 
     }

@@ -22,6 +22,7 @@ namespace FindJobsProject.ViewModels.VMJob
 
         public string Resume { get; set; }
         public bool IsActive { get; set; }
+        public bool Islike { get; set; }
         public bool IsPending { get; set; }
         public bool IsDelete { get; set; }
         public DateTimeOffset DateApply { get; set; }

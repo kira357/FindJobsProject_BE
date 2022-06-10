@@ -15,7 +15,6 @@ namespace FindJobsProject.DI
     public interface IReposityFavourite
     {
 
-        Task<PagedResponse<IEnumerable<VMGetFavourite>>> GetItemIsFavourite(PaginationFilter filter, HttpRequest request , Guid Id);
         Task<PagedResponse<IEnumerable<VMGetFavourite>>> GetListFavouriteJobs(PaginationFilter filter, HttpRequest request, Guid Id );
         Task<Respone> CreateFavourite(VMCreateFavourite vMCreateFavourite);
 

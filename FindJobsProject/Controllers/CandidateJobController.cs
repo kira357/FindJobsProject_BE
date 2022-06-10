@@ -76,12 +76,12 @@ namespace FindJobsProject.Controllers
 
         } 
         
-        [HttpGet("is-apply/{id}")]
-        public async Task<IActionResult> GetCheckIsApply(Guid id,Guid IdJob)
+        [HttpGet("is-apply-and-like/{id}")]
+        public async Task<IActionResult> CheckIsApplyAndFavourite(Guid id,Guid IdJob)
         {
             try
             {
-                var getList = await _repo.CheckIsApply(id,IdJob);
+                var getList = await _repo.CheckIsApplyAndFavourite(id,IdJob);
                 return Ok(getList);
             }
             catch (Exception ex)

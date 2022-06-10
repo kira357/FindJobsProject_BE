@@ -8,7 +8,6 @@ namespace FindJobsProject.Database.Entities
     public class FavouritesJob
     {
  
-
         public Guid idJob { get; set; }
         public Job Jobs { get; set; }
         public Guid IdUser { get; set; }

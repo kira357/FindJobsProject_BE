@@ -181,20 +181,17 @@ namespace FindJobsProject.DI
 
 
 
-        public async Task<VMGetCandidateJob> CheckIsApply(Guid Id,Guid IdJob)
+        public async Task<VMGetCandidateJob> CheckIsApplyAndFavourite(Guid Id,Guid IdJob)
         {
             var check = await _context.CandidateJobs.SingleOrDefaultAsync(x => x.IdCandicate == Id && x.IdJob == IdJob);
-            if(check != null)
-            {
+            var checkIsLike = await _context.FavouritesJobs.SingleOrDefaultAsync(x => x.IdUser == Id && x.idJob == IdJob);
+
                 return new VMGetCandidateJob
                 {
-                    IsActive = check.IsActive,
+                    IsActive = check != null ? check.IsActive : false,
+                    Islike = checkIsLike != null ? checkIsLike.isLike : false 
                 };
-            }
-            return new VMGetCandidateJob
-            {
-                IsActive = false,
-            };
+   
         }
 
         public async Task<Respone> ApprovedCandidate(VMUpdateCandidateJob vMUpdateCandidateJob , Guid id)

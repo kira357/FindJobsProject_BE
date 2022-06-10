@@ -47,13 +47,15 @@ namespace FindJobsProject.DI
 
         public async Task<Respone> CreateFavourite(VMCreateFavourite vMCreateFavourite)
         {
-            if (vMCreateFavourite != null)
+
+            var check = _context.FavouritesJobs.SingleOrDefault(x => x.IdUser == vMCreateFavourite.IdUser && x.idJob == vMCreateFavourite.idJob);
+            if (check == null)
             {
                 vMCreateFavourite = new VMCreateFavourite
                 {
                     IdUser = vMCreateFavourite.IdUser,
                     idJob = vMCreateFavourite.idJob,
-                    isLike = true,
+                    isLike = vMCreateFavourite.isLike,
                     CreatedOn = DateTime.Now,
 
                 };
@@ -65,57 +67,81 @@ namespace FindJobsProject.DI
                     Ok = "Success",
                 };
             }
-            return new Respone
+            else
             {
-                Fail = "Fail"
-            };
+                check.isLike = vMCreateFavourite.isLike;
+                var favourite = _mapper.Map<FavouritesJob>(check);
+                await _context.SaveChangesAsync();
+                return new Respone
+                {
+                    Ok = "Success",
+                };
+            }
+           
         }
 
-        public async Task<PagedResponse<IEnumerable<VMGetFavourite>>> GetItemIsFavourite(PaginationFilter filter, HttpRequest request, Guid Id)
+        public async Task<PagedResponse<IEnumerable<VMGetFavourite>>> GetListFavouriteJobs(PaginationFilter filter, HttpRequest request, Guid Id)
         {
             var favouriteTable = _context.FavouritesJobs.AsQueryable();
             var jobTable = _context.Jobs.AsQueryable();
-            var recruitmentJob  = _context.recruitmentJob.AsQueryable();
-            var getAll = (from r in recruitmentJob
+            var recruitmentJob = _context.recruitmentJob.AsQueryable();
+            var major = _context.Majors.AsQueryable();
+            var user = _context.AppUsers.AsQueryable();
+            var getJob = (from fj in favouriteTable
+                          join r in recruitmentJob
+                          on fj.idJob equals r.IdJob
                           join j in jobTable
                           on r.IdJob equals j.IdJob
-                          join fj in favouriteTable
-                          on r.IdJob equals fj.idJob into c 
-                          from getjob in c.DefaultIfEmpty()
                           select new VMGetFavourite
                           {
-                              IdJob = getjob.idJob,
-                              IdUser = getjob.IdUser,
-                              UserName = getjob.Users.FullName,
-                              CompanyOfJobs = getjob.Jobs.CompanyOfJobs,
-                              Position = getjob.Jobs.Position,
-                              Name = getjob.Jobs.Name,
-                              JobImage = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, getjob.Jobs.JobImage),
-                              JobDetail = getjob.Jobs.JobDetail,
-                              Amount = getjob.Jobs.Amount,
-                              Experience = getjob.Jobs.Experience,
-                              SalaryMin = getjob.Jobs.SalaryMin,
-                              SalaryMax = getjob.Jobs.SalaryMax,
-                              WorkTime = getjob.Jobs.WorkTime,
-                              idMajor = getjob.Jobs.IdMajor,
-                              Address = getjob.Jobs.Address,
-                              DateExpire = getjob.Jobs.DateExpire,
-                              isLike = getjob.isLike,
-                              IsActive = getjob.Jobs.RecruitmentJobTable.FirstOrDefault().IsActive,
-                              
-                          }).Where(x => x.IdUser == Id && x.IsActive == true);
+                              IdJob = fj.idJob,
+                              IdUser = fj.IdUser,
+                              CompanyOfJobs = fj.Jobs.CompanyOfJobs,
+                              Position = fj.Jobs.Position,
+                              Name = fj.Jobs.Name,
+                              JobImage = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, fj.Jobs.JobImage),
+                              JobDetail = fj.Jobs.JobDetail,
+                              Amount = fj.Jobs.Amount,
+                              Experience = fj.Jobs.Experience,
+                              SalaryMin = fj.Jobs.SalaryMin,
+                              SalaryMax = fj.Jobs.SalaryMax,
+                              WorkTime = fj.Jobs.WorkTime,
+                              idMajor = fj.Jobs.IdMajor,
+                              Address = fj.Jobs.Address,
+                              DateExpire = fj.Jobs.DateExpire,
+                              isLike = fj.isLike
+                          }).Where(x => x.IdUser == Id);
+
+            var query = (from m in major
+                         join j in getJob
+                         on m.IdMajor equals j.idMajor
+                         select new VMGetFavourite
+                         {
+                             IdJob = j.IdJob,
+                             IdUser = j.IdUser,
+                             CompanyOfJobs = j.CompanyOfJobs,
+                             Position = j.Position,
+                             Name = j.Name,
+                             JobImage = j.JobImage,
+                             JobDetail = j.JobDetail,
+                             Amount = j.Amount,
+                             Experience = j.Experience,
+                             SalaryMin = j.SalaryMin,
+                             SalaryMax = j.SalaryMax,
+                             WorkTime = j.WorkTime,
+                             idMajor = j.idMajor,
+                             NameMajor = m.Name,
+                             Address = j.Address,
+                             DateExpire = j.DateExpire,
+                             isLike = j.isLike
+                         }).Where(x => x.isLike == true);
+
 
 
             var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
-            var result = PaginatedList<VMGetFavourite>.CreatePages(getAll, validFilter.IndexPage, validFilter.PageSize);
-            var count = getAll.Count();
+            var result = PaginatedList<VMGetFavourite>.CreatePages(query, validFilter.IndexPage, validFilter.PageSize);
+            var count = query.Count();
             return new PagedResponse<IEnumerable<VMGetFavourite>>(result, validFilter.IndexPage, validFilter.PageSize, count);
-
-        }
-
-        public Task<PagedResponse<IEnumerable<VMGetFavourite>>> GetListFavouriteJobs(PaginationFilter filter, HttpRequest request, Guid Id)
-        {
-            throw new NotImplementedException();
         }
 
         public Task<Respone> UpdateFavourite(VMUpdateFavourite vMUpdateFavourite)
