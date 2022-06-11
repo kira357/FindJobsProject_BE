@@ -268,7 +268,6 @@ namespace FindJobsProject.DI
                         check.FullName = vMUserUpdate.LastName + " " + vMUserUpdate.FirstName;
                         check.PhoneNumber = vMUserUpdate.PhoneNumber;
                         check.Experience = vMUserUpdate.Experience;
-                        check.IdMajor = vMUserUpdate.IdMajor;
                         check.Address = vMUserUpdate.Address;
                     }
                     var user = _mapper.Map<AppUser>(check);
