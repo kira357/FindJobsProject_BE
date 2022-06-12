@@ -25,7 +25,7 @@ namespace FindJobsProject.Data.Entities
         [Required]
         public int Amount { get; set; }    
         [Required]
-        public string? Experience { get; set; }   
+        public int? Experience { get; set; }   
         [Required]
         public decimal SalaryMin { get; set; }   
         [Required]

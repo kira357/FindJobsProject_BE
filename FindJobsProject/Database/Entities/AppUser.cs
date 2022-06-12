@@ -17,7 +17,7 @@ namespace FindJobsProject.Database.Entities
             public string Comment { get; set; }
             public string Address { get; set; }
             
-            public string? Experience { get; set; }
+            public int? Experience { get; set; }
 
             public long? IdMajor { get; set; }
             public Major UserMajor { get; set; }

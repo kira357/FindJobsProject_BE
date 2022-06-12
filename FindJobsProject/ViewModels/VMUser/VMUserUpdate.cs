@@ -16,7 +16,7 @@ namespace FindJobsProject.ViewModels
         public string UserName { get; set; }
         public string FullName { get; set; }
         public string Description { get; set; }
-        public string Experience { get; set; }
+        public int Experience { get; set; }
         public DateTimeOffset? DateOfBirth { get; set; }
 
         public string LastName { get; set; }

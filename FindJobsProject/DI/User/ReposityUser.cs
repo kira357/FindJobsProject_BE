@@ -258,7 +258,6 @@ namespace FindJobsProject.DI
                         check.UrlAvatar = image;
                         check.Experience = vMUserUpdate.Experience;
                         check.PhoneNumber = vMUserUpdate.PhoneNumber;
-                        check.IdMajor = vMUserUpdate.IdMajor;
                         check.Address = vMUserUpdate.Address;
                     }
                     else

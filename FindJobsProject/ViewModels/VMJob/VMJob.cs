@@ -29,7 +29,7 @@ namespace FindJobsProject.ViewModels.VMJob
 
         [NotMapped]
         public IFormFile imageFile { get; set; }
-        public string Experience { get; set; }
+        public int Experience { get; set; }
 
         public decimal SalaryMin { get; set; }
 

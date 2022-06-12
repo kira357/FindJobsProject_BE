@@ -333,7 +333,7 @@ namespace FindJobsProject.DI
 
         }
 
-        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetJobFilterByMajor(PaginationFilter filter , HttpRequest request, long idMajor , string experience)
+        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetJobFilterByMajor(PaginationFilter filter , HttpRequest request, long idMajor , int experience)
         {
             var job = _context.Jobs.AsQueryable();
             var recruitment = _context.recruitmentJob.AsQueryable();
@@ -345,8 +345,8 @@ namespace FindJobsProject.DI
                           join u in user
                           on r.IdRecruitment equals u.Id
                           join m in major
-                          on u.IdMajor equals m.IdMajor into mj
-                          from mjs in mj.DefaultIfEmpty()
+                          on u.IdMajor equals m.IdMajor
+                          where r.IsActive == true 
                           select new VMGetJob
                           {
                               IdJob = j.IdJob,
@@ -361,18 +361,34 @@ namespace FindJobsProject.DI
                               SalaryMin = j.SalaryMin,
                               SalaryMax = j.SalaryMax,
                               WorkTime = j.WorkTime,
-                              NameMajor = mjs.Name,
                               idMajor = j.IdMajor,
                               Address = j.Address,
                               DateExpire = j.DateExpire,
                               UpdatedOn = r.UpdatedOn,
                               IsActive = r.IsActive
-                          }).OrderByDescending(x => x.UpdatedOn)
-                          .Where(x => (x.idMajor == idMajor || x.Experience == experience) && x.IsActive == true);
+                          });
+
+                if (idMajor > 0 )
+                getAll = getAll.Where(m => m.idMajor.Equals(idMajor));
+
+                if (experience > 0 )
+                getAll = getAll.Where(m => m.Experience.Equals(experience));
 
             var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
-            var result = PaginatedList<VMGetJob>.CreatePages(getAll, validFilter.IndexPage, validFilter.PageSize);
+            var result = PaginatedList<VMGetJob>.CreatePages(getAll.OrderByDescending(x => x.UpdatedOn), validFilter.IndexPage, validFilter.PageSize);
             var count = getAll.Count();
+
+            if (result.Any())
+            {
+                var idRecruitment = result.Select(x => x.idMajor).Distinct();
+                if (idRecruitment.Any())
+                {
+                    var recruitmentData = _context.Majors.AsQueryable()
+                      .Where(x => idRecruitment.Contains(x.IdMajor)).Select(x => new { x.Name , x.IdMajor}).ToList();
+                    result.ForEach(x => x.NameMajor = recruitmentData.FirstOrDefault(v => v.IdMajor == x.idMajor)?.Name);
+                }
+            }
+
             return new PagedResponse<IEnumerable<VMGetJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
     }

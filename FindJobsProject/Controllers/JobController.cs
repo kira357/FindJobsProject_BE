@@ -75,7 +75,7 @@ namespace FindJobsProject.Controllers
 
 
         [HttpGet("get-job-filter-major")]
-        public async Task<IActionResult> GetJobFilterByMajor([FromQuery] PaginationFilter filter, long idMajor, string experience)
+        public async Task<IActionResult> GetJobFilterByMajor([FromQuery] PaginationFilter filter, long idMajor, int experience)
         {
             try
             {
