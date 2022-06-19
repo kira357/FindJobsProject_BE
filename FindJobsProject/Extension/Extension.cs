@@ -44,6 +44,7 @@ namespace FindJobsProject.Extends
                     {
                         builder.WithOrigins("http://localhost:4200")
                                .AllowAnyHeader()
+                               .AllowCredentials()
                                .AllowAnyMethod();
                     });
             });
@@ -81,6 +82,7 @@ namespace FindJobsProject.Extends
             services.AddScoped<IReposityBlog, ReposityBlog>();
             services.AddScoped<IReposityComment, ReposityComment>();
             services.AddScoped<IReposityFavourite, ReposityFavourite>();
+            services.AddScoped<IReposityMessage, ReposityMessage>();
 
 
             return services;

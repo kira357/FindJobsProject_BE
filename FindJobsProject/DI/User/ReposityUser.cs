@@ -371,6 +371,7 @@ namespace FindJobsProject.DI
                                    FullName = user.FullName,
                                    FirstName = user.FirstName,
                                    LastName = user.LastName,
+                                   Email = user.Email,
                                    UrlAvatar = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, user.UrlAvatar),
                                    RoleName = rolename.Name,
                                    IdMajor = usermajor.IdMajor,

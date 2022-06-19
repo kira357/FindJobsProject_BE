@@ -171,6 +171,8 @@
     <Compile Remove="Migrations\20220609173055_favouritesTable.Designer.cs" />
     <Compile Remove="Migrations\20220609173822_initNewData.cs" />
     <Compile Remove="Migrations\20220609173822_initNewData.Designer.cs" />
+    <Compile Remove="Migrations\20220617180559_createMessAndRoom2.cs" />
+    <Compile Remove="Migrations\20220617180559_createMessAndRoom2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -178,6 +180,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.7">
       <PrivateAssets>all</PrivateAssets>
@@ -193,9 +197,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DI\Room\" />
     <Folder Include="Images\" />
     <Folder Include="Files\" />
-    <Folder Include="Hub\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

@@ -1,5 +1,6 @@
 using AutoMapper;
 using FindJobsProject.Extends;
+using FindJobsProject.Hubs;
 using FindJobsProject.Mapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,7 +37,7 @@ namespace FindJobsProject
             services.AddConfigIdentity();
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddConfigScope();
-
+            services.AddSignalR();
             services.AddControllersWithViews().AddNewtonsoftJson();
         }
 
@@ -59,6 +60,11 @@ namespace FindJobsProject
 
             app.UseAuthorization();
 
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chat");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

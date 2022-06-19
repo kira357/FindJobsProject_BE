@@ -97,6 +97,7 @@ namespace FindJobsProject.DI
 
         public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetListJob(PaginationFilter filter, HttpRequest request)
         {
+            
             var getList = _context.Jobs.AsQueryable();
             var data = getList.Join(_context.recruitmentJob,
                                     job => job.IdJob,
@@ -366,13 +367,9 @@ namespace FindJobsProject.DI
                               DateExpire = j.DateExpire,
                               UpdatedOn = r.UpdatedOn,
                               IsActive = r.IsActive
-                          });
+                          }).Where(x => (idMajor == 0 || x.idMajor == idMajor) 
+                                     && experience == 0 || x.Experience == experience);
 
-                if (idMajor > 0 )
-                getAll = getAll.Where(m => m.idMajor.Equals(idMajor));
-
-                if (experience > 0 )
-                getAll = getAll.Where(m => m.Experience.Equals(experience));
 
             var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
             var result = PaginatedList<VMGetJob>.CreatePages(getAll.OrderByDescending(x => x.UpdatedOn), validFilter.IndexPage, validFilter.PageSize);

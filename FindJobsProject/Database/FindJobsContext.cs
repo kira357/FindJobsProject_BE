@@ -29,6 +29,8 @@ namespace FindJobsProject.Database
         public DbSet<RecruitmentJob> recruitmentJob { get; set; }
 
         public DbSet<Job> Jobs { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Room> Rooms { get; set; }
         public DbSet<CandidateJob> CandidateJobs { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Major> Majors { get; set; }
@@ -51,6 +53,9 @@ namespace FindJobsProject.Database
             builder.ApplyConfiguration(new CommentConfiguration());
             builder.ApplyConfiguration(new ReplyCommentConfiguration());
             builder.ApplyConfiguration(new FavouritesConfiguration());
+
+            builder.ApplyConfiguration(new MessageConfiguration());
+            //builder.ApplyConfiguration(new RoomConfiguration());
 
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             builder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });

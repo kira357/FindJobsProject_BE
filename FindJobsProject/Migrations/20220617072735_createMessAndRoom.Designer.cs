@@ -4,14 +4,16 @@ using FindJobsProject.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FindJobsProject.Migrations
 {
     [DbContext(typeof(FindJobsContext))]
-    partial class FindJobsContextModelSnapshot : ModelSnapshot
+    [Migration("20220617072735_createMessAndRoom")]
+    partial class createMessAndRoom
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +48,7 @@ namespace FindJobsProject.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "f68a401d-dc33-4149-ab39-2c791a74554f",
+                            ConcurrencyStamp = "f4b994fa-4b0c-450d-917f-6d34b9caba79",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
@@ -54,7 +56,7 @@ namespace FindJobsProject.Migrations
                         new
                         {
                             Id = new Guid("f52734c6-4614-4bc8-894a-8feeab71bef0"),
-                            ConcurrencyStamp = "9e10f460-ac42-4dc7-8e41-4b177531df4d",
+                            ConcurrencyStamp = "5d932d09-872d-4490-8c0c-bdc754044dd2",
                             Description = "Recruitment role",
                             Name = "Recruitment",
                             NormalizedName = "RECRUITMENT"
@@ -267,7 +269,7 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9a99cf48-f68f-44c1-a7dd-5d004c61de20",
+                            ConcurrencyStamp = "fb81a458-7408-4d40-b269-5ebf1762bfd3",
                             Email = "5951071014@st.utc2.edu.vn",
                             EmailConfirmed = true,
                             FirstName = "Đạt",
@@ -277,7 +279,7 @@ namespace FindJobsProject.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "5951071014@st.utc2.edu.vn",
                             NormalizedUserName = "5951071014@st.utc2.edu.vn",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM0eAL2BtD+kTun7en07+NVAJcYdvYutOdRUoODa6HdVIxtZ70E+8gIy0+Ip0e6DWw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDL5iwmQ4llzjYFnXdFXdRZdk7XV9aeUTRAFAZWRkrMVtvWuf2obb+sYxn0oG8O5/A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -288,7 +290,7 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("d7b7ce9e-f39f-4fea-9f2a-487a5355fbe9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a22f38fb-0597-4169-815c-f2418f220641",
+                            ConcurrencyStamp = "c5e0b2bb-5481-4922-be08-2df8f62ce299",
                             Email = "5951071017@st.utc2.edu.vn",
                             EmailConfirmed = true,
                             FirstName = "Đông",
@@ -298,7 +300,7 @@ namespace FindJobsProject.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "5951071017@st.utc2.edu.vn",
                             NormalizedUserName = "5951071017@st.utc2.edu.vn",
-                            PasswordHash = "AQAAAAEAACcQAAAAEErQghdSMPJHqJuGVeJjXqMpBlJtzn6GTJFKs8FrXz38NrWhY+Y3UjeUI7bzj8Qdeg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOYHR2oya9ZNP2XsHsOd/n2Qbo3rmTidXc9IzuUCzSvc3/i19/5JCtohxmBUNVjs8w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -309,7 +311,7 @@ namespace FindJobsProject.Migrations
                         {
                             Id = new Guid("9bc1bf33-d875-42b2-a39e-b0cfc3fb6f2c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4faca5ee-9936-413c-b863-c521e5a19e58",
+                            ConcurrencyStamp = "b680d1e6-6d6b-402a-a706-e3acb8d82120",
                             Email = "5951071021@st.utc2.edu.vn",
                             EmailConfirmed = true,
                             FirstName = "Hảo",
@@ -319,7 +321,7 @@ namespace FindJobsProject.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "5951071021@st.utc2.edu.vn",
                             NormalizedUserName = "5951071021@st.utc2.edu.vn",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAKqQZhMEFox21PpN/xN28UAe45lUaXhLZpR1AnhsdLUc54msNa1bQHwowqzg7m1tg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJF5n5BWgyOS73r2T8XAn2iwNwqnmqknjkrYHYP1oucGptajxiba39tQAu35J45SsA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -468,22 +470,22 @@ namespace FindJobsProject.Migrations
                     b.Property<DateTime>("DateSend")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("IdUser")
+                    b.Property<Guid?>("FromUserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("IdRooom")
+                        .HasColumnType("int");
 
                     b.Property<string>("Msg")
                         .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
-                    b.Property<int?>("RoomId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("IdUser");
+                    b.HasIndex("FromUserId");
 
-                    b.HasIndex("RoomId");
+                    b.HasIndex("IdRooom");
 
                     b.ToTable("Message");
                 });
@@ -552,16 +554,18 @@ namespace FindJobsProject.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
-                    b.Property<Guid?>("UserCreateId")
+                    b.Property<Guid>("UserCreateId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserCreateId");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Room");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -752,13 +756,13 @@ namespace FindJobsProject.Migrations
                 {
                     b.HasOne("FindJobsProject.Database.Entities.AppUser", "FromUser")
                         .WithMany("Messages")
-                        .HasForeignKey("IdUser")
+                        .HasForeignKey("FromUserId");
+
+                    b.HasOne("FindJobsProject.Database.Entities.Room", "Room")
+                        .WithMany("Messages")
+                        .HasForeignKey("IdRooom")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("FindJobsProject.Database.Entities.Room", null)
-                        .WithMany("Messages")
-                        .HasForeignKey("RoomId");
                 });
 
             modelBuilder.Entity("FindJobsProject.Database.Entities.RecruitmentJob", b =>
@@ -790,8 +794,10 @@ namespace FindJobsProject.Migrations
             modelBuilder.Entity("FindJobsProject.Database.Entities.Room", b =>
                 {
                     b.HasOne("FindJobsProject.Database.Entities.AppUser", "UserCreate")
-                        .WithMany()
-                        .HasForeignKey("UserCreateId");
+                        .WithMany("Rooms")
+                        .HasForeignKey("UserCreateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

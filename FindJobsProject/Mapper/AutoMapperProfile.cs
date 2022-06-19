@@ -7,7 +7,9 @@ using FindJobsProject.ViewModels.VMComment;
 using FindJobsProject.ViewModels.VMFavourite;
 using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMMajor;
+using FindJobsProject.ViewModels.VMMessage;
 using FindJobsProject.ViewModels.VMReply;
+using FindJobsProject.ViewModels.VMRoom;
 using FindJobsProject.ViewModels.VMUser;
 
 namespace FindJobsProject.Mapper
@@ -62,9 +64,16 @@ namespace FindJobsProject.Mapper
             CreateMap<VMComment, Comment>();
              CreateMap<VMCreateComment, Comment>();
              CreateMap<VMUpdateComment, Comment>();
-            
+
+            //Message
+            CreateMap<VMGetMessage, Message>();
+            CreateMap<VMCreateMessage, Message>();
+            //Room
+            CreateMap<VMGetRoom, Room>();
+
+
             //Reply
-             CreateMap<VMReplyComment, ReplyComment>();
+            CreateMap<VMReplyComment, ReplyComment>();
 
         }
     }
