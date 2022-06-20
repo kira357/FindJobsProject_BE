@@ -8,6 +8,7 @@ using FindJobsProject.ViewModels.VMFavourite;
 using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMMajor;
 using FindJobsProject.ViewModels.VMMessage;
+using FindJobsProject.ViewModels.VMRecruitment;
 using FindJobsProject.ViewModels.VMReply;
 using FindJobsProject.ViewModels.VMRoom;
 using FindJobsProject.ViewModels.VMUser;
@@ -43,10 +44,14 @@ namespace FindJobsProject.Mapper
 
             //RecruitmentJob
             CreateMap<VMRecruitmentJob, RecruitmentJob>();
-        
+            // Recruitment
+
+            CreateMap<VMGetRecruitment, Recruitment>();
+            CreateMap<VMCreateRecruitment, Recruitment>();
+            CreateMap<VMUpdateRecruitment, Recruitment>();
 
             //Candidate Job 
-             CreateMap<VMGetCandidateJob, CandidateJob>();
+            CreateMap<VMGetCandidateJob, CandidateJob>();
              CreateMap<VMCandidateJob, CandidateJob>();
              CreateMap<VMUpdateCandidateJob, CandidateJob>();
              CreateMap<VMDeleteCandidateJob, CandidateJob>();

@@ -39,6 +39,21 @@ namespace FindJobsProject.Controllers
             }
 
         }
+        [HttpPost("register-recruitment")]
+        public async Task<IActionResult> RegisterRecruitment(VMUserRegister vMUserRegister)
+        {
+            try
+            {
+                var create = await _repo.RegisterRecruitment(vMUserRegister);
+                return Ok(create);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+
+        }
         [HttpPost("login")]
         public async Task<IActionResult> Login(VMUserLogin vMUserLogin)
         {

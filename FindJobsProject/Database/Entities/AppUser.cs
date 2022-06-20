@@ -36,6 +36,9 @@ namespace FindJobsProject.Database.Entities
         public ICollection<Comment> UserComment { get; set; }
         public ICollection<ReplyComment> UserReplyComment { get; set; }
 
+        public virtual Recruitment Recruitment { get; set; }
+
+
         //public ICollection<Room> Rooms
         //{
         //    get; set;

@@ -12,6 +12,7 @@ namespace FindJobsProject.DI
     public interface IReposityAuthen
     {
         Task<Respone> RegisterUser(VMUserRegister vMUserRegister);
+        Task<Respone> RegisterRecruitment(VMUserRegister vMUserRegister);
         Task<Respone> LoginUser(VMUserLogin vMUserLogin);
     }
 }

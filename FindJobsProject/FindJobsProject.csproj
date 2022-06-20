@@ -173,6 +173,10 @@
     <Compile Remove="Migrations\20220609173822_initNewData.Designer.cs" />
     <Compile Remove="Migrations\20220617180559_createMessAndRoom2.cs" />
     <Compile Remove="Migrations\20220617180559_createMessAndRoom2.Designer.cs" />
+    <Compile Remove="Migrations\20220620155924_createRecruitment.cs" />
+    <Compile Remove="Migrations\20220620155924_createRecruitment.Designer.cs" />
+    <Compile Remove="Migrations\20220620160143_createRecruitment.cs" />
+    <Compile Remove="Migrations\20220620160143_createRecruitment.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -200,7 +204,6 @@
     <Folder Include="DI\Room\" />
     <Folder Include="Images\" />
     <Folder Include="Files\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 

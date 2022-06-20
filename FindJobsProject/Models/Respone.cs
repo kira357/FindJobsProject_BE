@@ -9,6 +9,7 @@ namespace FindJobsProject.Models
     public class Respone
     {
         public string Ok { get; set; }
+        public string Mess { get; set; }
         public string Fail { get; set; }
         public bool Active { get; set; }
         public string Token { get; set; }

@@ -8,6 +8,7 @@ using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
 using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMMajor;
+using FindJobsProject.ViewModels.VMRecruitment;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -70,7 +71,15 @@ namespace FindJobsProject.DI
                     JobDetail = vMJob.JobDetail,
                     CreatedOn = DateTimeOffset.UtcNow.Date,
                 };
-
+                //var checkRe = _context.Recruitment.SingleOrDefault(x => x.IdRecruitment == vMJob.IdRecruitment);
+                //if (checkRe != null)
+                //{
+                //    if(checkRe.Logo == null)
+                //    {
+                //        checkRe.Logo = image;
+                //    }
+                //}
+               
                 var jobsMaps = _mapper.Map<Job>(vMJob);
 
                 VMRecruitmentJob vMRecruitmentJob = new VMRecruitmentJob
@@ -241,6 +250,7 @@ namespace FindJobsProject.DI
             return new PagedResponse<IEnumerable<VMGetJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
 
         }
+       
         public async Task<Respone> UpdateJob(VMUpdateJob vMUpdateJob)
         {
             try

@@ -37,6 +37,7 @@ namespace FindJobsProject.Database
         public DbSet<FavouritesJob> FavouritesJobs { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<ReplyComment> ReplyComments { get; set; }
+        public DbSet<Recruitment> Recruitment { get; set; }
 
         
 
@@ -63,6 +64,12 @@ namespace FindJobsProject.Database
 
             builder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims");
             builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
+
+            builder.Entity<AppUser>()
+            .HasOne(a => a.Recruitment)
+            .WithOne(a => a.User)
+            .HasForeignKey<Recruitment>(c => c.IdRecruitment)
+            .OnDelete(DeleteBehavior.Cascade);
 
 
             builder.Seed();

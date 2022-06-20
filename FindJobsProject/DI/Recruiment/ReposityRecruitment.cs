@@ -8,6 +8,7 @@ using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
 using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMMajor;
+using FindJobsProject.ViewModels.VMRecruitment;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -92,53 +93,41 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
 
         }
 
-        public async Task<Respone> UpdateRecruiment(VMUpdateJob vMUpdateJob)
+        public async Task<Respone> UpdateRecruiment(VMUpdateRecruitment vMUpdateRecruitment, Guid id)
         {
             try
             {
-                var checkIdJob = await _context.Jobs.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
-                var checkIdRecruitmentJob = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
+                var checkId = await _context.Recruitment.SingleOrDefaultAsync(x => x.IdRecruitment == id);
+                var checkIdJob = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdRecruitment == id);
 
-                if (checkIdJob != null && checkIdRecruitmentJob != null)
+                if (checkId != null && checkIdJob != null)
                 {
-                    if (vMUpdateJob.imageFile != null)
+                    if (vMUpdateRecruitment.imageFile != null)
                     {
                         MediaFile mediaFile = new MediaFile();
-                        var image = await mediaFile.SaveFile(vMUpdateJob.imageFile, _webHostEnvironment);
-                        checkIdJob.Name = vMUpdateJob.Name;
-                        checkIdJob.CompanyOfJobs = vMUpdateJob.CompanyOfJobs;
-                        checkIdJob.Position = vMUpdateJob.Position;
-                        checkIdJob.JobImage = image;
-                        checkIdJob.JobDetail = vMUpdateJob.JobDetail;
-                        checkIdJob.Amount = vMUpdateJob.Amount;
-                        checkIdJob.Experience = vMUpdateJob.Experience;
-                        checkIdJob.SalaryMin = vMUpdateJob.SalaryMin;
-                        checkIdJob.SalaryMax = vMUpdateJob.SalaryMax;
-                        checkIdJob.WorkTime = vMUpdateJob.WorkTime;
-                        checkIdJob.Address = vMUpdateJob.Address;
-                        checkIdJob.DateExpire = vMUpdateJob.DateExpire;
-                        checkIdJob.IdMajor = vMUpdateJob.IdMajor;
-                        checkIdJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
+                        var image = await mediaFile.SaveFile(vMUpdateRecruitment.imageFile, _webHostEnvironment);
+                        checkId.Logo = image;
+                        checkId.NameCompany = vMUpdateRecruitment.NameCompany;
+                        checkId.Summary = vMUpdateRecruitment.Summary;
+                        checkId.Descriptions = vMUpdateRecruitment.Descriptions;
+                        checkId.TypeCompany = vMUpdateRecruitment.TypeCompany;
+                        checkId.Address = vMUpdateRecruitment.Address;
+                        checkId.Amount = vMUpdateRecruitment.Amount;
+                        checkId.TypeOfWork = vMUpdateRecruitment.TypeOfWork;
+
+                        checkIdJob.Jobs.JobImage = image;
+
                     }
                     else
                     {
-                        checkIdJob.Name = vMUpdateJob.Name;
-                        checkIdJob.CompanyOfJobs = vMUpdateJob.CompanyOfJobs;
-                        checkIdJob.Position = vMUpdateJob.Position;
-                        checkIdJob.JobDetail = vMUpdateJob.JobDetail;
-                        checkIdJob.JobImage = vMUpdateJob.JobImage;
-                        checkIdJob.Amount = vMUpdateJob.Amount;
-                        checkIdJob.Experience = vMUpdateJob.Experience;
-                        checkIdJob.SalaryMin = vMUpdateJob.SalaryMin;
-                        checkIdJob.SalaryMax = vMUpdateJob.SalaryMax;
-                        checkIdJob.WorkTime = vMUpdateJob.WorkTime;
-                        checkIdJob.Address = vMUpdateJob.Address;
-                        checkIdJob.DateExpire = vMUpdateJob.DateExpire;
-                        checkIdJob.IdMajor = vMUpdateJob.IdMajor;
-                        checkIdJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
+                        checkId.NameCompany = vMUpdateRecruitment.NameCompany;
+                        checkId.Summary = vMUpdateRecruitment.Summary;
+                        checkId.Descriptions = vMUpdateRecruitment.Descriptions;
+                        checkId.TypeCompany = vMUpdateRecruitment.TypeCompany;
+                        checkId.Address = vMUpdateRecruitment.Address;
+                        checkId.Amount = vMUpdateRecruitment.Amount;
+                        checkId.TypeOfWork = vMUpdateRecruitment.TypeOfWork;
                     }
-                    checkIdRecruitmentJob.IsActive = vMUpdateJob.IsActive;
-                    checkIdRecruitmentJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
                     await _context.SaveChangesAsync();
                     return new Respone
                     {
@@ -183,41 +172,7 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
       
         }
 
-        public async Task<Respone> UpdateActiveJobs(List<VMRecruitmentJob> vMRecruitmentJobs)
-        {
-            try
-            {
-                if (vMRecruitmentJobs.Count > 0)
-                {
-                    foreach (var job in vMRecruitmentJobs)
-                    {
-                        var checkIdRecruitmentJob = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdRecruitment == job.IdRecruitment);
 
-                        if (checkIdRecruitmentJob != null)
-                        {
-                            checkIdRecruitmentJob.IsActive = job.IsActive;
-                            checkIdRecruitmentJob.UpdatedOn = DateTime.Now;
-                            await _context.SaveChangesAsync();
-                        }
-
-                    }
-                    return new Respone
-                    {
-                        Ok = "Success"
-                    };
-                }
-                return new Respone
-                {
-                    Fail = "Fail"
-                };
-
-            }
-            catch (Exception ex)
-            {
-
-                throw ex.InnerException;
-            }
-        }
 
         public  async Task<Respone> ActiveJobs(VMUpdateJob vMUpdateJob)
         {
