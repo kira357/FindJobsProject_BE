@@ -4,14 +4,16 @@ using FindJobsProject.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FindJobsProject.Migrations
 {
     [DbContext(typeof(FindJobsContext))]
-    partial class FindJobsContextModelSnapshot : ModelSnapshot
+    [Migration("20220621083555_createChatRecruitment")]
+    partial class createChatRecruitment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

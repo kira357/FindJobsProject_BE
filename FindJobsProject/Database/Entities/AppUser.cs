@@ -33,6 +33,10 @@ namespace FindJobsProject.Database.Entities
         public ICollection<CandidateJob> CandidateJob { get; set; }
         public ICollection<Blog> UserBlog { get; set; }
 
+        public ICollection<ChatRecruitment> SentMessages { get; set; }
+        public ICollection<ChatRecruitment> ReceivedMessages { get; set; }
+
+
         public ICollection<Comment> UserComment { get; set; }
         public ICollection<ReplyComment> UserReplyComment { get; set; }
 

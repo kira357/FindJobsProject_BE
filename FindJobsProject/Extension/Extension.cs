@@ -3,6 +3,8 @@ using FindJobsProject.Database;
 using FindJobsProject.Database.Entities;
 using FindJobsProject.DI;
 using FindJobsProject.Models;
+using FindJobsProject.ViewModels.VMChatRecruitment;
+using FindJobsProject.ViewModels.VMMessage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -84,7 +86,7 @@ namespace FindJobsProject.Extends
             services.AddScoped<IReposityFavourite, ReposityFavourite>();
             services.AddScoped<IReposityMessage, ReposityMessage>();
 
-
+            services.AddSingleton<IDictionary<string, VMCreateChatRecruitment>>(opt => new Dictionary<string, VMCreateChatRecruitment>());
             return services;
         }
     }

@@ -2,6 +2,7 @@
 using FindJobsProject.Data.Configurations;
 using FindJobsProject.Data.Entities;
 using FindJobsProject.Data.Extensions;
+using FindJobsProject.Database.Configurations;
 using FindJobsProject.Database.Entities;
 using FindJobsProject.Models;
 using Microsoft.AspNetCore.Identity;
@@ -27,6 +28,7 @@ namespace FindJobsProject.Database
         public DbSet<AppUserRole> AppUserRoles { get; set; }
  
         public DbSet<RecruitmentJob> recruitmentJob { get; set; }
+        public DbSet<ChatRecruitment> chatRecruitments { get; set; }
 
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Message> Messages { get; set; }
@@ -54,6 +56,7 @@ namespace FindJobsProject.Database
             builder.ApplyConfiguration(new CommentConfiguration());
             builder.ApplyConfiguration(new ReplyCommentConfiguration());
             builder.ApplyConfiguration(new FavouritesConfiguration());
+            builder.ApplyConfiguration(new ChatRecruitmentConfiguration());
 
             builder.ApplyConfiguration(new MessageConfiguration());
             //builder.ApplyConfiguration(new RoomConfiguration());

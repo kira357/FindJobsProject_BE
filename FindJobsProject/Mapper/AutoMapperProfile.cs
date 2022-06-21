@@ -3,6 +3,7 @@ using FindJobsProject.Data.Entities;
 using FindJobsProject.Database.Entities;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.VMBlog;
+using FindJobsProject.ViewModels.VMChatRecruitment;
 using FindJobsProject.ViewModels.VMComment;
 using FindJobsProject.ViewModels.VMFavourite;
 using FindJobsProject.ViewModels.VMJob;
@@ -76,6 +77,11 @@ namespace FindJobsProject.Mapper
             //Room
             CreateMap<VMGetRoom, Room>();
 
+            // Chat Recruitment
+
+            CreateMap<VMGetChatRecruitment, ChatRecruitment>();
+            CreateMap<VMCreateChatRecruitment, ChatRecruitment>();
+            CreateMap<VMUpdateChatRecruitment, ChatRecruitment>();
 
             //Reply
             CreateMap<VMReplyComment, ReplyComment>();
