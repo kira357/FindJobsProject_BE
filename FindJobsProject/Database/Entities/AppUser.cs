@@ -28,7 +28,7 @@ namespace FindJobsProject.Database.Entities
 
         public bool? IsActive { get; set; }
 
-        public IList<RecruitmentJob> RecruitmentJobTable { get; set; }
+        //public IList<RecruitmentJob> RecruitmentJobTable { get; set; }
         public IList<FavouritesJob> Favorites { get; set; }
         public ICollection<CandidateJob> CandidateJob { get; set; }
         public ICollection<Blog> UserBlog { get; set; }

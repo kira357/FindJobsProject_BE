@@ -177,6 +177,8 @@
     <Compile Remove="Migrations\20220620155924_createRecruitment.Designer.cs" />
     <Compile Remove="Migrations\20220620160143_createRecruitment.cs" />
     <Compile Remove="Migrations\20220620160143_createRecruitment.Designer.cs" />
+    <Compile Remove="Migrations\20220621083555_createChatRecruitment.cs" />
+    <Compile Remove="Migrations\20220621083555_createChatRecruitment.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

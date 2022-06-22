@@ -7,8 +7,11 @@ namespace FindJobsProject.Database.Entities
 {
     public class RecruitmentJob
     {
+        //public Guid IdRecruitment { get; set; }
+        //public AppUser Recruitments { get; set; }      
+
         public Guid IdRecruitment { get; set; }
-        public AppUser Recruitments { get; set; }
+        public Recruitment Recruitments { get; set; }
 
         public Guid IdJob { get; set; }
         public Job Jobs { get; set; }

@@ -34,6 +34,7 @@ namespace FindJobsProject.ViewModels
         [NotMapped]
         public IFormFile imageFile { get; set; }
         public string logo { get; set; }
-
+        public string Fax { get; set; }
+        public string Website { get; set; }
     }
 }

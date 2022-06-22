@@ -71,14 +71,6 @@ namespace FindJobsProject.DI
                     JobDetail = vMJob.JobDetail,
                     CreatedOn = DateTimeOffset.UtcNow.Date,
                 };
-                //var checkRe = _context.Recruitment.SingleOrDefault(x => x.IdRecruitment == vMJob.IdRecruitment);
-                //if (checkRe != null)
-                //{
-                //    if(checkRe.Logo == null)
-                //    {
-                //        checkRe.Logo = image;
-                //    }
-                //}
                
                 var jobsMaps = _mapper.Map<Job>(vMJob);
 

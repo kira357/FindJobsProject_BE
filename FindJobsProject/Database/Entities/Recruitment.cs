@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,10 +14,14 @@ namespace FindJobsProject.Database.Entities
         public string NameCompany { get; set; }
         public string Summary { get; set; }
         public string Descriptions { get; set; }
+        public string Fax { get; set; }
+        public string Website { get; set; }
         public long TypeCompany { get; set; }
         public string Address { get; set; }
         public long TypeOfWork { get; set; }
         
         public long Amount { get; set; }
+
+        public IList<RecruitmentJob> RecruitmentJobTable { get; set; }
     }
 }

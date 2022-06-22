@@ -119,8 +119,8 @@ namespace FindJobsProject.DI
         public async Task<Respone> RegisterRecruitment(VMUserRegister vMUserRegister)
         {
             var check = _userManager.Users.SingleOrDefault(x => x.Email.Trim() == vMUserRegister.Email.Trim());
-            //MediaFile mediaFile = new MediaFile();
-            //var image = await mediaFile.SaveFile(vMUserRegister.imageFile, _webHostEnvironment);
+            MediaFile mediaFile = new MediaFile();
+            var image = await mediaFile.SaveFile(vMUserRegister.imageFile, _webHostEnvironment);
             try
             {
                 if (check == null)
@@ -133,6 +133,7 @@ namespace FindJobsProject.DI
                         Password = vMUserRegister.Password,
                         RoleName = "Recruitment",
                         UserName = vMUserRegister.Email,
+                        logo = image,
                         FullName = vMUserRegister.LastName + vMUserRegister.FirstName,
                         NameCompany = vMUserRegister.NameCompany,
                         IsActive = false,

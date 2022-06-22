@@ -40,7 +40,7 @@ namespace FindJobsProject.Controllers
 
         }
         [HttpPost("register-recruitment")]
-        public async Task<IActionResult> RegisterRecruitment(VMUserRegister vMUserRegister)
+        public async Task<IActionResult> RegisterRecruitment([FromForm]VMUserRegister vMUserRegister)
         {
             try
             {

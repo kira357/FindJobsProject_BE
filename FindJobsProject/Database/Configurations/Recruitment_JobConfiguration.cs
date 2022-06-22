@@ -16,7 +16,7 @@ namespace FindJobsProject.Data.Configurations
             builder.HasKey(sc => new { sc.IdRecruitment, sc.IdJob });
 
             builder.ToTable("RecruitmentJob")
-            .HasOne<AppUser>(sc => sc.Recruitments)
+            .HasOne<Recruitment>(sc => sc.Recruitments)
             .WithMany(s => s.RecruitmentJobTable)
             .HasForeignKey(sc => sc.IdRecruitment)
             .IsRequired()
