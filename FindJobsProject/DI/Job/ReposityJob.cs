@@ -56,7 +56,7 @@ namespace FindJobsProject.DI
                 {
                     IdRecruitment = vMJob.IdRecruitment,
                     IdJob = id,
-                    JobImage = image,
+                    JobImage = vMJob.JobImage,
                     Name = vMJob.Name,
                     CompanyOfJobs = vMJob.CompanyOfJobs,
                     Position = vMJob.Position,
@@ -252,30 +252,8 @@ namespace FindJobsProject.DI
 
                 if (checkIdJob != null && checkIdRecruitmentJob != null)
                 {
-                    if (vMUpdateJob.imageFile != null)
-                    {
-                        MediaFile mediaFile = new MediaFile();
-                        mediaFile.DeleteFile(vMUpdateJob.imageFile.FileName, _webHostEnvironment);
-                        var image = await mediaFile.SaveFile(vMUpdateJob.imageFile, _webHostEnvironment);
+
                         checkIdJob.Name = vMUpdateJob.Name;
-                        checkIdJob.CompanyOfJobs = vMUpdateJob.CompanyOfJobs;
-                        checkIdJob.Position = vMUpdateJob.Position;
-                        checkIdJob.JobImage = image;
-                        checkIdJob.JobDetail = vMUpdateJob.JobDetail;
-                        checkIdJob.Amount = vMUpdateJob.Amount;
-                        checkIdJob.Experience = vMUpdateJob.Experience;
-                        checkIdJob.SalaryMin = vMUpdateJob.SalaryMin;
-                        checkIdJob.SalaryMax = vMUpdateJob.SalaryMax;
-                        checkIdJob.WorkTime = vMUpdateJob.WorkTime;
-                        checkIdJob.Address = vMUpdateJob.Address;
-                        checkIdJob.DateExpire = vMUpdateJob.DateExpire;
-                        checkIdJob.IdMajor = vMUpdateJob.IdMajor;
-                        checkIdJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
-                    }
-                    else
-                    {
-                        checkIdJob.Name = vMUpdateJob.Name;
-                        checkIdJob.CompanyOfJobs = vMUpdateJob.CompanyOfJobs;
                         checkIdJob.Position = vMUpdateJob.Position;
                         checkIdJob.JobDetail = vMUpdateJob.JobDetail;
                         checkIdJob.Amount = vMUpdateJob.Amount;
@@ -287,7 +265,7 @@ namespace FindJobsProject.DI
                         checkIdJob.DateExpire = vMUpdateJob.DateExpire;
                         checkIdJob.IdMajor = vMUpdateJob.IdMajor;
                         checkIdJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
-                    }
+
                     checkIdRecruitmentJob.IsActive = vMUpdateJob.IsActive;
                     checkIdRecruitmentJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
                     await _context.SaveChangesAsync();

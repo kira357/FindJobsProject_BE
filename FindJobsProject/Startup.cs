@@ -64,6 +64,7 @@ namespace FindJobsProject
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChatHub>("/chat");
+
             });
             app.UseEndpoints(endpoints =>
             {

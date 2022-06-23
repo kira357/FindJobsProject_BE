@@ -17,8 +17,9 @@ namespace FindJobsProject.DI
         Task<PagedResponse<IEnumerable<VMGetJob>>> GetListRecruiment(PaginationFilter filter, HttpRequest request , Guid IdRecruiment);
 
         Task<Respone> UpdateRecruiment(VMUpdateRecruitment vMUpdateRecruitment,Guid id);
-        Task<Respone> ActiveJobs(VMUpdateJob vMUpdateJob);
+        Task<VMGetRecruitment> GetCurrentRecruitment(Guid id, HttpRequest request);
 
+        Task<Respone> ActiveJobs(VMUpdateJob vMUpdateJob);
         Task<Respone> DeleteRecruiment(Guid Idjob);
     }
 }

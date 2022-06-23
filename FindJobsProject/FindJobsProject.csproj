@@ -203,7 +203,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DI\Room\" />
     <Folder Include="Images\" />
     <Folder Include="Files\" />
   </ItemGroup>

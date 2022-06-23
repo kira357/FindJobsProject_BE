@@ -204,7 +204,7 @@ namespace FindJobsProject.DI
                 var CreateAccount = await _userManager.UpdateAsync(user);
                 if (CreateAccount.Succeeded)
                 {
-                    var checkGetRole = await _context.UserRoles.SingleOrDefaultAsync(x => x.UserId == user.Id);
+                    var checkGetRole =  _context.UserRoles.SingleOrDefault(x => x.UserId == user.Id);
                     if(checkGetRole != null)
                     {
                         _context.UserRoles.Remove(checkGetRole);
@@ -214,7 +214,6 @@ namespace FindJobsProject.DI
                             UserId = user.Id
                         };
                         await _context.UserRoles.AddAsync(userRole);
-                        await _context.SaveChangesAsync();
                         return new Respone { Ok = "Success" };
                     }
                     else
@@ -226,6 +225,7 @@ namespace FindJobsProject.DI
                     };
           
                     }
+                     _context.SaveChanges();
                 }
 
                 return new Respone { Fail = "Fail" };

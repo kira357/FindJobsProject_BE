@@ -78,7 +78,7 @@ namespace FindJobsProject.DI
                                 {
                                     Ok = "Success",
                                     Mess = "Wellcome back",
-                                    Active = true,
+                                    Active = checkUser.IsActive,
                                     Token = "",
                                     Id = userId,
                                     RoleName = getRole.Name,
@@ -133,7 +133,9 @@ namespace FindJobsProject.DI
                         Password = vMUserRegister.Password,
                         RoleName = "Recruitment",
                         UserName = vMUserRegister.Email,
-                        logo = image,
+                        Logo = image,
+                        Fax = vMUserRegister.Fax,
+                        Website = vMUserRegister.Website,
                         FullName = vMUserRegister.LastName + vMUserRegister.FirstName,
                         NameCompany = vMUserRegister.NameCompany,
                         IsActive = false,
@@ -155,6 +157,11 @@ namespace FindJobsProject.DI
                             {
                                 IdRecruitment = getId.Id,
                                 NameCompany =  vMUserRegister.NameCompany,
+                                Logo = vMUserRegister.Logo,
+                                Fax = vMUserRegister?.Fax,
+                                Website = vMUserRegister?.Website,
+                                  
+                                
                             };
                             var recruiment = _mapper.Map<Recruitment>(vMCreateRecruitment);
                             await _context.Recruitment.AddAsync(recruiment);

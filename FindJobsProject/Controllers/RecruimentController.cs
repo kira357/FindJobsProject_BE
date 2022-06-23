@@ -41,6 +41,20 @@ namespace FindJobsProject.Controllers
 
                 return BadRequest(ex.InnerException);
             }
+        } 
+        [HttpGet("get-current-recruitment/{Id}")]
+        public async Task<IActionResult> GetCurrentRecruitment( Guid Id)
+        {
+            try
+            {
+                var getAll = await _repo.GetCurrentRecruitment(Id,Request);
+                return Ok(getAll);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
         }
 
 

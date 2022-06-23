@@ -172,14 +172,12 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
       
         }
 
-
-
-        public  async Task<Respone> ActiveJobs(VMUpdateJob vMUpdateJob)
+        public async Task<Respone> ActiveJobs(VMUpdateJob vMUpdateJob)
         {
             try
             {
                 var check = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdJob == vMUpdateJob.IdJob);
-                if(check != null)
+                if (check != null)
                 {
                     check.IsActive = vMUpdateJob.IsActive;
                     check.UpdatedOn = DateTimeOffset.UtcNow.Date;
@@ -194,5 +192,32 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
                 throw ex.InnerException;
             }
         }
+
+        public async Task<VMGetRecruitment> GetCurrentRecruitment(Guid id, HttpRequest request)
+        {
+            var getCurrent = await _context.Recruitment.SingleOrDefaultAsync(x => x.IdRecruitment == id); 
+            if(getCurrent != null)
+            {
+                VMGetRecruitment vMGetRecruitment = new VMGetRecruitment
+                {
+                    IdRecruitment = getCurrent.IdRecruitment,
+                    NameCompany = getCurrent.NameCompany,
+                    Address = getCurrent.Address,   
+                    Amount = getCurrent.Amount, 
+                    Descriptions=  getCurrent.Descriptions,
+                    Logo   = getCurrent.Logo,
+                    UrlLogo = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, getCurrent.Logo),
+                    Fax = getCurrent.Fax,
+                    Website = getCurrent.Website,
+                    Summary = getCurrent.Summary,
+                    TypeCompany = getCurrent.TypeCompany,
+                    TypeOfWork = getCurrent.TypeOfWork,
+
+                };
+                return vMGetRecruitment;
+            }
+            return null; ;
+        }
+
     }
 }

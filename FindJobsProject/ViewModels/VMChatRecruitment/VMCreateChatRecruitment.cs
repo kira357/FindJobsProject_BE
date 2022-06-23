@@ -16,6 +16,5 @@ namespace FindJobsProject.ViewModels.VMChatRecruitment
         public string ConnectionId { get; set; }
         public string Type { get; set; }
 
-        public string Photo { get; set; }
-    }
+    }s
 }

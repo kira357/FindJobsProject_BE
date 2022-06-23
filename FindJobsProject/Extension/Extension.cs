@@ -86,7 +86,7 @@ namespace FindJobsProject.Extends
             services.AddScoped<IReposityFavourite, ReposityFavourite>();
             services.AddScoped<IReposityMessage, ReposityMessage>();
 
-            services.AddSingleton<IDictionary<string, VMCreateChatRecruitment>>(opt => new Dictionary<string, VMCreateChatRecruitment>());
+            //services.AddSingleton<IDictionary<string, VMCreateChatRecruitment>>(opt => new Dictionary<string, VMCreateChatRecruitment>());
             return services;
         }
     }

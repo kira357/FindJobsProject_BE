@@ -10,21 +10,10 @@ namespace FindJobsProject.Hubs
 {
     public class ChatHub : Hub
     {
-        private readonly string _BotUser =""; 
-        private readonly IDictionary<string, VMCreateChatRecruitment> _connection; 
-        public ChatHub(IDictionary<string, VMCreateChatRecruitment> connection)
+        public async Task SendMessages(VMCreateChatRecruitment message)
         {
-            _BotUser = "My chat bot";
-            _connection = connection;
+            await Clients.All.SendAsync("receiveMessage", message);
 
-        }
-        public async Task SendMessage (VMCreateChatRecruitment message)
-        {
-            if(_connection.TryGetValue(Context.ConnectionId , out VMCreateChatRecruitment vMCreateMessage))
-            {
-                await Clients.All.SendAsync("receiveMessage", message);
-
-            }
         }
     }
 }
