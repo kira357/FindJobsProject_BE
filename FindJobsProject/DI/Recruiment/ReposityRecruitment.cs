@@ -195,10 +195,11 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
 
         public async Task<VMGetRecruitment> GetCurrentRecruitment(Guid id, HttpRequest request)
         {
-            var getCurrent = await _context.Recruitment.SingleOrDefaultAsync(x => x.IdRecruitment == id); 
-            if(getCurrent != null)
+            var getCurrent = await _context.Recruitment.SingleOrDefaultAsync(x => x.IdRecruitment == id);
+            VMGetRecruitment vMGetRecruitment = new VMGetRecruitment();
+            if (getCurrent != null)
             {
-                VMGetRecruitment vMGetRecruitment = new VMGetRecruitment
+                 vMGetRecruitment = new VMGetRecruitment
                 {
                     IdRecruitment = getCurrent.IdRecruitment,
                     NameCompany = getCurrent.NameCompany,
@@ -214,10 +215,34 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
                     TypeOfWork = getCurrent.TypeOfWork,
 
                 };
-                return vMGetRecruitment;
             }
-            return null; ;
+            else
+            {
+                var checkIdJob =await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdJob == id);
+                var checkIdCompany = await _context.Recruitment.SingleOrDefaultAsync(x => x.IdRecruitment == checkIdJob.IdRecruitment);
+                if(checkIdCompany!= null)
+                {
+                     vMGetRecruitment = new VMGetRecruitment
+                    {
+                        IdRecruitment = checkIdCompany.IdRecruitment,
+                        NameCompany = checkIdCompany.NameCompany,
+                        Address = checkIdCompany.Address,
+                        Amount = checkIdCompany.Amount,
+                        Descriptions = checkIdCompany.Descriptions,
+                        Logo = checkIdCompany.Logo,
+                        UrlLogo = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, checkIdCompany.Logo),
+                        Fax = checkIdCompany.Fax,
+                        Website = checkIdCompany.Website,
+                        Summary = checkIdCompany.Summary,
+                        TypeCompany = checkIdCompany.TypeCompany,
+                        TypeOfWork = checkIdCompany.TypeOfWork,
+
+                    };
+                }
+            }
+            return vMGetRecruitment;
         }
 
+       
     }
 }

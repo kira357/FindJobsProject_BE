@@ -18,7 +18,7 @@ namespace FindJobsProject.DI
 
         Task<Respone> UpdateRecruiment(VMUpdateRecruitment vMUpdateRecruitment,Guid id);
         Task<VMGetRecruitment> GetCurrentRecruitment(Guid id, HttpRequest request);
-
+   
         Task<Respone> ActiveJobs(VMUpdateJob vMUpdateJob);
         Task<Respone> DeleteRecruiment(Guid Idjob);
     }
