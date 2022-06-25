@@ -97,8 +97,8 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
         {
             try
             {
-                var checkId = await _context.Recruitment.SingleOrDefaultAsync(x => x.IdRecruitment == id);
-                var checkIdJob = await _context.recruitmentJob.SingleOrDefaultAsync(x => x.IdRecruitment == id);
+                var checkId =  await _context.Recruitment.SingleOrDefaultAsync(x => x.IdRecruitment == id);
+                var checkIdJob = await _context.recruitmentJob.FirstOrDefaultAsync(x => x.IdRecruitment == id);
 
                 if (checkId != null && checkIdJob != null)
                 {
@@ -114,7 +114,7 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
                         checkId.Address = vMUpdateRecruitment.Address;
                         checkId.Amount = vMUpdateRecruitment.Amount;
                         checkId.TypeOfWork = vMUpdateRecruitment.TypeOfWork;
-
+                        checkId.Website = vMUpdateRecruitment?.Website;
                         checkIdJob.Jobs.JobImage = image;
 
                     }
@@ -126,6 +126,7 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
                         checkId.TypeCompany = vMUpdateRecruitment.TypeCompany;
                         checkId.Address = vMUpdateRecruitment.Address;
                         checkId.Amount = vMUpdateRecruitment.Amount;
+                        checkId.Website = vMUpdateRecruitment?.Website;
                         checkId.TypeOfWork = vMUpdateRecruitment.TypeOfWork;
                     }
                     await _context.SaveChangesAsync();

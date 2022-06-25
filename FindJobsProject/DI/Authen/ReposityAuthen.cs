@@ -67,11 +67,10 @@ namespace FindJobsProject.DI
                     {
                         var userId = await _userManager.GetUserIdAsync(check);
                         var checkRoleId = await _context.UserRoles.FirstOrDefaultAsync(x => x.UserId == check.Id);
-                        var getRole = await _context.AppRoles.FirstOrDefaultAsync(x => x.Id == checkRoleId.RoleId);
-
                         var checkUser = _context.AppUsers.SingleOrDefault(x => x.Id.ToString() == userId);
-                        if (checkUser != null)
+                        if (checkUser != null && checkRoleId !=null)
                         {
+                            var getRole = await _context.AppRoles.FirstOrDefaultAsync(x => x.Id == checkRoleId.RoleId);
                             if (checkUser.IsActive == true && getRole.Name.ToLower().Equals("recruitment"))
                             {
                                 return new Respone
@@ -86,7 +85,7 @@ namespace FindJobsProject.DI
 
                                 };
                             }
-                            else
+                            else if(checkUser.IsActive != true && getRole.Name.ToLower().Equals("recruitment"))
                             {
                                 return new Respone
                                 {
@@ -100,6 +99,33 @@ namespace FindJobsProject.DI
 
                                 };
                             }
+                            else if (getRole.Name.ToLower().Equals("admin"))
+                            {
+                                return new Respone
+                                {
+                                    Ok = "Success",
+                                    Mess = "Wellcome back admin",
+                                    Active = false,
+                                    Token = "",
+                                    Id = userId,
+                                    RoleName = getRole.Name,
+                                    UserName = check.FullName
+
+                                };
+                            }
+                        }else if (checkUser != null && checkRoleId == null )
+                        {
+                            return new Respone
+                            {
+                                Ok = "Success",
+                                Mess = "Wellcome back to website",
+                                Active = false,
+                                Token = "",
+                                Id = userId,
+                                RoleName = "",
+                                UserName = check.FullName
+
+                            };
                         }
                     }
 

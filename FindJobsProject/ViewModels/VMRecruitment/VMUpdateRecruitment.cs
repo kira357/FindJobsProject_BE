@@ -16,7 +16,6 @@ namespace FindJobsProject.ViewModels.VMRecruitment
         public long TypeOfWork { get; set; }
         public string Fax { get; set; }
         public string Website { get; set; }
-
         public long Amount { get; set; }
         [NotMapped]
         public IFormFile imageFile { get; set; }

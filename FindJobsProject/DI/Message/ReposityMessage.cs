@@ -5,6 +5,7 @@ using FindJobsProject.Database.Entities;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
+using FindJobsProject.ViewModels.VMChatRecruitment;
 using FindJobsProject.ViewModels.VMMajor;
 using FindJobsProject.ViewModels.VMMessage;
 using Microsoft.AspNetCore.Identity;
@@ -38,12 +39,13 @@ namespace FindJobsProject.DI
             _context = context;
         }
 
-        public async Task<Respone> CreateMessage(VMCreateMessage vMMessage)
+
+        public async Task<Respone> CreateMessage(VMCreateChatRecruitment vMMessage)
         {
             try
             {
-                var message = _mapper.Map<Message>(vMMessage);
-                var createMajor = await _context.Messages.AddAsync(message);
+                var message = _mapper.Map<ChatRecruitment>(vMMessage);
+                var createMajor = await _context.chatRecruitments.AddAsync(message);
 
                 await _context.SaveChangesAsync();
 
@@ -80,6 +82,18 @@ namespace FindJobsProject.DI
             return null;
         }
 
+        public async Task<IEnumerable<ChatRecruitment>> GetReceivedMessages(Guid userId)
+        {
+            try
+            {
+                var messages = _context.chatRecruitments.Where(x => x.IdReceiver == userId).ToList();
+                return messages;
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
     }
 }

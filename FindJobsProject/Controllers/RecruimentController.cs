@@ -59,7 +59,7 @@ namespace FindJobsProject.Controllers
 
 
         [HttpPut("update-recruiment/{id}")]
-        public async Task<IActionResult> UpdateRecruiment(VMUpdateRecruitment vMRecruitmentJobs,Guid id)
+        public async Task<IActionResult> UpdateRecruiment([FromForm]VMUpdateRecruitment vMRecruitmentJobs,Guid id)
         {
             try
             {

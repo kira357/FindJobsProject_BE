@@ -2,6 +2,7 @@
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
+using FindJobsProject.ViewModels.VMChatRecruitment;
 using FindJobsProject.ViewModels.VMMajor;
 using FindJobsProject.ViewModels.VMMessage;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +27,8 @@ namespace FindJobsProject.Controllers
             _repo = repo;
         }
 
-        [HttpPost("send-message")]
-        public async Task<IActionResult> CreateMessage(VMCreateMessage vMMessage)
+        [HttpPost("create-message")]
+        public async Task<IActionResult> CreateMessage(VMCreateChatRecruitment vMMessage)
         {
             try
             {
@@ -41,6 +42,15 @@ namespace FindJobsProject.Controllers
             }
 
         }
+
+        [HttpGet("received-messages/{userId}")]
+        public IActionResult GetUserReceivedMessages(Guid userId)
+        {
+            var messages = this._repo.GetReceivedMessages(userId);
+            return Ok(messages);
+        }
+
+
         //[HttpGet("getlist-major")]
         //public async Task<IActionResult> GetListMajor([FromQuery] PaginationFilter filter)
         //{
@@ -56,7 +66,7 @@ namespace FindJobsProject.Controllers
         //    }
 
         //}
-     
+
 
     }
 }
