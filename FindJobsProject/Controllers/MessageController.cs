@@ -1,4 +1,5 @@
-﻿using FindJobsProject.DI;
+﻿using FindJobsProject.Database.Entities;
+using FindJobsProject.DI;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
@@ -28,7 +29,7 @@ namespace FindJobsProject.Controllers
         }
 
         [HttpPost("create-message")]
-        public async Task<IActionResult> CreateMessage(VMCreateChatRecruitment vMMessage)
+        public async Task<IActionResult> CreateMessage(ChatRecruitment vMMessage)
         {
             try
             {

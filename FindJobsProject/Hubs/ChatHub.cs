@@ -3,6 +3,7 @@ using FindJobsProject.DI;
 using FindJobsProject.ViewModels.VMChatRecruitment;
 using FindJobsProject.ViewModels.VMMessage;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,12 +28,20 @@ namespace FindJobsProject.Hubs
             public string Username { get; set; }
         }
 
-        public Task SendMessageToUser(VMCreateChatRecruitment message)
+        public  Task SendMessageToUser(ChatRecruitment message)
         {
-            var reciever = Users.FirstOrDefault(x => x.UserId == message.IdReceiver);
+            var reciever =  Users.FirstOrDefault(x => x.UserId == message.IdReceiver);
             var connectionId = reciever == null ? "offlineUser" : reciever.ConnectionId;
             this.messageService.CreateMessage(message);
             return Clients.Client(connectionId).SendAsync("ReceiveDM", Context.ConnectionId, message);
+        }   
+        
+        public  Task SendMessages(string chatRecruitment)
+        {
+            var messageJsonString = JsonConvert.DeserializeObject<VMCreateChatRecruitment>(chatRecruitment);
+            var reciever = Users.FirstOrDefault(x => x.UserId.ToString() == messageJsonString.IdReceiver);
+            var connectionId = reciever == null ? "offlineUser" : reciever.ConnectionId;
+            return Clients.Client(connectionId).SendAsync("ReceiveDM", Context.ConnectionId, chatRecruitment);
         }
         public async Task PublishUserOnConnect(Guid id, string fullname, string username)
         {

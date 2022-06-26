@@ -40,7 +40,7 @@ namespace FindJobsProject.DI
         }
 
 
-        public async Task<Respone> CreateMessage(VMCreateChatRecruitment vMMessage)
+        public async Task<Respone> CreateMessage(ChatRecruitment vMMessage)
         {
             try
             {

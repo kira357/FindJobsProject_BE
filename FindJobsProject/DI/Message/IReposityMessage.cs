@@ -17,6 +17,6 @@ namespace FindJobsProject.DI
     {
         Task<PagedResponse<IEnumerable<Message>>> GetMessage(PaginationFilter filter);
         Task<IEnumerable<ChatRecruitment>> GetReceivedMessages(Guid userId);
-        Task<Respone> CreateMessage(VMCreateChatRecruitment vMMessage);
+        Task<Respone> CreateMessage(ChatRecruitment vMMessage);
     }
 }
