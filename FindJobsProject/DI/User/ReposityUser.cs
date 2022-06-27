@@ -101,33 +101,35 @@ namespace FindJobsProject.DI
 
         public async Task<PagedResponse<IEnumerable<VMGetUser>>> GetAllAcc(PaginationFilter filter , HttpRequest request)
         {
-            var getList =  _userManager.Users.AsQueryable();
-            var data = getList.Join(_context.UserRoles,
-                                    idUser => idUser.Id,
-                                    idRole => idRole.UserId,
-                                    (idUser, idRole) => new { idUser, idRole })
-                                    .Join(_roleManager.Roles,
-                                    userrole => userrole.idRole.RoleId,
-                                    role => role.Id,
-                                    (userrole, role) => new VMGetUser
-                                    {
-                                        Id = userrole.idUser.Id,
-                                        UserName = userrole.idUser.UserName,
-                                        LastName = userrole.idUser.LastName,
-                                        FirstName = userrole.idUser.FirstName,
-                                        FullName = userrole.idUser.FullName,
-                                        Address = userrole.idUser.Address,
-                                        PhoneNumber = userrole.idUser.PhoneNumber,
-                                        Email = userrole.idUser.Email,
-                                        DateOfBirth = userrole.idUser.DateOfBirth,
-                                        RoleName = role.Name,
-                                        Gender = userrole.idUser.Gender,
-                                        IdMajor = userrole.idUser.IdMajor,
-                                        Description = userrole.idUser.Description,
-                                        IsActive = userrole.idUser.IsActive
-                                    });
+            var getUser = _userManager.Users.AsQueryable();
+            var getUserRole = _context.UserRoles.AsQueryable();
+            var getRole = _context.Roles.AsQueryable();
 
-            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var data = (from user in getUser 
+                           join userRole in getUserRole
+                           on user.Id equals userRole.UserId into ur 
+                           from urs in ur.DefaultIfEmpty()
+                           join role in getRole 
+                           on urs.RoleId equals role.Id
+                           select new VMGetUser
+                           {
+                               Id = user.Id,
+                               UserName = user.UserName,
+                               LastName = user.LastName,
+                               FirstName = user.FirstName,
+                               FullName = user.FullName,
+                               Address = user.Address,
+                               PhoneNumber = user.PhoneNumber,
+                               Email = user.Email,
+                               DateOfBirth = user.DateOfBirth,
+                               RoleName = role.Name,
+                               Gender = user.Gender,
+                               IdMajor = user.IdMajor,
+                               Description = user.Description,
+                               IsActive = user.IsActive
+                           });
+
+             var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
             var result = PaginatedList<VMGetUser>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
             var count = data.Count();
 
@@ -180,8 +182,7 @@ namespace FindJobsProject.DI
 
         public async Task<Respone> UpdateUser(VMUserUpdate vMUserUpdate , Guid Id)
         {
-            //MediaFile mediaFile = new MediaFile();
-            //vMUserUpdate.UrlAvatar = await mediaFile.SaveFile(vMUserUpdate.imageFile, _webHostEnvironment);
+
             var check = await _userManager.Users.SingleOrDefaultAsync(x => x.Id == Id);
             var getRole = _roleManager.FindByNameAsync(vMUserUpdate.RoleName);
 
@@ -382,6 +383,37 @@ namespace FindJobsProject.DI
                                }).Where(x => x.Id == id).ToListAsync();
 
             return currentUser;
+        }
+
+        public async Task<PagedResponse<IEnumerable<VMGetUser>>> GetListUserWillChat(PaginationFilter filter, HttpRequest request)
+        {
+           var getUser = _userManager.Users.AsQueryable();
+            var getUserRole = _context.UserRoles.AsQueryable();
+            var getRole = _context.Roles.AsQueryable();
+
+            var data = (from user in getUser 
+                           select new VMGetUser
+                           {
+                               Id = user.Id,
+                               UserName = user.UserName,
+                               LastName = user.LastName,
+                               FirstName = user.FirstName,
+                               FullName = user.FullName,
+                               Address = user.Address,
+                               PhoneNumber = user.PhoneNumber,
+                               Email = user.Email,
+                               DateOfBirth = user.DateOfBirth,
+                               Gender = user.Gender,
+                               IdMajor = user.IdMajor,
+                               Description = user.Description,
+                               IsActive = user.IsActive
+                           });
+
+             var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<VMGetUser>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
+            var count = data.Count();
+
+            return new PagedResponse<IEnumerable<VMGetUser>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
     }
 }

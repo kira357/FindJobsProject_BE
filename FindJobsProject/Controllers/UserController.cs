@@ -41,6 +41,20 @@ namespace FindJobsProject.Controllers
                 return BadRequest(ex.InnerException);
             }
         } 
+        [HttpGet("getAllListWithNoRole")]
+        public async Task<IActionResult> GetAllListWithNoRole([FromQuery] PaginationFilter filter)
+        {
+            try
+            {
+                var getAll = await _repo.GetListUserWillChat(filter, Request);
+                return Ok(getAll);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+        } 
         
         
         [HttpGet("getcurrent-user/{id}")]

@@ -4,7 +4,7 @@ namespace FindJobsProject.ViewModels.VMChatRecruitment
 {
     public class VMUpdateChatRecruitment
     {
-        public long IdChat { get; set; }
+        public Guid IdChat { get; set; }
 
         public Guid IdSender { get; set; }
         public Guid IdReceiver { get; set; }

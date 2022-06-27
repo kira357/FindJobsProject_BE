@@ -6,7 +6,7 @@ namespace FindJobsProject.Database.Entities
     public class ChatRecruitment
     {
     [Key]
-    public long IdChat { get; set; }
+    public Guid IdChat { get; set; }
 
     public AppUser Sender { get; set; }
     public Guid? IdSender { get; set; }

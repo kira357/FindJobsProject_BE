@@ -1,4 +1,6 @@
-﻿using FindJobsProject.Database.Entities;
+﻿using AutoMapper;
+using FindJobsProject.Database;
+using FindJobsProject.Database.Entities;
 using FindJobsProject.DI;
 using FindJobsProject.ViewModels.VMChatRecruitment;
 using FindJobsProject.ViewModels.VMMessage;
@@ -14,11 +16,14 @@ namespace FindJobsProject.Hubs
 {
     public class ChatHub : Hub
     {
-        private readonly IReposityMessage messageService;
+        private readonly FindJobsContext _context;
+        private readonly IMapper _mapper;
+
         static IList<UserConnection> Users = new List<UserConnection>();
-        public ChatHub(IReposityMessage messageService)
+        public ChatHub(IMapper mapper,FindJobsContext context)
         {
-            this.messageService = messageService;
+            _mapper = mapper;
+            _context = context;
         }
         public class UserConnection
         {
@@ -28,25 +33,31 @@ namespace FindJobsProject.Hubs
             public string Username { get; set; }
         }
 
-        public  Task SendMessageToUser(ChatRecruitment message)
-        {
-            var reciever =  Users.FirstOrDefault(x => x.UserId == message.IdReceiver);
-            var connectionId = reciever == null ? "offlineUser" : reciever.ConnectionId;
-            this.messageService.CreateMessage(message);
-            return Clients.Client(connectionId).SendAsync("ReceiveDM", Context.ConnectionId, message);
-        }   
         
-        public  Task SendMessages(string chatRecruitment)
+        public Task SendMessageToUser(string chatRecruitment)
         {
             var messageJsonString = JsonConvert.DeserializeObject<VMCreateChatRecruitment>(chatRecruitment);
             var reciever = Users.FirstOrDefault(x => x.UserId.ToString() == messageJsonString.IdReceiver);
             var connectionId = reciever == null ? "offlineUser" : reciever.ConnectionId;
-            return Clients.Client(connectionId).SendAsync("ReceiveDM", Context.ConnectionId, chatRecruitment);
+            try
+            {
+                var message = _mapper.Map<ChatRecruitment>(messageJsonString);
+                var createMajor =  _context.chatRecruitments.Add(message);
+
+                _context.SaveChanges();
+                return Clients.Client(connectionId).SendAsync("ReceiveDM", Context.ConnectionId, messageJsonString);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex.InnerException;
+            }
+           
         }
-        public async Task PublishUserOnConnect(Guid id, string fullname, string username)
+        public async Task PublishUserOnConnect(Guid id, string fullname)
         {
 
-            var existingUser = Users.FirstOrDefault(x => x.Username == username);
+            var existingUser = Users.FirstOrDefault(x => x.UserId == id);
             var indexExistingUser = Users.IndexOf(existingUser);
 
             UserConnection user = new UserConnection
@@ -54,7 +65,6 @@ namespace FindJobsProject.Hubs
                 UserId = id,
                 ConnectionId = Context.ConnectionId,
                 FullName = fullname,
-                Username = username
             };
 
             if (!Users.Contains(existingUser))

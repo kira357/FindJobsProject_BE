@@ -116,7 +116,6 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
                         checkId.TypeOfWork = vMUpdateRecruitment.TypeOfWork;
                         checkId.Website = vMUpdateRecruitment?.Website;
                         checkIdJob.Jobs.JobImage = image;
-
                     }
                     else
                     {
@@ -129,16 +128,23 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
                         checkId.Website = vMUpdateRecruitment?.Website;
                         checkId.TypeOfWork = vMUpdateRecruitment.TypeOfWork;
                     }
-                    await _context.SaveChangesAsync();
-                    return new Respone
-                    {
-                        Ok = "Success"
-                    };
+                }else 
+                {
+                    checkId.NameCompany = vMUpdateRecruitment.NameCompany;
+                    checkId.Summary = vMUpdateRecruitment.Summary;
+                    checkId.Descriptions = vMUpdateRecruitment.Descriptions;
+                    checkId.TypeCompany = vMUpdateRecruitment.TypeCompany;
+                    checkId.Address = vMUpdateRecruitment.Address;
+                    checkId.Amount = vMUpdateRecruitment.Amount;
+                    checkId.Website = vMUpdateRecruitment?.Website;
+                    checkId.TypeOfWork = vMUpdateRecruitment.TypeOfWork;
                 }
+                await _context.SaveChangesAsync();
                 return new Respone
                 {
-                    Ok = "Fail"
+                    Ok = "Success"
                 };
+
             }
             catch (Exception ex )
             {

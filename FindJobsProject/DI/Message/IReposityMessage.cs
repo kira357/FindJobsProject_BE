@@ -15,8 +15,8 @@ namespace FindJobsProject.DI
 {
     public interface IReposityMessage
     {
-        Task<PagedResponse<IEnumerable<Message>>> GetMessage(PaginationFilter filter);
+        Task<PagedResponse<IEnumerable<VMGetChatRecruitment>>> GetMessage(PaginationFilter filter);
         Task<IEnumerable<ChatRecruitment>> GetReceivedMessages(Guid userId);
-        Task<Respone> CreateMessage(ChatRecruitment vMMessage);
+        Task<Respone> CreateMessage(VMCreateChatRecruitment vMMessage);
     }
 }

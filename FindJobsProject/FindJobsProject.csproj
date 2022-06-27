@@ -179,6 +179,14 @@
     <Compile Remove="Migrations\20220620160143_createRecruitment.Designer.cs" />
     <Compile Remove="Migrations\20220621083555_createChatRecruitment.cs" />
     <Compile Remove="Migrations\20220621083555_createChatRecruitment.Designer.cs" />
+    <Compile Remove="Migrations\20220622084535_changeFK.cs" />
+    <Compile Remove="Migrations\20220622084535_changeFK.Designer.cs" />
+    <Compile Remove="Migrations\20220627075714_changeTypeIdChat.cs" />
+    <Compile Remove="Migrations\20220627075714_changeTypeIdChat.Designer.cs" />
+    <Compile Remove="Migrations\20220627080447_changeTypeIdChat.cs" />
+    <Compile Remove="Migrations\20220627080447_changeTypeIdChat.Designer.cs" />
+    <Compile Remove="Migrations\20220627080715_changeTypeIdChat.cs" />
+    <Compile Remove="Migrations\20220627080715_changeTypeIdChat.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

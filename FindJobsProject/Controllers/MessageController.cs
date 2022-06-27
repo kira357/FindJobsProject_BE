@@ -29,7 +29,7 @@ namespace FindJobsProject.Controllers
         }
 
         [HttpPost("create-message")]
-        public async Task<IActionResult> CreateMessage(ChatRecruitment vMMessage)
+        public async Task<IActionResult> CreateMessage(VMCreateChatRecruitment vMMessage)
         {
             try
             {
@@ -47,26 +47,16 @@ namespace FindJobsProject.Controllers
         [HttpGet("received-messages/{userId}")]
         public IActionResult GetUserReceivedMessages(Guid userId)
         {
-            var messages = this._repo.GetReceivedMessages(userId);
+            var messages = _repo.GetReceivedMessages(userId);
             return Ok(messages);
         }
-
-
-        //[HttpGet("getlist-major")]
-        //public async Task<IActionResult> GetListMajor([FromQuery] PaginationFilter filter)
-        //{
-        //    try
-        //    {
-        //        var create = await _repo.GetListMajor(filter);
-        //        return Ok(create);
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return BadRequest(ex.InnerException);
-        //    }
-
-        //}
+        
+        [HttpGet("received-messages")]
+        public IActionResult GetMessage([FromQuery] PaginationFilter filter)
+        {
+            var messages = _repo.GetMessage(filter);
+            return Ok(messages);
+        }
 
 
     }

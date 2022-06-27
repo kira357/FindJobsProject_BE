@@ -18,6 +18,7 @@ namespace FindJobsProject.ViewModels.VMUser
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string RoleName { get; set; }
+        public Guid RoleId { get; set; }
         public long? IdMajor { get; set; }
         public string NameMajor { get; set; }
         public Major UserMajor { get; set; }

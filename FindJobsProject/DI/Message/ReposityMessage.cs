@@ -40,7 +40,7 @@ namespace FindJobsProject.DI
         }
 
 
-        public async Task<Respone> CreateMessage(ChatRecruitment vMMessage)
+        public async Task<Respone> CreateMessage(VMCreateChatRecruitment vMMessage)
         {
             try
             {
@@ -64,22 +64,26 @@ namespace FindJobsProject.DI
         }
 
 
-        public async Task<PagedResponse<IEnumerable<Message>>> GetMessage(PaginationFilter filter)
+        public async Task<PagedResponse<IEnumerable<VMGetChatRecruitment>>> GetMessage(PaginationFilter filter)
         {
-            //var getList =  _context.Majors.AsQueryable();
-            //var data = await getList.Select(x => new VMMajor
-            //{
-            //    IdMajor = x.IdMajor,
-            //    Name = x.Name ,
-            //    Description = x.Description,
-            //    IsActive = x.IsActive
 
-            //}).ToListAsync();
-            //var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
-            //var result = PaginatedList<Major>.CreatePages(getList, validFilter.IndexPage, validFilter.PageSize);
-            //var count = data.Count();
-            //return new PagedResponse<IEnumerable<Major>>(result, validFilter.IndexPage, validFilter.PageSize, count);
-            return null;
+            var data = (from user in _context.chatRecruitments.AsQueryable()
+                        select new VMGetChatRecruitment
+                        {
+                           IdChat = user.IdChat,
+                           IdReceiver = user.IdReceiver,
+                           IdSender = user.IdSender,
+                           ConnectionId = user.ConnectionId,
+                           Messages = user.Messages,
+                           Photo = user.Photo,
+                           TimeSend = user.TimeSend,
+                        });
+
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<VMGetChatRecruitment>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
+            var count = data.Count();
+
+            return new PagedResponse<IEnumerable<VMGetChatRecruitment>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
 
         public async Task<IEnumerable<ChatRecruitment>> GetReceivedMessages(Guid userId)
@@ -89,10 +93,10 @@ namespace FindJobsProject.DI
                 var messages = _context.chatRecruitments.Where(x => x.IdReceiver == userId).ToList();
                 return messages;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex.InnerException;
             }
         }
     }
