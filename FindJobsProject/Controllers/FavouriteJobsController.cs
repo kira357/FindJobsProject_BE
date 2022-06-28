@@ -41,7 +41,36 @@ namespace FindJobsProject.Controllers
             }
 
         }
-      
+        [HttpGet("get-list-favourite/{id}")]
+        public async Task<IActionResult> GetListFavourite([FromQuery] PaginationFilter filter , Guid id)
+        {
+            try
+            {
+                var getAll = await _repo.GetListFavouriteJobs(filter, Request, id);
+                return Ok(getAll);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+        }
+        
+        [HttpPut("remove-favourite")]
+        public async Task<IActionResult> RemoveFavourite(VMUpdateFavourite vMUpdateFavourite)
+        {
+            try
+            {
+                var getAll = await _repo.RemoveFavourite(vMUpdateFavourite);
+                return Ok(getAll);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+        }
+
 
 
     }

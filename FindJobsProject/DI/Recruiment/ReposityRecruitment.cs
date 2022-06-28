@@ -249,27 +249,38 @@ namespace FindJobsProject.DI
             return vMGetRecruitment;
         }
 
-        public async  Task<PagedResponse<IEnumerable<VMGetRecruitment>>> GetListCompany(PaginationFilter filter, HttpRequest request)
+        public async Task<PagedResponse<IEnumerable<VMGetRecruitment>>> GetListCompany(PaginationFilter filter, HttpRequest request)
         {
             try
             {
-                var companies = from r in  _context.Recruitment.AsQueryable()
-                                join x in _context.recruitmentJob.AsQueryable()
-                                on r.IdRecruitment equals x.IdRecruitment
-                                group  r.NameCompany by  new { x.IdRecruitment , r.NameCompany} into g
+                var companies = (from x in _context.recruitmentJob.AsQueryable()
+                                group  x.IdRecruitment by  x.IdRecruitment  into g
                                 select new
                                 {
                                     IdRecruitment = g.Key,
-                                    NameCompany = g.Key.NameCompany,
                                     Count = g.Count(),
-                                };
+                                });
+                var data = (from r in _context.Recruitment.AsQueryable()
+                            join rj in companies
+                            on r.IdRecruitment equals rj.IdRecruitment
+                            select new VMGetRecruitment
+                            {
+                                IdRecruitment = rj.IdRecruitment,
+                                CountJob = rj.Count,
+                                NameCompany = r.NameCompany,
+                                UrlLogo = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, r.Logo),
+                            }).Where(x => x.CountJob > 0);
+
+                var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+                var result = PaginatedList<VMGetRecruitment>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
+                var count = data.Count();
+                return new PagedResponse<IEnumerable<VMGetRecruitment>>(result, validFilter.IndexPage, validFilter.PageSize, count);
             }
             catch (Exception ex)
             {
 
                 throw ex.InnerException;
             }
-            return null;
         }
 
         public async Task<PagedResponse<IEnumerable<VMGetRecruitment>>> GetDetailCompany(HttpRequest request, Guid IdRecruiment)

@@ -144,7 +144,7 @@ namespace FindJobsProject.DI
             return new PagedResponse<IEnumerable<VMGetFavourite>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
 
-        public async Task<Respone> UpdateFavourite(VMUpdateFavourite vMUpdateFavourite)
+        public async Task<Respone> RemoveFavourite(VMUpdateFavourite vMUpdateFavourite)
         {
 
             var check = _context.FavouritesJobs.SingleOrDefault(x => x.IdUser == vMUpdateFavourite.IdUser && x.idJob == vMUpdateFavourite.idJob);

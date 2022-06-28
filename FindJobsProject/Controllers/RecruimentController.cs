@@ -55,6 +55,21 @@ namespace FindJobsProject.Controllers
 
                 return BadRequest(ex.InnerException);
             }
+        } 
+        
+        [HttpGet("get-list-company")]
+        public async Task<IActionResult> GetListCompany([FromQuery] PaginationFilter filter)
+        {
+            try
+            {
+                var getAll = await _repo.GetListCompany(filter, Request);
+                return Ok(getAll);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
         }
 
 
