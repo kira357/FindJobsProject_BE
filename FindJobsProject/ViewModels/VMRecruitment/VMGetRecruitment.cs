@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FindJobsProject.ViewModels.VMJob;
+using System;
+using System.Collections.Generic;
 
 namespace FindJobsProject.ViewModels.VMRecruitment
 {
@@ -16,5 +18,7 @@ namespace FindJobsProject.ViewModels.VMRecruitment
         public string Fax { get; set; }
         public string Website { get; set; }
         public long Amount { get; set; }
+
+        public int JobInCompany { get; set; }
     }
 }

@@ -15,6 +15,8 @@ namespace FindJobsProject.DI
     public interface IReposityRecruitment
     {
         Task<PagedResponse<IEnumerable<VMGetJob>>> GetListRecruiment(PaginationFilter filter, HttpRequest request , Guid IdRecruiment);
+        Task<PagedResponse<IEnumerable<VMGetRecruitment>>> GetListCompany(PaginationFilter filter, HttpRequest request);
+        Task<PagedResponse<IEnumerable<VMGetRecruitment>>> GetDetailCompany(HttpRequest request , Guid IdRecruiment);
 
         Task<Respone> UpdateRecruiment(VMUpdateRecruitment vMUpdateRecruitment,Guid id);
         Task<VMGetRecruitment> GetCurrentRecruitment(Guid id, HttpRequest request);

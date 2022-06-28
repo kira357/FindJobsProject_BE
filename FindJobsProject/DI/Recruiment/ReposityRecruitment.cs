@@ -86,11 +86,10 @@ namespace FindJobsProject.DI
                                         UpdatedOn = userrole.user.job.UpdatedOn,
                                     }).Where(x => x.IdRecruitment == Id);
 
-var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
             var result = PaginatedList<VMGetJob>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
             var count = data.Count();
             return new PagedResponse<IEnumerable<VMGetJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
-
         }
 
         public async Task<Respone> UpdateRecruiment(VMUpdateRecruitment vMUpdateRecruitment, Guid id)
@@ -250,6 +249,32 @@ var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
             return vMGetRecruitment;
         }
 
-       
+        public async  Task<PagedResponse<IEnumerable<VMGetRecruitment>>> GetListCompany(PaginationFilter filter, HttpRequest request)
+        {
+            try
+            {
+                var companies = from r in  _context.Recruitment.AsQueryable()
+                                join x in _context.recruitmentJob.AsQueryable()
+                                on r.IdRecruitment equals x.IdRecruitment
+                                group  r.NameCompany by  new { x.IdRecruitment , r.NameCompany} into g
+                                select new
+                                {
+                                    IdRecruitment = g.Key,
+                                    NameCompany = g.Key.NameCompany,
+                                    Count = g.Count(),
+                                };
+            }
+            catch (Exception ex)
+            {
+
+                throw ex.InnerException;
+            }
+            return null;
+        }
+
+        public async Task<PagedResponse<IEnumerable<VMGetRecruitment>>> GetDetailCompany(HttpRequest request, Guid IdRecruiment)
+        {
+            return null;
+        }
     }
 }
