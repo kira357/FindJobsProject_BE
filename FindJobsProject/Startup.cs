@@ -1,5 +1,8 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using FindJobsProject.Extends;
+using FindJobsProject.HelperChat.Infrastructure;
 using FindJobsProject.Hubs;
 using FindJobsProject.Mapper;
 using Microsoft.AspNetCore.Builder;
@@ -26,11 +29,15 @@ namespace FindJobsProject
         }
 
         public IConfiguration Configuration { get; set; }
+        public IContainer ApplicationContainer { get; private set; }
+
+        public ILifetimeScope AutofacContainer { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddOptions();
             services.AddConnectionDB(Configuration);
             services.AddConfigSwagger();
             services.AddConfigCors();
@@ -42,6 +49,15 @@ namespace FindJobsProject
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            // Register your own things directly with Autofac here. Don't
+            // call builder.Populate(), that happens in AutofacServiceProviderFactory
+            // for you.
+            builder.RegisterModule(new RepositoryAutofacModule1());
+            builder.RegisterModule(new BusinessAutofacModule1());
+
+        }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -58,6 +74,7 @@ namespace FindJobsProject
             app.UseCors("_poplicy");
             app.UseRouting();
 
+            AutofacContainer = app.ApplicationServices.GetAutofacRoot();
             app.UseAuthorization();
 
 

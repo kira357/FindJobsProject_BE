@@ -144,14 +144,13 @@ namespace FindJobsProject.DI
             return new PagedResponse<IEnumerable<VMGetFavourite>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
 
-        public async Task<Respone> RemoveFavourite(VMUpdateFavourite vMUpdateFavourite)
+        public async Task<Respone> RemoveFavourite(VMDeleteFavourite vMDeleteFavourite)
         {
 
-            var check = _context.FavouritesJobs.SingleOrDefault(x => x.IdUser == vMUpdateFavourite.IdUser && x.idJob == vMUpdateFavourite.idJob);
-            if (check == null)
+            var check = _context.FavouritesJobs.SingleOrDefault(x => x.IdUser == vMDeleteFavourite.idUser && x.idJob == vMDeleteFavourite.idJob);
+            if (check != null)
             {
-                var favourite = _mapper.Map<FavouritesJob>(vMUpdateFavourite);
-                _context.FavouritesJobs.Remove(favourite);
+                _context.FavouritesJobs.Remove(check);
                 await _context.SaveChangesAsync();
                 return new Respone
                 {

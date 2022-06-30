@@ -18,6 +18,6 @@ namespace FindJobsProject.DI
         Task<PagedResponse<IEnumerable<VMGetFavourite>>> GetListFavouriteJobs(PaginationFilter filter, HttpRequest request, Guid Id );
         Task<Respone> CreateFavourite(VMCreateFavourite vMCreateFavourite);
 
-        Task<Respone> RemoveFavourite(VMUpdateFavourite vMUpdateFavourite);
+        Task<Respone> RemoveFavourite(VMDeleteFavourite vMDeleteFavourite);
     }
 }

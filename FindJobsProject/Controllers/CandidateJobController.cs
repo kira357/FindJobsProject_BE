@@ -76,6 +76,23 @@ namespace FindJobsProject.Controllers
 
         } 
         
+        
+        [HttpGet("get-jobs-applied/{id}")]
+        public async Task<IActionResult> GetItemApplyJobOfCandidate([FromQuery] PaginationFilter filter,Guid id)
+        {
+            try
+            {
+                var getList = await _repo.GetItemApplyJobOfCandidate(filter, Request, id);
+                return Ok(getList);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+
+        } 
+        
         [HttpGet("is-apply-and-like/{id}")]
         public async Task<IActionResult> CheckIsApplyAndFavourite(Guid id,Guid IdJob)
         {

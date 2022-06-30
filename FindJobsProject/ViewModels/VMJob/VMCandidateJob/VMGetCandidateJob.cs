@@ -19,7 +19,13 @@ namespace FindJobsProject.ViewModels.VMJob
         public string NameCandidate { get; set; }
         public string NameMajor { get; set; }
         public string Introduction { get; set; }
+        public string JobImage { get; set; }
 
+        public int? Experience { get; set; }
+
+        public decimal SalaryMin { get; set; }
+
+        public decimal SalaryMax { get; set; }
         public string Resume { get; set; }
         public bool IsActive { get; set; }
         public bool Islike { get; set; }

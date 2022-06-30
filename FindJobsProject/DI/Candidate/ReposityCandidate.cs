@@ -166,9 +166,6 @@ namespace FindJobsProject.DI
                 var idCadidate  = result.Select(x => x.IdCandicate).Distinct();
                 if (idRecruitment.Any() || idCadidate.Any())
                 {
-                    //var recruitmentData = _context.AppUsers.AsQueryable()
-                    //  .Where(x => idRecruitment.Contains(x.Id)).Select(x => new { x.Id, x.FullName }).ToList();
-                    //result.ForEach(x => x.NameRecruitment = recruitmentData.FirstOrDefault(v => v.Id == x.IdRecruitment)?.FullName);
 
                     var candidateData = _context.AppUsers.AsQueryable()
                      .Where(x => idCadidate.Contains(x.Id)).Select(x => new { x.Id, x.FullName }).ToList();
@@ -179,7 +176,49 @@ namespace FindJobsProject.DI
 
         }
 
+        public async Task<PagedResponse<IEnumerable<VMGetCandidateJob>>> GetItemApplyJobOfCandidate(PaginationFilter filter, HttpRequest request, Guid Id)
+        {
+            var getList = _context.AppUsers.AsQueryable();
+            var data = getList.Join(_context.CandidateJobs,
+                                    user => user.Id,
+                                    candidate => candidate.IdCandicate,
+                                    (user, candidate) => new { user, candidate })
+                               .Join(_context.Jobs,
+                                    candidatejob => candidatejob.candidate.IdJob,
+                                    job => job.IdJob,
+                                    (candidatejob, job) => new VMGetCandidateJob
+                                    {
+                                        IdJob = job.IdJob,
+                                        IdRecruitment = candidatejob.candidate.IdRecruitment,
+                                        IdCandicate = candidatejob.candidate.IdCandicate,
+                                        NameJob = job.Name,
+                                        Experience = job.Experience,
+                                        SalaryMin = job.SalaryMin,
+                                        SalaryMax = job.SalaryMax,
+                                        JobImage = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, job.JobImage),
+                                        IsActive = candidatejob.candidate.IsActive,
+                                        IsPending = candidatejob.candidate.IsPending,
+                                        Introduction = candidatejob.candidate.Introduction,
+                                    }
+                                   ).Where(x => x.IdCandicate == Id);
 
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<VMGetCandidateJob>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
+            var count = data.Count();
+            if (result.Any())
+            {
+                var idRecruitment = result.Select(x => x.IdRecruitment).Distinct();
+                var idCadidate = result.Select(x => x.IdCandicate).Distinct();
+                if (idRecruitment.Any() || idCadidate.Any())
+                {
+
+                    var candidateData = _context.AppUsers.AsQueryable()
+                     .Where(x => idCadidate.Contains(x.Id)).Select(x => new { x.Id, x.FullName }).ToList();
+                    result.ForEach(x => x.NameCandidate = candidateData.FirstOrDefault(v => v.Id == x.IdCandicate)?.FullName);
+                }
+            }
+            return new PagedResponse<IEnumerable<VMGetCandidateJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
+        }
 
         public async Task<VMGetCandidateJob> CheckIsApplyAndFavourite(Guid Id,Guid IdJob)
         {
@@ -249,5 +288,7 @@ namespace FindJobsProject.DI
                 throw ex.InnerException;
             }
         }
+
+   
     }
 }

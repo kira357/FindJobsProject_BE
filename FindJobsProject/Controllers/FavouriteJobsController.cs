@@ -56,12 +56,12 @@ namespace FindJobsProject.Controllers
             }
         }
         
-        [HttpPut("remove-favourite")]
-        public async Task<IActionResult> RemoveFavourite(VMUpdateFavourite vMUpdateFavourite)
+        [HttpDelete("remove-favourite")]
+        public async Task<IActionResult> RemoveFavourite([FromQuery]VMDeleteFavourite vMDeleteFavourite)
         {
             try
             {
-                var getAll = await _repo.RemoveFavourite(vMUpdateFavourite);
+                var getAll = await _repo.RemoveFavourite(vMDeleteFavourite);
                 return Ok(getAll);
             }
             catch (Exception ex)

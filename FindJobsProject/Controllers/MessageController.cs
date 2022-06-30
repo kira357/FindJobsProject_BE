@@ -1,5 +1,7 @@
 ﻿using FindJobsProject.Database.Entities;
 using FindJobsProject.DI;
+using FindJobsProject.HelperChat.Core.Business_Interface;
+using FindJobsProject.HelperChat.Core.Business_Interface.ServiceQuery;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
@@ -23,9 +25,16 @@ namespace FindJobsProject.Controllers
     {
         private readonly IReposityMessage _repo;
 
-        public MessageController(IReposityMessage repo)
+        private readonly IMessageServiceQuery messageServiceQuery;
+        private readonly IMessageService messageService;
+
+        public MessageController(IReposityMessage repo, 
+            IMessageServiceQuery messageServiceQuery, 
+            IMessageService messageService)
         {
             _repo = repo;
+            this.messageServiceQuery = messageServiceQuery;
+            this.messageService = messageService;
         }
 
         [HttpPost("create-message")]
@@ -45,9 +54,9 @@ namespace FindJobsProject.Controllers
         }
 
         [HttpGet("received-messages/{userId}")]
-        public IActionResult GetUserReceivedMessages(Guid userId)
+        public IActionResult GetUserReceivedMessages(string userId)
         {
-            var messages = _repo.GetReceivedMessages(userId);
+            var messages = this.messageServiceQuery.GetReceivedMessages(userId);
             return Ok(messages);
         }
         
@@ -58,6 +67,21 @@ namespace FindJobsProject.Controllers
             return Ok(messages);
         }
 
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                var messages = this.messageServiceQuery.GetAll();
+                return Ok(messages);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex.InnerException;
+            }
+
+        }
 
     }
 }
