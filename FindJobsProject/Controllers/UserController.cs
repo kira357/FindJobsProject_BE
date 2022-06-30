@@ -86,7 +86,9 @@ namespace FindJobsProject.Controllers
 
                 return BadRequest(ex.InnerException);
             }
-        }
+        } 
+        
+
         [HttpPost("create-user")]
         public async Task<IActionResult> CreateUser(VMCreateUser vMUserRegister)
         {

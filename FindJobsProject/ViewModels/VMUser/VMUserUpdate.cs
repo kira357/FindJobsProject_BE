@@ -21,7 +21,7 @@ namespace FindJobsProject.ViewModels
 
         public string LastName { get; set; }
         public string Name { get; set; }
-        public string RoleName { get; set; }
+        public Guid RoleName { get; set; }
         public string PhoneNumber { get; set; }
         public long? IdMajor { get; set; }
         public string NameMajor { get; set; }

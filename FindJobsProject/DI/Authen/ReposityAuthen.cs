@@ -3,6 +3,7 @@ using FindJobsProject.Data.Entities;
 using FindJobsProject.Database;
 using FindJobsProject.Database.Entities;
 using FindJobsProject.Helper;
+using FindJobsProject.Helpers;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
@@ -27,12 +28,15 @@ namespace FindJobsProject.DI
         private readonly RoleManager<AppRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly jwtToken _jwt;
         public ReposityAuthen(IMapper mapper,
                             UserManager<AppUser> userManager,
                             RoleManager<AppRole> roleManager,
                             SignInManager<AppUser> signInManager,
                             FindJobsContext context,
-                            IWebHostEnvironment webHostEnvironment)
+                            IWebHostEnvironment webHostEnvironment,
+                            jwtToken jwt
+                            )
         {
             _mapper = mapper;
             _userManager = userManager;
@@ -40,6 +44,7 @@ namespace FindJobsProject.DI
             _signInManager = signInManager;
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _jwt = jwt;
         }
        
 
@@ -68,17 +73,19 @@ namespace FindJobsProject.DI
                         var userId = await _userManager.GetUserIdAsync(check);
                         var checkRoleId = await _context.UserRoles.FirstOrDefaultAsync(x => x.UserId == check.Id);
                         var checkUser = _context.AppUsers.SingleOrDefault(x => x.Id.ToString() == userId);
+                        var token = _jwt.GenerateToken(vMUserLogin);
                         if (checkUser != null && checkRoleId !=null)
                         {
                             var getRole = await _context.AppRoles.FirstOrDefaultAsync(x => x.Id == checkRoleId.RoleId);
                             if (checkUser.IsActive == true && getRole.Name.ToLower().Equals("recruitment"))
                             {
+                        
                                 return new Respone
                                 {
                                     Ok = "Success",
                                     Mess = "Wellcome back",
                                     Active = checkUser.IsActive,
-                                    Token = "",
+                                    Token = token,
                                     Id = userId,
                                     RoleName = getRole.Name,
                                     UserName = check.FullName,
@@ -108,7 +115,7 @@ namespace FindJobsProject.DI
                                     Ok = "Success",
                                     Mess = "Wellcome back admin",
                                     Active = false,
-                                    Token = "",
+                                    Token = token,
                                     Id = userId,
                                     RoleName = getRole.Name,
                                     UserName = check.FullName,
@@ -123,7 +130,7 @@ namespace FindJobsProject.DI
                                 Ok = "Success",
                                 Mess = "Wellcome back to website",
                                 Active = false,
-                                Token = "",
+                                Token = token,
                                 Id = userId,
                                 RoleName = "",
                                 UserName = check.FullName,
@@ -234,7 +241,6 @@ namespace FindJobsProject.DI
                     var CreateAccount = await _userManager.CreateAsync(user, vMUserRegister.Password);
                     if (CreateAccount.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
                         var roleExist = await _roleManager.RoleExistsAsync("Student");
                         if (roleExist)
                         {

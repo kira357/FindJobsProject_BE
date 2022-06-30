@@ -3,6 +3,8 @@ using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
 using FindJobsProject.ViewModels.VMJob;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -26,6 +28,7 @@ namespace FindJobsProject.Controllers
         }
 
         [HttpPost("create-job")] 
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> CreateJob([FromForm]VMJob vMJob)
         {
             try
@@ -97,6 +100,22 @@ namespace FindJobsProject.Controllers
             try
             {
                 var getList = await _repo.GetListJobActive(filter, Request);
+                return Ok(getList);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+
+        }
+        
+        [HttpPost("getlist-job-filter")]
+        public async Task<IActionResult> FilterJob([FromQuery] PaginationFilter filter, VMFilter vMFilter)
+        {
+            try
+            {
+                var getList = await _repo.FilterJob(filter, Request,vMFilter);
                 return Ok(getList);
             }
             catch (Exception ex)

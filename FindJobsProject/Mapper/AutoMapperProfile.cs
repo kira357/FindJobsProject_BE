@@ -27,6 +27,8 @@ namespace FindJobsProject.Mapper
             CreateMap<VMDeleteRole, AppRole>();
             CreateMap<VMUserRole, AppUserRole>();
 
+
+
             //User 
             CreateMap<VMCreateUser, AppUser>();
             CreateMap<VMUserUpdate, AppUser>();

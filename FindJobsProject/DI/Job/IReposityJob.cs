@@ -20,6 +20,8 @@ namespace FindJobsProject.DI
         Task<PagedResponse<IEnumerable<VMGetJob>>> GetJobFilterByMajor(PaginationFilter filter , HttpRequest request, long idMajor, int experience);
 
         Task<PagedResponse<IEnumerable<VMGetJob>>> GetListJobActive(PaginationFilter filter, HttpRequest request);
+
+        Task<PagedResponse<IEnumerable<VMGetJob>>> FilterJob(PaginationFilter filter, HttpRequest request, VMFilter vMFilter);
         Task<Respone> CreateJob(VMJob vMJob);
 
         Task<Respone> UpdateJob(VMUpdateJob vMUpdateJob);

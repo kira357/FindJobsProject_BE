@@ -123,6 +123,7 @@ namespace FindJobsProject.DI
                                Email = user.Email,
                                DateOfBirth = user.DateOfBirth,
                                RoleName = role.Name,
+                               RoleId = role.Id,
                                Gender = user.Gender,
                                IdMajor = user.IdMajor,
                                Description = user.Description,
@@ -180,67 +181,59 @@ namespace FindJobsProject.DI
             }
         }
 
-        public async Task<Respone> UpdateUser(VMUserUpdate vMUserUpdate , Guid Id)
+        public async Task<VMGetUser> UpdateUser(VMUserUpdate vMUserUpdate , Guid Id)
         {
 
             var check = await _userManager.Users.SingleOrDefaultAsync(x => x.Id == Id);
-            var getRole = _roleManager.FindByNameAsync(vMUserUpdate.RoleName);
-
             try
             {
-                    check.LastName = vMUserUpdate.LastName.Trim();
-                    check.FirstName = vMUserUpdate.FirstName.Trim();
-                    check.UserName = vMUserUpdate.UserName;
-                    check.FullName = vMUserUpdate.LastName +" "+ vMUserUpdate.FirstName;
-                    check.Gender = vMUserUpdate.Gender;
-                    check.Email = vMUserUpdate.Email;
-                    check.PhoneNumber = vMUserUpdate.PhoneNumber;
-                    check.IdMajor = vMUserUpdate.IdMajor;
-                    check.Description = vMUserUpdate.Description;
-                    check.Address = vMUserUpdate.Address;
-                    check.IsActive = vMUserUpdate.IsActive;
+                check.LastName = vMUserUpdate.LastName.Trim();
+                check.FirstName = vMUserUpdate.FirstName.Trim();
+                check.UserName = vMUserUpdate.UserName;
+                check.FullName = vMUserUpdate.LastName + " " + vMUserUpdate.FirstName;
+                check.Gender = vMUserUpdate.Gender;
+                check.Email = vMUserUpdate.Email;
+                check.PhoneNumber = vMUserUpdate.PhoneNumber;
+                check.IdMajor = vMUserUpdate.IdMajor;
+                check.Description = vMUserUpdate.Description;
+                check.Address = vMUserUpdate.Address;
+                check.IsActive = vMUserUpdate.IsActive;
 
 
-                var user = _mapper.Map<AppUser>(check);
-                var CreateAccount = await _userManager.UpdateAsync(user);
-                if (CreateAccount.Succeeded)
+                var CreateAccount = await _userManager.UpdateAsync(check);
+
+                var checkIdUser = await _context.UserRoles.SingleOrDefaultAsync(x => x.UserId == Id);
+                if (checkIdUser != null)
                 {
-                    var checkGetRole =  _context.UserRoles.SingleOrDefault(x => x.UserId == user.Id);
-                    if(checkGetRole != null)
+                    var role = await _roleManager.FindByIdAsync(vMUserUpdate.RoleName.ToString());
+                    var currentRoles = await _userManager.GetRolesAsync(check);
+                    
+                    var currentRole = currentRoles.FirstOrDefault();
+                    if(currentRole != null)
                     {
-                        _context.UserRoles.Remove(checkGetRole);
-                        AppUserRole userRole = new AppUserRole
-                        {
-                            RoleId = getRole.Result.Id,
-                            UserId = user.Id
-                        };
-                        await _context.UserRoles.AddAsync(userRole);
-                        return new Respone { Ok = "Success" };
+                        await _userManager.RemoveFromRoleAsync(check, currentRole.ToString());
+                        await _userManager.AddToRoleAsync(check, role.Name);
+ 
                     }
-                    else
-                    {   
-                        var createRole = await _userManager.AddToRoleAsync(check, vMUserUpdate.RoleName);
-                    return new Respone
+                    return new VMGetUser
                     {
-                        Ok = "set Role Success"
+                        Id = Id,
                     };
-          
-                    }
-                     _context.SaveChanges();
                 }
-
-                return new Respone { Fail = "Fail" };
-
-
+                return new VMGetUser
+                {
+                    Id = Id,
+                };
             }
             catch (Exception ex)
             {
 
                 throw ex.InnerException;
             }
-        }   
-        
-        
+        }
+
+
+
         public async Task<Respone> UpdateInfoUser(VMUserUpdate vMUserUpdate , Guid Id)
         {
             var check = await _userManager.Users.SingleOrDefaultAsync(x => x.Id == Id);
@@ -402,6 +395,7 @@ namespace FindJobsProject.DI
                                Address = user.Address,
                                PhoneNumber = user.PhoneNumber,
                                Email = user.Email,
+                               UrlAvatar = user.UrlAvatar,
                                DateOfBirth = user.DateOfBirth,
                                Gender = user.Gender,
                                IdMajor = user.IdMajor,
@@ -415,5 +409,6 @@ namespace FindJobsProject.DI
 
             return new PagedResponse<IEnumerable<VMGetUser>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
+
     }
 }

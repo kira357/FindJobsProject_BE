@@ -4,17 +4,21 @@ using FindJobsProject.Database.Entities;
 using FindJobsProject.DI;
 using FindJobsProject.HelperChat.MessageService;
 using FindJobsProject.HelperChat.MessageServiceQuery;
+using FindJobsProject.Helpers;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels.VMChatRecruitment;
 using FindJobsProject.ViewModels.VMMessage;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FindJobsProject.Extends
@@ -70,6 +74,30 @@ namespace FindJobsProject.Extends
                 .AddDefaultTokenProviders();
             return services;
         }
+        public static IServiceCollection AddConfigToken(this IServiceCollection services , IConfiguration configuration)
+        {
+            services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
+
+            var secretKey = configuration["AppSettings:SecretKey"];
+            var secretBytes = Encoding.UTF8.GetBytes(secretKey);
+
+            services.AddAuthentication
+                (JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opts =>
+                {
+
+                    opts.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(secretBytes),
+
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+            return services;
+        }
 
         public static IServiceCollection AddConfigScope(this IServiceCollection services)
         {
@@ -89,6 +117,7 @@ namespace FindJobsProject.Extends
             services.AddScoped<IReposityMessage, ReposityMessage>();
             services.AddScoped<IMessageServiceQuery, MessageServiceQuery>();
             services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<jwtToken>();
 
             services.AddHttpContextAccessor();
 

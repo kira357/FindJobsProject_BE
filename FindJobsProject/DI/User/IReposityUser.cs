@@ -15,7 +15,7 @@ namespace FindJobsProject.DI
     public interface IReposityUser
     {
         Task<Respone> CreateUser(VMCreateUser user);
-        Task<Respone> UpdateUser(VMUserUpdate user , Guid Id);
+        Task<VMGetUser> UpdateUser(VMUserUpdate user , Guid Id);
         Task<Respone> UpdateInfoUser(VMUserUpdate user , Guid Id);
         Task<Respone> DeleteUser(VMUserDelete user , Guid Id);
         Task<Respone> ActiveJobs(VMUpdateJob vMUpdateJob);

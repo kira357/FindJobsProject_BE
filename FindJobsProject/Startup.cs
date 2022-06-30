@@ -45,6 +45,7 @@ namespace FindJobsProject
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddConfigScope();
             services.AddSignalR();
+            services.AddConfigToken(Configuration);
             services.AddControllersWithViews().AddNewtonsoftJson();
         }
 
@@ -75,6 +76,7 @@ namespace FindJobsProject
             app.UseRouting();
 
             AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

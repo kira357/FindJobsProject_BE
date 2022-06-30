@@ -71,7 +71,7 @@ namespace FindJobsProject.DI
                     JobDetail = vMJob.JobDetail,
                     CreatedOn = DateTimeOffset.UtcNow.Date,
                 };
-               
+
                 var jobsMaps = _mapper.Map<Job>(vMJob);
 
                 VMRecruitmentJob vMRecruitmentJob = new VMRecruitmentJob
@@ -98,7 +98,7 @@ namespace FindJobsProject.DI
 
         public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetListJob(PaginationFilter filter, HttpRequest request)
         {
-            
+
             var getList = _context.Jobs.AsQueryable();
             var data = getList.Join(_context.recruitmentJob,
                                     job => job.IdJob,
@@ -242,7 +242,7 @@ namespace FindJobsProject.DI
             return new PagedResponse<IEnumerable<VMGetJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
 
         }
-       
+
         public async Task<Respone> UpdateJob(VMUpdateJob vMUpdateJob)
         {
             try
@@ -253,18 +253,18 @@ namespace FindJobsProject.DI
                 if (checkIdJob != null && checkIdRecruitmentJob != null)
                 {
 
-                        checkIdJob.Name = vMUpdateJob.Name;
-                        checkIdJob.Position = vMUpdateJob.Position;
-                        checkIdJob.JobDetail = vMUpdateJob.JobDetail;
-                        checkIdJob.Amount = vMUpdateJob.Amount;
-                        checkIdJob.Experience = vMUpdateJob.Experience;
-                        checkIdJob.SalaryMin = vMUpdateJob.SalaryMin;
-                        checkIdJob.SalaryMax = vMUpdateJob.SalaryMax;
-                        checkIdJob.WorkTime = vMUpdateJob.WorkTime;
-                        checkIdJob.Address = vMUpdateJob.Address;
-                        checkIdJob.DateExpire = vMUpdateJob.DateExpire;
-                        checkIdJob.IdMajor = vMUpdateJob.IdMajor;
-                        checkIdJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
+                    checkIdJob.Name = vMUpdateJob.Name;
+                    checkIdJob.Position = vMUpdateJob.Position;
+                    checkIdJob.JobDetail = vMUpdateJob.JobDetail;
+                    checkIdJob.Amount = vMUpdateJob.Amount;
+                    checkIdJob.Experience = vMUpdateJob.Experience;
+                    checkIdJob.SalaryMin = vMUpdateJob.SalaryMin;
+                    checkIdJob.SalaryMax = vMUpdateJob.SalaryMax;
+                    checkIdJob.WorkTime = vMUpdateJob.WorkTime;
+                    checkIdJob.Address = vMUpdateJob.Address;
+                    checkIdJob.DateExpire = vMUpdateJob.DateExpire;
+                    checkIdJob.IdMajor = vMUpdateJob.IdMajor;
+                    checkIdJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
 
                     checkIdRecruitmentJob.IsActive = vMUpdateJob.IsActive;
                     checkIdRecruitmentJob.UpdatedOn = DateTimeOffset.UtcNow.Date;
@@ -314,7 +314,7 @@ namespace FindJobsProject.DI
 
         }
 
-        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetJobFilterByMajor(PaginationFilter filter , HttpRequest request, long idMajor , int experience)
+        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetJobFilterByMajor(PaginationFilter filter, HttpRequest request, long idMajor, int experience)
         {
             var job = _context.Jobs.AsQueryable();
             var recruitment = _context.recruitmentJob.AsQueryable();
@@ -327,7 +327,7 @@ namespace FindJobsProject.DI
                           on r.IdRecruitment equals u.Id
                           join m in major
                           on u.IdMajor equals m.IdMajor
-                          where r.IsActive == true 
+                          where r.IsActive == true
                           select new VMGetJob
                           {
                               IdJob = j.IdJob,
@@ -347,7 +347,7 @@ namespace FindJobsProject.DI
                               DateExpire = j.DateExpire,
                               UpdatedOn = r.UpdatedOn,
                               IsActive = r.IsActive
-                          }).Where(x => (idMajor == 0 || x.idMajor == idMajor) 
+                          }).Where(x => (idMajor == 0 || x.idMajor == idMajor)
                                      && experience == 0 || x.Experience == experience);
 
 
@@ -361,12 +361,77 @@ namespace FindJobsProject.DI
                 if (idRecruitment.Any())
                 {
                     var recruitmentData = _context.Majors.AsQueryable()
-                      .Where(x => idRecruitment.Contains(x.IdMajor)).Select(x => new { x.Name , x.IdMajor}).ToList();
+                      .Where(x => idRecruitment.Contains(x.IdMajor)).Select(x => new { x.Name, x.IdMajor }).ToList();
                     result.ForEach(x => x.NameMajor = recruitmentData.FirstOrDefault(v => v.IdMajor == x.idMajor)?.Name);
                 }
             }
 
             return new PagedResponse<IEnumerable<VMGetJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
+
+        public async Task<PagedResponse<IEnumerable<VMGetJob>>> FilterJob(PaginationFilter filter, HttpRequest request, VMFilter vMFilter)
+        {
+            var company = _context.Recruitment.AsQueryable();
+            var jobsCompany = _context.recruitmentJob.AsQueryable();
+            var major = _context.Majors.AsQueryable();
+            var jobs = _context.Jobs.AsQueryable();
+            var allProduct = (from j in jobs
+                              join jc in jobsCompany
+                              on j.IdJob equals jc.IdJob
+                              join c in company
+                              on jc.IdRecruitment equals c.IdRecruitment
+                              join m in major
+                              on j.IdMajor equals m.IdMajor
+                              select new VMGetJob
+                              {
+                                  IdJob = jc.IdJob,
+                                  IdRecruitment = jc.IdRecruitment,
+                                  RecruitmentName = c.NameCompany,
+                                  Position = j.Position,
+                                  Name = j.Name,
+                                  JobImage = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, j.JobImage),
+                                  Amount = j.Amount,
+                                  Experience = j.Experience,
+                                  SalaryMin = j.SalaryMin,
+                                  SalaryMax = j.SalaryMax,
+                                  WorkTime = j.WorkTime,
+                                  idMajor = j.IdMajor,
+                                  Address = j.Address,
+                                  NameMajor = m.Name,
+                                  DateExpire = j.DateExpire,
+                                  IsActive = jc.IsActive,
+                              }
+                              ).Where(x => x.IsActive == true);
+
+            #region filter 
+            if (!string.IsNullOrEmpty(vMFilter.KeySearch))
+            {
+                allProduct = allProduct.Where(x => x.Name.Contains(vMFilter.KeySearch) 
+                                            || x.RecruitmentName.Contains(vMFilter.KeySearch));
+            }
+            if (vMFilter.Major != 0 )
+            {
+                allProduct = allProduct.Where(x => x.idMajor == vMFilter.Major);
+            }
+
+            if (vMFilter.from.HasValue && vMFilter.to.HasValue && vMFilter.from < vMFilter.to)
+            {
+                if (vMFilter.from.HasValue)
+                {
+                    allProduct = allProduct.Where(x => x.SalaryMax >= vMFilter.from);
+                }
+                if (vMFilter.to.HasValue)
+                {
+                    allProduct = allProduct.Where(x => x.SalaryMax <= vMFilter.to);
+                }
+            }
+            #endregion
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<VMGetJob>.CreatePages(allProduct, validFilter.IndexPage, validFilter.PageSize);
+            var count = allProduct.Count();
+            return new PagedResponse<IEnumerable<VMGetJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
+
+        }
     }
 }
+
