@@ -14,7 +14,7 @@ namespace FindJobsProject.HelperChat.Infrastructure
         public static ContainerBuilder CreateAutofacBusinessContainer(this IServiceCollection services, ContainerBuilder builder)
         {
             builder.RegisterType<IMessageService>().As<MessageService>();
-            builder.RegisterType<IMessageServiceQuery>().As<MessageServiceQuery>();
+            //builder.RegisterType<IMessageServiceQuery>().As<MessageServiceQuery>();
             return builder;
         }
     }
@@ -24,7 +24,7 @@ namespace FindJobsProject.HelperChat.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<MessageService>().As<IMessageService>();
-            builder.RegisterType<MessageServiceQuery>().As<IMessageServiceQuery>();
+            //builder.RegisterType<MessageServiceQuery>().As<IMessageServiceQuery>();
         }
     }
 }

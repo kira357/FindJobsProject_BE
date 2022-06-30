@@ -2,6 +2,8 @@
 using FindJobsProject.Database;
 using FindJobsProject.Database.Entities;
 using FindJobsProject.DI;
+using FindJobsProject.HelperChat.MessageService;
+using FindJobsProject.HelperChat.MessageServiceQuery;
 using FindJobsProject.Models;
 using FindJobsProject.ViewModels.VMChatRecruitment;
 using FindJobsProject.ViewModels.VMMessage;
@@ -85,6 +87,10 @@ namespace FindJobsProject.Extends
             services.AddScoped<IReposityComment, ReposityComment>();
             services.AddScoped<IReposityFavourite, ReposityFavourite>();
             services.AddScoped<IReposityMessage, ReposityMessage>();
+            services.AddScoped<IMessageServiceQuery, MessageServiceQuery>();
+            services.AddScoped<IMessageService, MessageService>();
+
+            services.AddHttpContextAccessor();
 
             //services.AddSingleton<IDictionary<string, VMCreateChatRecruitment>>(opt => new Dictionary<string, VMCreateChatRecruitment>());
             return services;

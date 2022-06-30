@@ -81,7 +81,8 @@ namespace FindJobsProject.DI
                                     Token = "",
                                     Id = userId,
                                     RoleName = getRole.Name,
-                                    UserName = check.FullName
+                                    UserName = check.FullName,
+                                    Name = check.UserName
 
                                 };
                             }
@@ -95,7 +96,8 @@ namespace FindJobsProject.DI
                                     Token = "",
                                     Id = userId,
                                     RoleName = getRole.Name,
-                                    UserName = check.FullName
+                                    UserName = check.FullName,
+                                    Name = check.UserName
 
                                 };
                             }
@@ -109,7 +111,8 @@ namespace FindJobsProject.DI
                                     Token = "",
                                     Id = userId,
                                     RoleName = getRole.Name,
-                                    UserName = check.FullName
+                                    UserName = check.FullName,
+                                    Name = check.UserName
 
                                 };
                             }
@@ -123,7 +126,8 @@ namespace FindJobsProject.DI
                                 Token = "",
                                 Id = userId,
                                 RoleName = "",
-                                UserName = check.FullName
+                                UserName = check.FullName,
+                                Name = check.UserName
 
                             };
                         }
