@@ -22,5 +22,7 @@ namespace FindJobsProject.ViewModels.VMRecruitment
         public int JobInCompany { get; set; }
 
         public int CountJob { get; set; }
+
+        public ICollection<VMGetJob> vMJobs { get; set; }
     }
 }

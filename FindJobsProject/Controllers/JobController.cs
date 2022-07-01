@@ -110,12 +110,15 @@ namespace FindJobsProject.Controllers
 
         }
         
-        [HttpPost("getlist-job-filter")]
-        public async Task<IActionResult> FilterJob([FromQuery] PaginationFilter filter, VMFilter vMFilter)
+        [HttpGet("getlist-job-filter")]
+        public async Task<IActionResult> FilterJob([FromQuery] PaginationFilter filter, string KeySearch,
+                                                                        long idMajor,
+                                                                        decimal? from,
+                                                                        decimal? to)
         {
             try
             {
-                var getList = await _repo.FilterJob(filter, Request,vMFilter);
+                var getList = await _repo.FilterJob(filter, Request,KeySearch,idMajor,from,to);
                 return Ok(getList);
             }
             catch (Exception ex)

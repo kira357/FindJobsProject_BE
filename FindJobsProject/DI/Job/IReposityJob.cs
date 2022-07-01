@@ -21,7 +21,10 @@ namespace FindJobsProject.DI
 
         Task<PagedResponse<IEnumerable<VMGetJob>>> GetListJobActive(PaginationFilter filter, HttpRequest request);
 
-        Task<PagedResponse<IEnumerable<VMGetJob>>> FilterJob(PaginationFilter filter, HttpRequest request, VMFilter vMFilter);
+        Task<PagedResponse<IEnumerable<VMGetJob>>> FilterJob(PaginationFilter filter, HttpRequest request, string KeySearch,
+                                                                        long idMajor,
+                                                                        decimal? from,
+                                                                        decimal? to);
         Task<Respone> CreateJob(VMJob vMJob);
 
         Task<Respone> UpdateJob(VMUpdateJob vMUpdateJob);

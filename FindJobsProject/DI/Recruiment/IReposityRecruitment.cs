@@ -16,7 +16,9 @@ namespace FindJobsProject.DI
     {
         Task<PagedResponse<IEnumerable<VMGetJob>>> GetListRecruiment(PaginationFilter filter, HttpRequest request , Guid IdRecruiment);
         Task<PagedResponse<IEnumerable<VMGetRecruitment>>> GetListCompany(PaginationFilter filter, HttpRequest request);
-        Task<PagedResponse<IEnumerable<VMGetRecruitment>>> GetDetailCompany(HttpRequest request , Guid IdRecruiment);
+        Task<IEnumerable<VMGetRecruitment>> GetDetailCompany(HttpRequest request , Guid IdRecruiment);
+        
+        Task<PagedResponse<IEnumerable<VMGetJob>>> GetAllJobsInCompany(PaginationFilter filter,HttpRequest request , Guid IdRecruiment);
 
         Task<Respone> UpdateRecruiment(VMUpdateRecruitment vMUpdateRecruitment,Guid id);
         Task<VMGetRecruitment> GetCurrentRecruitment(Guid id, HttpRequest request);

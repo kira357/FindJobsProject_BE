@@ -123,7 +123,23 @@ namespace FindJobsProject.DI
 
                                 };
                             }
-                        }else if (checkUser != null && checkRoleId == null )
+                            else if (getRole.Name.ToLower().Equals("student"))
+                            {
+                                return new Respone
+                                {
+                                    Ok = "Success",
+                                    Mess = "Wellcome back ",
+                                    Active = false,
+                                    Token = token,
+                                    Id = userId,
+                                    RoleName = getRole.Name,
+                                    UserName = check.FullName,
+                                    Name = check.UserName
+
+                                };
+                            }
+                        }
+                        else if ((checkUser != null && checkRoleId == null))
                         {
                             return new Respone
                             {

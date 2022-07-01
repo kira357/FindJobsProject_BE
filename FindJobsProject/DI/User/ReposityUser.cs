@@ -250,6 +250,7 @@ namespace FindJobsProject.DI
                         check.FirstName = vMUserUpdate.FirstName.Trim();
                         check.FullName = vMUserUpdate.LastName + " " + vMUserUpdate.FirstName;
                         check.UrlAvatar = image;
+                        check.IdMajor = vMUserUpdate.IdMajor;
                         check.Experience = vMUserUpdate.Experience;
                         check.PhoneNumber = vMUserUpdate.PhoneNumber;
                         check.Address = vMUserUpdate.Address;
@@ -260,6 +261,7 @@ namespace FindJobsProject.DI
                         check.FirstName = vMUserUpdate.FirstName.Trim();
                         check.FullName = vMUserUpdate.LastName + " " + vMUserUpdate.FirstName;
                         check.PhoneNumber = vMUserUpdate.PhoneNumber;
+                        check.IdMajor = vMUserUpdate.IdMajor;
                         check.Experience = vMUserUpdate.Experience;
                         check.Address = vMUserUpdate.Address;
                     }

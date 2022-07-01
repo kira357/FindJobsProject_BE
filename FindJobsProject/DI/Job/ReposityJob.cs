@@ -369,7 +369,11 @@ namespace FindJobsProject.DI
             return new PagedResponse<IEnumerable<VMGetJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
 
-        public async Task<PagedResponse<IEnumerable<VMGetJob>>> FilterJob(PaginationFilter filter, HttpRequest request, VMFilter vMFilter)
+        public async Task<PagedResponse<IEnumerable<VMGetJob>>> FilterJob(PaginationFilter filter, HttpRequest request, 
+                                                                        string KeySearch ,
+                                                                        long idMajor,
+                                                                        decimal? from , 
+                                                                        decimal? to )
         {
             var company = _context.Recruitment.AsQueryable();
             var jobsCompany = _context.recruitmentJob.AsQueryable();
@@ -404,25 +408,25 @@ namespace FindJobsProject.DI
                               ).Where(x => x.IsActive == true);
 
             #region filter 
-            if (!string.IsNullOrEmpty(vMFilter.KeySearch))
+            if (!string.IsNullOrEmpty(KeySearch))
             {
-                allProduct = allProduct.Where(x => x.Name.Contains(vMFilter.KeySearch) 
-                                            || x.RecruitmentName.Contains(vMFilter.KeySearch));
+                allProduct = allProduct.Where(x => x.Name.Contains(KeySearch) 
+                                            || x.RecruitmentName.Contains(KeySearch));
             }
-            if (vMFilter.Major != 0 )
+            if (idMajor != 0 )
             {
-                allProduct = allProduct.Where(x => x.idMajor == vMFilter.Major);
+                allProduct = allProduct.Where(x => x.idMajor == idMajor);
             }
 
-            if (vMFilter.from.HasValue && vMFilter.to.HasValue && vMFilter.from < vMFilter.to)
+            if (from.HasValue && from.HasValue && from < to)
             {
-                if (vMFilter.from.HasValue)
+                if (from.HasValue)
                 {
-                    allProduct = allProduct.Where(x => x.SalaryMax >= vMFilter.from);
+                    allProduct = allProduct.Where(x => x.SalaryMax >= from);
                 }
-                if (vMFilter.to.HasValue)
+                if (to.HasValue)
                 {
-                    allProduct = allProduct.Where(x => x.SalaryMax <= vMFilter.to);
+                    allProduct = allProduct.Where(x => x.SalaryMax <= to);
                 }
             }
             #endregion

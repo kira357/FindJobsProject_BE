@@ -283,9 +283,72 @@ namespace FindJobsProject.DI
             }
         }
 
-        public async Task<PagedResponse<IEnumerable<VMGetRecruitment>>> GetDetailCompany(HttpRequest request, Guid IdRecruiment)
+        public async Task<IEnumerable<VMGetRecruitment>> GetDetailCompany(HttpRequest request, Guid IdRecruiment)
         {
-            return null;
+            var company = _context.Recruitment.AsQueryable();
+            var job = _context.Jobs.AsQueryable();
+            var jobInCompany = _context.recruitmentJob.AsQueryable();
+            var data = await (from c in company
+                        join rj in jobInCompany
+                        on c.IdRecruitment equals rj.IdRecruitment
+                        select new VMGetRecruitment
+                        {
+                            IdRecruitment = c.IdRecruitment,
+                            NameCompany = c.NameCompany,
+                            Address = c.Address,
+                            Amount = c.Amount,
+                            Descriptions = c.Descriptions,
+                            Logo = c.Logo,
+                            UrlLogo = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, c.Logo),
+                            Fax = c.Fax,
+                            Website = c.Website,
+                            Summary = c.Summary,
+                            TypeCompany = c.TypeCompany,
+                            TypeOfWork = c.TypeOfWork,
+
+                        }).Where(x => x.IdRecruitment == IdRecruiment).ToListAsync();
+            return data;
+        }
+
+        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetAllJobsInCompany(PaginationFilter filter,HttpRequest request, Guid IdRecruiment)
+        {
+            var company = _context.Recruitment.AsQueryable();
+            var job = _context.Jobs.AsQueryable();
+            var jobInCompany = _context.recruitmentJob.AsQueryable();
+            var major = _context.Majors.AsQueryable();
+
+            var data = (from jc in jobInCompany
+                        join j in job
+                        on jc.IdJob equals j.IdJob
+                        join m in major
+                        on j.IdMajor equals m.IdMajor
+                        select new VMGetJob
+                        {
+                            IdJob = j.IdJob,
+                            IdRecruitment = jc.IdRecruitment,
+                            CompanyOfJobs = j.CompanyOfJobs,
+                            Position = j.Position,
+                            Name = j.Name,
+                            JobImage = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, j.JobImage),
+                            JobDetail = j.JobDetail,
+                            Amount = j.Amount,
+                            Experience = j.Experience,
+                            SalaryMin = j.SalaryMin,
+                            SalaryMax = j.SalaryMax,
+                            WorkTime = j.WorkTime,
+                            idMajor = j.IdMajor,
+                            NameMajor = j.Name,
+                            Address = j.Address,
+                            DateExpire = j.DateExpire,
+                            IsActive = jc.IsActive,
+                        }).Where(x => x.IdRecruitment == IdRecruiment && x.IsActive == true);
+
+
+
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<VMGetJob>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
+            var count = data.Count();
+            return new PagedResponse<IEnumerable<VMGetJob>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
     }
 }

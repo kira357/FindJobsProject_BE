@@ -5,6 +5,7 @@ using FindJobsProject.ViewModels.ConfigPagination;
 using FindJobsProject.ViewModels.VMJob;
 using FindJobsProject.ViewModels.VMRecruitment;
 using FindJobsProject.ViewModels.VMUser;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -63,6 +64,35 @@ namespace FindJobsProject.Controllers
             try
             {
                 var getAll = await _repo.GetListCompany(filter, Request);
+                return Ok(getAll);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+        }  
+        [HttpGet("get-detail-company/{id}")]
+        public async Task<IActionResult> GetDetailCompany(Guid id)
+        {
+            try
+            {
+                var getAll = await _repo.GetDetailCompany(Request, id);
+                return Ok(getAll);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+        } 
+        
+        [HttpGet("get-all-jobs-company/{id}")]
+        public async Task<IActionResult> GetAllJobsInCompany([FromQuery] PaginationFilter filter, Guid id)
+        {
+            try
+            {
+                var getAll = await _repo.GetAllJobsInCompany(filter, Request, id);
                 return Ok(getAll);
             }
             catch (Exception ex)
