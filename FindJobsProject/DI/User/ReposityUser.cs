@@ -81,7 +81,8 @@ namespace FindJobsProject.DI
             {
                 try
                 {
-                    var createRole = await _userManager.AddToRoleAsync(check, user.RoleName);
+                    var checkRole = _context.AppRoles.FirstOrDefault(x => x.Id == Guid.Parse(user.RoleName) );
+                    var createRole = await _userManager.AddToRoleAsync(check, checkRole.Name);
                     return new Respone
                     {
                         Ok = "set Role Success"

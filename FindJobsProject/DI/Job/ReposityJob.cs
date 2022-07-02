@@ -176,7 +176,7 @@ namespace FindJobsProject.DI
                                         DateExpire = userrole.user.job.DateExpire,
                                         IsActive = userrole.user.recruitment.IsActive,
                                         CreatedOn = userrole.user.job.CreatedOn,
-                                        UpdatedOn = userrole.user.job.UpdatedOn,
+                                        UpdatedOn = userrole.user.recruitment.UpdatedOn,
                                     }
                                    ).Where(x => x.IsActive == true);
 
@@ -314,7 +314,7 @@ namespace FindJobsProject.DI
 
         }
 
-        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetJobFilterByMajor(PaginationFilter filter, HttpRequest request, long? idMajor, int? experience)
+        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetJobFilterByMajor(PaginationFilter filter, HttpRequest request, long idMajor, int experience)
         {
             var job = _context.Jobs.AsQueryable();
             var recruitment = _context.recruitmentJob.AsQueryable();
@@ -326,8 +326,7 @@ namespace FindJobsProject.DI
                           join u in user
                           on r.IdRecruitment equals u.Id
                           join m in major
-                          on u.IdMajor equals m.IdMajor
-                          where r.IsActive == true
+                          on j.IdMajor equals m.IdMajor
                           select new VMGetJob
                           {
                               IdJob = j.IdJob,
@@ -347,10 +346,17 @@ namespace FindJobsProject.DI
                               DateExpire = j.DateExpire,
                               UpdatedOn = r.UpdatedOn,
                               IsActive = r.IsActive
-                          }).Where(x => (idMajor == 0 || x.idMajor == idMajor)
-                                     && experience == 0 || x.Experience == experience);
+                          }).Where(x => x.IsActive == true);
 
-
+            if (idMajor != 0)
+            {
+                getAll = getAll.Where(x => x.idMajor == idMajor);
+            }
+            if (experience != 0)
+            {
+                getAll = getAll.Where(x => x.Experience == experience);
+            }
+      
             var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
             var result = PaginatedList<VMGetJob>.CreatePages(getAll.OrderByDescending(x => x.UpdatedOn), validFilter.IndexPage, validFilter.PageSize);
             var count = getAll.Count();
