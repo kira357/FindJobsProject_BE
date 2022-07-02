@@ -337,7 +337,7 @@ namespace FindJobsProject.DI
                             SalaryMax = j.SalaryMax,
                             WorkTime = j.WorkTime,
                             idMajor = j.IdMajor,
-                            NameMajor = j.Name,
+                            NameMajor = m.Name,
                             Address = j.Address,
                             DateExpire = j.DateExpire,
                             IsActive = jc.IsActive,

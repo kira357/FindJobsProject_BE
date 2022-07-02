@@ -119,7 +119,6 @@ namespace FindJobsProject.Extends
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<jwtToken>();
 
-            services.AddHttpContextAccessor();
 
             //services.AddSingleton<IDictionary<string, VMCreateChatRecruitment>>(opt => new Dictionary<string, VMCreateChatRecruitment>());
             return services;

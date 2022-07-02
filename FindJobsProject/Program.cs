@@ -22,6 +22,9 @@ namespace FindJobsProject
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.ConfigureLogging((ctx, logging) =>
+                    {
+                    });
                 });
     }
 }

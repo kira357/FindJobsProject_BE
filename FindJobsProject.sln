@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindJobsProject", "FindJobsProject\FindJobsProject.csproj", "{A94C7B8A-8B0E-409C-BAB9-8A36F02C7B83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindJobsProject", "FindJobsProject\FindJobsProject.csproj", "{A94C7B8A-8B0E-409C-BAB9-8A36F02C7B83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

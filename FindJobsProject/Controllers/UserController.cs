@@ -41,12 +41,27 @@ namespace FindJobsProject.Controllers
                 return BadRequest(ex.InnerException);
             }
         } 
-        [HttpGet("getAllListWithNoRole")]
-        public async Task<IActionResult> GetAllListWithNoRole([FromQuery] PaginationFilter filter)
+        [HttpGet("getAllListWithNoRole/{id}")]
+        public async Task<IActionResult> GetAllListWithNoRole([FromQuery] PaginationFilter filter ,Guid id)
         {
             try
             {
-                var getAll = await _repo.GetListUserWillChat(filter, Request);
+                var getAll = await _repo.GetListUserWillChat(filter, Request ,id);
+                return Ok(getAll);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.InnerException);
+            }
+        } 
+         
+        [HttpGet("get-all-candidate/{id}")]
+        public async Task<IActionResult> GetListCandidateApplied([FromQuery] PaginationFilter filter ,Guid id)
+        {
+            try
+            {
+                var getAll = await _repo.GetListCandidateApplied(filter, Request ,id);
                 return Ok(getAll);
             }
             catch (Exception ex)

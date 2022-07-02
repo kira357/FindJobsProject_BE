@@ -314,7 +314,7 @@ namespace FindJobsProject.DI
 
         }
 
-        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetJobFilterByMajor(PaginationFilter filter, HttpRequest request, long idMajor, int experience)
+        public async Task<PagedResponse<IEnumerable<VMGetJob>>> GetJobFilterByMajor(PaginationFilter filter, HttpRequest request, long? idMajor, int? experience)
         {
             var job = _context.Jobs.AsQueryable();
             var recruitment = _context.recruitmentJob.AsQueryable();

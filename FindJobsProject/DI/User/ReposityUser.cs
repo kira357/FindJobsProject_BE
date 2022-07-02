@@ -7,6 +7,7 @@ using FindJobsProject.Models;
 using FindJobsProject.ViewModels;
 using FindJobsProject.ViewModels.ConfigPagination;
 using FindJobsProject.ViewModels.VMJob;
+using FindJobsProject.ViewModels.VMMessage;
 using FindJobsProject.ViewModels.VMUser;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -380,37 +381,73 @@ namespace FindJobsProject.DI
             return currentUser;
         }
 
-        public async Task<PagedResponse<IEnumerable<VMGetUser>>> GetListUserWillChat(PaginationFilter filter, HttpRequest request)
+        public async Task<PagedResponse<IEnumerable<VMGetRecruitmentChat>>> GetListUserWillChat(PaginationFilter filter, HttpRequest request ,Guid id )
         {
-           var getUser = _userManager.Users.AsQueryable();
-            var getUserRole = _context.UserRoles.AsQueryable();
-            var getRole = _context.Roles.AsQueryable();
+          var getUser = _userManager.Users.AsQueryable();
+          var companyApplied = _context.CandidateJobs.AsQueryable();
+          var recruitment = _context.Recruitment.AsQueryable();
 
-            var data = (from user in getUser 
-                           select new VMGetUser
-                           {
-                               Id = user.Id,
-                               UserName = user.UserName,
-                               LastName = user.LastName,
-                               FirstName = user.FirstName,
-                               FullName = user.FullName,
-                               Address = user.Address,
-                               PhoneNumber = user.PhoneNumber,
-                               Email = user.Email,
-                               UrlAvatar = user.UrlAvatar,
-                               DateOfBirth = user.DateOfBirth,
-                               Gender = user.Gender,
-                               IdMajor = user.IdMajor,
-                               Description = user.Description,
-                               IsActive = user.IsActive
-                           });
+            var data = (from c in companyApplied
+                        join r in recruitment
+                        on c.IdRecruitment equals r.IdRecruitment
+                        join u in getUser
+                        on r.IdRecruitment equals u.Id
+                        select new VMGetRecruitmentChat
+                        {
+                            Id = u.Id,
+                            IdCandidate = c.IdCandicate,
+                            UserName = u.UserName,
+                            LastName = u.LastName,
+                            FirstName = u.FirstName,
+                            FullName = u.FullName,
+                            Email = u.Email,
+                            UrlAvatar = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, u.UrlAvatar),
+                            NameRecruitment = u.FullName,
+                            NameCompany = r.NameCompany,
+                            IsApplied = c.IsActive,
+                            Logo = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, r.Logo),
+                            
 
-             var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
-            var result = PaginatedList<VMGetUser>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
+                        }).Where(x => x.IdCandidate == id && x.IsApplied == true);
+
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<VMGetRecruitmentChat>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
             var count = data.Count();
 
-            return new PagedResponse<IEnumerable<VMGetUser>>(result, validFilter.IndexPage, validFilter.PageSize, count);
+            return new PagedResponse<IEnumerable<VMGetRecruitmentChat>>(result, validFilter.IndexPage, validFilter.PageSize, count);
         }
 
+        public async Task<PagedResponse<IEnumerable<VMGetRecruitmentChat>>> GetListCandidateApplied(PaginationFilter filter, HttpRequest request, Guid id)
+        {
+            var getUser = _userManager.Users.AsQueryable();
+            var companyApplied = _context.CandidateJobs.AsQueryable();
+            var recruitment = _context.Recruitment.AsQueryable();
+            var user = _context.AppUsers.AsQueryable();
+
+            var data = (from c in companyApplied
+                        join u in getUser
+                        on c.IdCandicate equals u.Id
+                        select new VMGetRecruitmentChat
+                        {
+                            Id = u.Id,
+                            IdCandidate = c.IdCandicate,
+                            IdRecruitment = c.IdRecruitment,
+                            UserName = u.UserName,
+                            LastName = u.LastName,
+                            FirstName = u.FirstName,
+                            FullName = u.FullName,
+                            Email = u.Email,
+                            UrlAvatar = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, u.UrlAvatar),
+                            IsApplied = c.IsActive,
+
+
+                        }).Where(x => x.IdRecruitment == id && x.IsApplied == true);
+
+            var validFilter = new PaginationFilter(filter.IndexPage, filter.PageSize);
+            var result = PaginatedList<VMGetRecruitmentChat>.CreatePages(data, validFilter.IndexPage, validFilter.PageSize);
+            var count = data.Count();
+
+            return new PagedResponse<IEnumerable<VMGetRecruitmentChat>>(result, validFilter.IndexPage, validFilter.PageSize, count);
+        }
     }
 }

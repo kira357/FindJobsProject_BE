@@ -74,20 +74,20 @@ namespace FindJobsProject
             });
             app.UseCors("_poplicy");
             app.UseRouting();
-
             AutofacContainer = app.ApplicationServices.GetAutofacRoot();
             app.UseAuthentication();
             app.UseAuthorization();
 
 
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatHub>("/chat");
+            //app.UseSignalR(routes =>
+            //{
+               
 
-            });
+            //});
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }
